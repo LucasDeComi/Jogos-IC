@@ -32,8 +32,8 @@ class TherapistController {
     
     async delete(req, res) {
         const id = req.params.id;
-        await service.delete(id);
-        res.status(201).json({ message: "Terapeuta apagado com sucesso" });
+        const response = await service.delete(id);
+        res.status(201).json(response);
     }
 }
 

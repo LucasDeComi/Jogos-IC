@@ -8,7 +8,7 @@ const authSchema = z.object({
             .min(1, { message: "O nome é obrigatório." })
             .max(80, { message: "O nome deve ter, no máximo, 80 caracteres." }),
         email: z
-            .email({ message: "Informe um e-mail válido.", error: "O e-mail é obrigatório." })
+            .email({ message: "Informe um e-mail válido."})
             .trim()
             .max(255, { message: "O e-mail deve ter, no máximo, 255 caracteres." }),
         password: z
@@ -23,7 +23,7 @@ const authSchema = z.object({
 
     loginTherapist: z.object({
         email: z
-            .email({ message: "Informe um e-mail válido.", error: "O e-mail é obrigatório." })
+            .email({ message: "Informe um e-mail válido."})
             .trim()
             .max(255, { message: "O e-mail deve ter no máximo 255 caracteres." }),
         password: z

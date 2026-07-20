@@ -18,7 +18,7 @@ class TherapistService {
     }
 
     async update(id, data) {
-        return await repository.update(id, data);
+        await repository.update(id, data);
     }
 
     async delete(id) {
