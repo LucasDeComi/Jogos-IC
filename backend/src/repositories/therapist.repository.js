@@ -29,7 +29,7 @@ class TherapistRepository {
       );
     }
 
-    return filters.id || filters.email ? docs[0] : docs;
+    return filters.id || filters.email ? docs[0] ?? null : docs;
   }
   
   async update(id, data) {
