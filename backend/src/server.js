@@ -1,7 +1,6 @@
-import express from "express";
-
-const app = express();
-app.use(express.json());
+import app from "./app.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const PORT = 3000;
 app.listen(PORT, () => {
