@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const therapistSchema = z.object({
+const therapistSchema = {
     updateEmail: z.object({
         currentEmail: z
             .email({ message: "Informe um e-mail válido." })
@@ -26,8 +26,8 @@ const therapistSchema = z.object({
         theme: z.enum(["light", "dark", "auto"]).optional(),
         style: z.enum(["standard", "compact", "elegant"]).optional(),
         contrast: z.boolean().optional(),
-        itemsSize: z.enum(["small", "medium", "large"]).optional()
+        itemsSize: z.enum(["small", "medium", "big"]).optional()
     })
-});
+};
 
 export default therapistSchema;
