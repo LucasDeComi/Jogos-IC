@@ -3,6 +3,7 @@ import repository from "../repositories/therapist.repository.js";
 import bcrypt from "bcrypt"
 import userSafe from "../utils/userSafe.js";
 
+
 class TherapistService {
     async findById(id) {
         return userSafe(await repository.find({ id }));
