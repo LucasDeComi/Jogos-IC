@@ -30,7 +30,31 @@ const authSchema = {
             .string({ required_error: "A senha é obrigatória." })
             .min(4, { message: "A senha deve ter, no mínimo, 4 caracteres." })
             .max(70, { message: "A senha é muito longa." }),
-    })
+    }),
+
+    registerPatient: z.object({
+        id: z
+            .number({
+                invalid_type_error: "O prontuário deve ser numérico",
+            })
+            .int({ message: "O prontuário deve ser inteiro" })
+            .positive({ message: "O prontuário só aceita números" })
+            .max(999999, { message: "O prontuário deve ter, no máximo, 6 caracteres." }),
+        nome: z
+            .string()
+            .trim()
+            .min(1, { message: "O nome é obrigatório." })
+            .max(80, { message: "O nome deve ter, no máximo, 80 caracteres." }),
+    }),
+
+    loginPatient: z.object({
+        qrToken: z
+            .string({
+                required_error: "O token é obrigatório.",
+            })
+            .trim()
+            .min(1, { message: "O token é obrigatório." }),
+    }),
 };
 
 export default authSchema;
