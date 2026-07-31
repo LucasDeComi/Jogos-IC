@@ -5,17 +5,8 @@ import userSafe from "../utils/userSafe.js";
 
 
 class TherapistService {
-    async findById(id) {
-        return userSafe(await repository.find({ id }));
-    }
-
-    async findByEmail(email) {
-        return userSafe(await repository.find({ email }));
-    }
-
-    async findByName(name) {
-        const theraphists = await repository.find({ name });
-        return theraphists.map(userSafe);
+    async find(filters) {
+        return userSafe(await repository.find(filters));
     }
 
     async updateEmail(id, data) {

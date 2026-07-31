@@ -1,5 +1,8 @@
-export default function userSafe(user){
-    const{ password, refreshToken, ...userSafe } = user;
+export default function userSafe(data) {
+  if (Array.isArray(data)) {
+    return data.map(({ password, refreshToken, ...user }) => user);
+  }
 
-    return userSafe;
+  const { password, refreshToken, ...user } = data;
+  return user;
 }

@@ -8,9 +8,7 @@ const router = Router();
 
 router.use(auth);
 
-router.get("/id", controller.findById);
-router.get("/email/:email", controller.findByEmail);
-router.get("/name/:name", controller.findByName);
+router.get("/", controller.find);
 router.patch("/email", validation.body(schema.updateEmail), controller.updateEmail);
 router.patch("/password", validation.body(schema.updatePassword), controller.updatePassword);
 router.patch("/settings", validation.body(schema.updateSettings), controller.updateSettings);

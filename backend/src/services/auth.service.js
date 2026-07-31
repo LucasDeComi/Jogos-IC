@@ -54,7 +54,7 @@ class AuthService {
 
         return {
             message: `Usuário logado com sucesso`,
-            acessToken: tokens.accessToken,
+            accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
         };
     }
@@ -81,7 +81,7 @@ class AuthService {
 
         return {
             message: `Usuário logado com sucesso`,
-            acessToken: tokens.accessToken,
+            accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
         };
     }

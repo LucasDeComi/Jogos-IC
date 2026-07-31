@@ -1,24 +1,11 @@
 import service from "../services/therapist.service.js";
 
 class TherapistController {
-  async findById(req, res) {
-    const id = req.params.id;
-    const therapist = await service.findById(req.userID);
-    res.status(200).json(therapist);
+  async find(req, res) {
+    const result = await service.find(req.query)
+    res.status(200).json(result)
   }
-
-  async findByEmail(req, res) {
-    const email = req.params.email;
-    const therapist = await service.findByEmail(email);
-    res.status(200).json(therapist);
-  }
-
-  async findByName(req, res) {
-    const name = req.params.name;
-    const therapist = await service.findByName(name);
-    res.status(200).json(therapist);
-  }
-
+  
   async updateEmail(req, res) {
     const therapist = await service.updateEmail(req.userID, req.body);
     res.status(201).json(therapist);
