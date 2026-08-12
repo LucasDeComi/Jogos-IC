@@ -1,5 +1,4 @@
 import { db } from "../lib/firebase.js";
-import normalize from "../utils/normalizeText.js";
 
 const patients = db.collection("patients")
 
@@ -10,25 +9,22 @@ class PatientRepository {
     }
 
     async find(filters) {
-        let query = patients;
+        if(Object.keys(filters).length === 0) return { message: "Nenhum filtro encontrado." }
 
-        query = filters.id ? query.where("__name__", "==", filters.id) : query; // Busca pelo identificador
+        if (filters.id) {
+            const doc = await patients.doc(filters.id).get();
 
-        const snapshot = await query.get();
-        const docs = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-
-        if (filters.name) {
-            const searchName = normalize(String(filters.name));
-            return docs.filter((patient) =>
-                normalize(String(patient.name || ""))
-                    .includes(searchName),
-            );
+            return doc.exists ? { id: doc.id, ...doc.data() } : null;
         }
 
-        return filters.id ? docs[0] ?? null : docs;
+        if (filters.name) {
+            const snapshot = await patients
+                .where("name", ">=", filters.name)
+                .where("name", "<=", filters.name + "\uf8ff")
+                .get();
+            
+            return snapshot.docs;
+        }
     }
     
     async update(id, data) {

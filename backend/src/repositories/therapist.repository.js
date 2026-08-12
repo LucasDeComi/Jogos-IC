@@ -1,5 +1,4 @@
 import { db } from "../lib/firebase.js";
-import normalize from "../utils/normalizeText.js";
 
 const therapists = db.collection("therapists");
 
@@ -10,26 +9,33 @@ class TherapistRepository {
   }
 
   async find(filters) {
-    let query = therapists;
+    if(Object.keys(filters).length === 0) return { message: "Nenhum filtro encontrado." }
 
-    query = filters.id ? query.where("__name__", "==", filters.id) : query; // Busca pelo identificador
-    query = filters.email ? query.where("email", "==", filters.email) : query; // Busca pelo email
+    if (filters.id) {
+      const doc = await therapists.doc(filters.id).get();
 
-    const snapshot = await query.get();
-    const docs = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    if (filters.name) {
-      const searchName = normalize(String(filters.name));
-      return docs.filter((theraphist) =>
-        normalize(String(theraphist.name || ""))
-          .includes(searchName),
-      );
+      return doc.exists ? { id: doc.id, ...doc.data() } : null;
     }
 
-    return filters.id || filters.email ? docs[0] ?? null : docs;
+    if (filters.email) {
+      const snapshot = await therapists
+        .where("email", "==", filters.email)
+        .limit(1)
+        .get();
+
+      const doc = snapshot.docs[0];
+
+      return doc ? { id: doc.id, ...doc.data() } : null;
+    }
+
+    if (filters.name) {
+      const snapshot = await therapists
+        .where("name", ">=", filters.name)
+        .where("name", "<=", filters.name + "\uf8ff")
+        .get();
+      
+      return snapshot.docs;
+    }
   }
   
   async update(id, data) {
