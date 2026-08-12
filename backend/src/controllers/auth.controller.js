@@ -1,19 +1,36 @@
 import service from "../services/auth.service.js"
 
 class AuthController {
-    async create(req, res) {
-        const therapist = await service.create(req.body);
+    // ===== TERAPEUTA =====
+    async createTherapist(req, res) {
+        const therapist = await service.createTherapist(req.body);
         res.status(201).json(therapist);
     }
 
-    async login(req, res) {
-        const result = await service.login(req.body);
+    async loginTherapist(req, res) {
+        const result = await service.loginTherapist(req.body);
         res.status(201).json(result)
     }
 
-    async refresh(req, res) {
-        const result = await service.refresh(req.headers.authorization);
+    async refreshTherapist(req, res) {
+        const result = await service.refreshTherapist(req.headers.authorization);
         res.status(201).json(result);
+    }
+
+    // ===== PACIENTE =====
+    async createPatient(req, res) {
+        const result = await service.createPatient(req.userID, req.body);
+        res.status(201).json(result);
+    }
+
+    async loginPatient(req, res) {
+        const result = await service.loginPatient(req.body);
+        res.status(200).json(result);
+    }
+
+    async refreshPatient(req, res) {
+        const result = await service.refreshPatient(req.headers.authorization);
+        res.status(200).json(result);
     }
 }
 

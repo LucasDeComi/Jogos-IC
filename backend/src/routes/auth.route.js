@@ -5,8 +5,14 @@ import schema from "../validation/auth.schema.js";
 
 const router = Router();
 
-router.post("/", validation.body(schema.registerTherapist), controller.create)
-router.post("/login", validation.body(schema.loginTherapist), controller.login);
-router.get("/refresh", controller.refresh)
+// Rotas de Terapeuta
+router.post("/therapist/register", validation.body(schema.registerTherapist), controller.createTherapist);
+router.post("/therapist/login", validation.body(schema.loginTherapist), controller.loginTherapist);
+router.post("/therapist/refresh", controller.refreshTherapist);
+
+// Rotas de Paciente
+router.post("/patient/register", validation.body(schema.registerPatient), controller.createPatient);
+router.post("/patient/login", validation.body(schema.loginPatient), controller.loginPatient);
+router.post("/patient/refresh", controller.refreshPatient);
 
 export default router;
