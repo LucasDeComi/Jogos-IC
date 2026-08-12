@@ -21,6 +21,16 @@ class TherapistController {
     res.status(201).json(therapist);
   }
 
+  async appendPatient(req, res) {
+    const result = await service.appendPatient(req.userID, req.body);
+    res.status(201).json(result);
+  }
+
+  async removePatient(req, res) {
+    const result = await service.removePatient(req.userID, req.params.id);
+    res.status(204).send();
+  }
+
   async delete(req, res) {
     const response = await service.delete(req.userID);
     res.status(201).json(response);

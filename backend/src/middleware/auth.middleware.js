@@ -16,7 +16,6 @@ export default function auth(req, res, next) {
         req.userID = decoded.id;
         next();
     } catch (error) {
-        console.log(error);
         if(error.name == "TokenExpiredError") {
             throw new AppError("Token expirado. Renove com refresh token", 401, error.name);
         }

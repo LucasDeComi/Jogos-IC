@@ -13,7 +13,7 @@ class AuthService {
             throw new ConflictError("Terapeuta já cadastrado");
         }
         therapistData.password = await bcrypt.hash(therapistData.password, 10);
-        const newTherapist = await repository.create({ ...therapistData, ...settings });
+        const newTherapist = await repository.create({ ...therapistData, ...settings, patients: [] });
 
         const tokens = generateTokens(newTherapist.id);
 

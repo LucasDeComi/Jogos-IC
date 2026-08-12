@@ -26,6 +26,12 @@ class PatientRepository {
             return snapshot.docs;
         }
     }
+
+    getRef(id) {
+        const patientRef = patients.doc(String(id));
+
+        return patientRef ?? null;
+    }
     
     async update(id, data) {
         const ref = patients.doc(id);

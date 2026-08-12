@@ -1,7 +1,9 @@
 import { NotFoundError, ConflictError } from "../errors/errors.js";
 import repository from "../repositories/therapist.repository.js";
+import patientRepository from "../repositories/patient.repository.js";
 import bcrypt from "bcrypt"
 import userSafe from "../utils/userSafe.js";
+import { FieldValue } from "firebase-admin/firestore";
 
 
 class TherapistService {
@@ -30,6 +32,36 @@ class TherapistService {
 
     async updateSettings(id, data) {
         return await repository.update(id, data);
+    }
+
+    async appendPatient(id, data) {
+        const therapist = await repository.find({ id: id });
+        const patientRef = patientRepository.getRef(data.patientId);
+
+        const isAssociated = therapist.patients?.some(
+            (ref) => ref.path === patientRef.path
+        );
+
+        if (isAssociated) {
+            throw new ConflictError("O paciente já está associado com o terapeuta");
+        }
+        
+        return await repository.update(id, { patients: FieldValue.arrayUnion(patientRef) });
+    }
+
+    async removePatient(therapistId, patientId) {
+        const patientRef = patientRepository.getRef(patientId);
+        const therapist = await repository.find({ id: therapistId });
+
+        const isAssociated = therapist.patients?.some(
+            (ref) => ref.path === patientRef.path
+        );
+
+        if (!isAssociated) {
+            throw new NotFoundError("O paciente não está associado com o terapeuta");
+        }
+
+        return repository.update(therapistId, { patients: FieldValue.arrayRemove(patientRef) });
     }
 
     async delete(id) {

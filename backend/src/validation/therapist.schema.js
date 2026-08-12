@@ -27,6 +27,16 @@ const therapistSchema = {
         style: z.enum(["standard", "compact", "elegant"]).optional(),
         contrast: z.boolean().optional(),
         itemsSize: z.enum(["small", "medium", "big"]).optional()
+    }),
+
+    appendPatient: z.object({
+        patientId: z
+            .number({
+                invalid_type_error: "O prontuário deve ser numérico",
+            })
+            .int({ message: "O prontuário deve ser inteiro" })
+            .positive({ message: "O prontuário só aceita números" })
+            .max(999999, { message: "O prontuário deve ter, no máximo, 6 caracteres." }),
     })
 };
 
