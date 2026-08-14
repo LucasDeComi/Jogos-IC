@@ -1,7 +1,7 @@
 import { ConflictError, UnauthorizedError } from "../errors/errors.js";
 import therapistRepository from "../repositories/therapist.repository.js";
 import patientRepository from "../repositories/patient.repository.js";
-import settings from "../utils/therapistSettings.js"
+import { patientSettings, therapistSettings } from "../utils/settings.js"
 import generateTokens from "../utils/generateTokens.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -15,7 +15,7 @@ class AuthService {
             throw new ConflictError("Terapeuta já cadastrado");
         }
         therapistData.password = await bcrypt.hash(therapistData.password, 10);
-        const newTherapist = await therapistRepository.create({ ...therapistData, ...settings, patients: [] });
+        const newTherapist = await therapistRepository.create({ ...therapistData, ...therapistSettings, patients: [] });
 
         const tokens = generateTokens(newTherapist.id);
 
@@ -25,7 +25,7 @@ class AuthService {
         );
 
         return {
-            message: `Usuário ${therapistData.name} cadastrado com sucesso`,
+            message: `Terapeuta ${therapistData.name} cadastrado com sucesso`,
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
             therapist: {
@@ -90,35 +90,41 @@ class AuthService {
 
     // ===== PACIENTE =====
     async createPatient(therapistId, data) {
-        const { name } = data;
+        const { patientId, name, ...patientData } = data;
         const qrToken = this.generateQRToken();
 
-        const newPatient = await patientRepository.create({
+        const patientExists = await patientRepository.find({ id: String(patientId) });
+        if(patientExists) {
+            throw new ConflictError(`O paciente de prontuário ${patientId} já está cadastrado.`)
+        }
+
+        const newPatient = await patientRepository.create(String(patientId), {
             name,
-            therapistId,
+            ...patientData,
+            ...patientSettings,
             qrToken,
             createdAt: new Date(),
         });
 
+        const tokens = generateTokens(newPatient.id);
+
         return {
             message: `Paciente ${name} cadastrado com sucesso`,
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
             patient: {
                 id: newPatient.id,
                 name: newPatient.name,
-                therapistId,
                 qrToken
             }
         };
     }
 
     async loginPatient(data) {
-        const { qrToken, therapistId } = data;
-        
-        // Buscar paciente pelo qrToken e therapistId
-        const patient = await patientRepository.find({ 
-            qrToken, 
-            therapistId 
-        });
+        const { qrToken } = data;
+
+        // Buscar paciente pelo qrToken
+        const patient = await patientRepository.find({ qrToken });
         
         if (!patient) {
             throw new UnauthorizedError("Token inválido ou paciente não encontrado");
@@ -126,8 +132,7 @@ class AuthService {
 
         // Gerar tokens com userType diferenciado
         const tokens = generateTokens(patient.id, { 
-            userType: 'patient',
-            therapistId: therapistId 
+            userType: 'patient'
         });
 
         return {
@@ -137,7 +142,6 @@ class AuthService {
             patient: {
                 id: patient.id,
                 name: patient.name,
-                therapistId: therapistId
             }
         };
     }

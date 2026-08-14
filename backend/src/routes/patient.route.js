@@ -6,10 +6,9 @@ import auth from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-// router.use(auth);
+router.use(auth);
 
 router.get("/", controller.find);
 router.patch("/settings", validation.body(schema.updateSettings), controller.updateSettings);
-router.delete("/", controller.delete);
 
 export default router;

@@ -12,8 +12,8 @@ router.get("/", controller.find);
 router.patch("/email", validation.body(schema.updateEmail), controller.updateEmail);
 router.patch("/password", validation.body(schema.updatePassword), controller.updatePassword);
 router.patch("/settings", validation.body(schema.updateSettings), controller.updateSettings);
-router.post("/patients", validation.body(schema.appendPatient), controller.appendPatient);
-router.delete("/patients/:id", controller.removePatient);
+router.post("/patient", validation.body(schema.appendPatient), controller.appendPatient);
+router.delete("/patient/:id", controller.removePatient);
 router.delete("/", controller.delete);
 
 export default router;

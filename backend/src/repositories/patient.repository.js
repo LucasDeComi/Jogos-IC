@@ -3,8 +3,8 @@ import { db } from "../lib/firebase.js";
 const patients = db.collection("patients")
 
 class PatientRepository {
-    async create(data) {
-        const doc = await patients.add(data);
+    async create(id, data) {
+        const doc = await patients.doc(id).set(data);
         return { id: doc.id, ...data };
     }
 
@@ -24,6 +24,18 @@ class PatientRepository {
                 .get();
             
             return snapshot.docs;
+        }
+
+        if(filters.qrToken) {
+            const snapshot = await patients
+                .where("qrToken", "==", filters.qrToken)
+                .limit(1)
+                .get();
+
+            if(snapshot.empty) return null;
+
+            const doc = snapshot.docs[0];
+            return { id: doc.id, ...doc.data() };
         }
     }
 

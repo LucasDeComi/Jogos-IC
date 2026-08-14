@@ -6,7 +6,7 @@ import patientRoutes from "./patient.route.js";
 const router = Router();
 
 router.use("/auth", authRoutes);
-router.use("/therapists", therapistRoutes);
-router.use("/patients", patientRoutes);
+router.use("/therapist", therapistRoutes);
+router.use("/patient", patientRoutes);
 
 export default router

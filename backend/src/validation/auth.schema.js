@@ -38,6 +38,13 @@ const authSchema = {
             .trim()
             .min(1, { message: "O nome é obrigatório." })
             .max(80, { message: "O nome deve ter, no máximo, 80 caracteres." }),
+        patientId: z
+            .number({
+                invalid_type_error: "O prontuário deve ser numérico",
+            })
+            .int({ message: "O prontuário deve ser inteiro" })
+            .positive({ message: "O prontuário só aceita números" })
+            .max(999999, { message: "O prontuário deve ter, no máximo, 6 caracteres." }),
     }),
 
     loginPatient: z.object({
@@ -47,12 +54,6 @@ const authSchema = {
             })
             .trim()
             .min(10, { message: "O token é inválido." }),
-        therapistId: z
-            .string({
-                required_error: "ID do terapeuta é obrigatório.",
-            })
-            .trim()
-            .min(1, { message: "ID do terapeuta inválido." }),
     }),
 };
 
