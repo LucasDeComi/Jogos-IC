@@ -2,11 +2,11 @@ import { Router } from "express";
 import controller from "../controllers/therapist.controller.js";
 import schema from "../validation/therapist.schema.js";
 import validation from "../middleware/validation.middleware.js";
-import auth from "../middleware/auth.middleware.js";
+import { authTherapist } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.use(auth);
+router.use(authTherapist);
 
 router.get("/", controller.find);
 router.patch("/email", validation.body(schema.updateEmail), controller.updateEmail);

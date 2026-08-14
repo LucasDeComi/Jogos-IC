@@ -1,9 +1,16 @@
 import { Router } from "express";
 import controller from "../controllers/auth.controller.js";
 import validation from "../middleware/validation.middleware.js";
+import rateLimit from "../middleware/rateLimit.middleware.js";
 import schema from "../validation/auth.schema.js";
 
 const router = Router();
+
+router.use(rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  message: "Muitas tentativas. Tente novamente mais tarde.",
+}));
 
 // Rotas de Terapeuta
 router.post("/therapist/register", validation.body(schema.registerTherapist), controller.createTherapist);

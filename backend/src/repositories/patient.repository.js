@@ -5,7 +5,7 @@ const patients = db.collection("patients")
 class PatientRepository {
     async create(id, data) {
         const doc = await patients.doc(id).set(data);
-        return { id: doc.id, ...data };
+        return { id: id, ...data };
     }
 
     async find(filters) {

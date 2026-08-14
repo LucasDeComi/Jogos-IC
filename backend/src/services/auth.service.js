@@ -3,6 +3,7 @@ import therapistRepository from "../repositories/therapist.repository.js";
 import patientRepository from "../repositories/patient.repository.js";
 import { patientSettings, therapistSettings } from "../utils/settings.js"
 import generateTokens from "../utils/generateTokens.js";
+import generateQRToken from "../utils/generateQRToken.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -91,7 +92,7 @@ class AuthService {
     // ===== PACIENTE =====
     async createPatient(therapistId, data) {
         const { patientId, name, ...patientData } = data;
-        const qrToken = this.generateQRToken();
+        const qrToken = generateQRToken();
 
         const patientExists = await patientRepository.find({ id: String(patientId) });
         if(patientExists) {
@@ -107,6 +108,8 @@ class AuthService {
         });
 
         const tokens = generateTokens(newPatient.id);
+
+        await patientRepository.update(newPatient.id, { refreshToken: tokens.refreshToken });
 
         return {
             message: `Paciente ${name} cadastrado com sucesso`,
@@ -134,6 +137,8 @@ class AuthService {
         const tokens = generateTokens(patient.id, { 
             userType: 'patient'
         });
+
+        await patientRepository.update(patient.id, { refreshToken: tokens.refreshToken });
 
         return {
             message: `Paciente ${patient.name} logado com sucesso`,
@@ -169,22 +174,22 @@ class AuthService {
         if (!patient) {
             throw new UnauthorizedError("Paciente não encontrado");
         }
+        if (token !== patient.refreshToken) {
+            throw new UnauthorizedError("Token inválido");
+        }
 
         const tokens = generateTokens(patient.id, {
             userType: 'patient',
             therapistId: decoded.therapistId
         });
 
+        await patientRepository.update(patient.id, { refreshToken: tokens.refreshToken });
+
         return {
             message: `Token renovado com sucesso`,
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
         };
-    }
-
-    // ===== UTILITÁRIO =====
-    generateQRToken() {
-        return Math.random().toString(36).substring(2, 18).toUpperCase();
     }
 }
 

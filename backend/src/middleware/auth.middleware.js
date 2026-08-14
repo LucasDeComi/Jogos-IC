@@ -21,7 +21,10 @@ export function authTherapist(req, res, next) {
         req.userType = 'therapist';
         next();
     } catch (error) {
-        if(error.name == "TokenExpiredError") {
+        if (error instanceof AppError) {
+            throw error;
+        }
+        if (error.name == "TokenExpiredError") {
             throw new AppError("Token expirado. Renove com refresh token", 401, error.name);
         }
         throw new UnauthorizedError("Token inválido");
@@ -48,6 +51,9 @@ export function authPatient(req, res, next) {
         req.therapistId = decoded.therapistId;
         next();
     } catch (error) {
+        if (error instanceof AppError) {
+            throw error;
+        }
         if(error.name == "TokenExpiredError") {
             throw new AppError("Token expirado. Renove com refresh token", 401, error.name);
         }
@@ -79,6 +85,9 @@ export default function auth(req, res, next) {
         
         next();
     } catch (error) {
+        if (error instanceof AppError) {
+            throw error;
+        }
         if(error.name == "TokenExpiredError") {
             throw new AppError("Token expirado. Renove com refresh token", 401, error.name);
         }
