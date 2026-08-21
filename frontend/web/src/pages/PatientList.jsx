@@ -1,13 +1,23 @@
-import PrimaryButton from "../components/ui/PrimaryButton"
+import { useNavigate } from "react-router-dom"
+import Title from "../components/ui/Title"
+import Button from "../components/ui/Button"
+import Panel from "../components/ui/Panel"
 import TableHeaderCell from "../components/ui/TableHeaderCell"
 import TableBodyCell from "../components/ui/TableBodyCell"
 
 export default function PatientList() {
+  const navigate = useNavigate();
+
   return (
     <section className="flex flex-col items-start gap-7.5">
-      <h1 className="font-bold text-2xl">Pacientes</h1>
-      <PrimaryButton>+ Cadastrar novo paciente</PrimaryButton>
-      <div className="w-full border-2 border-black rounded-md text-lg">
+      <Title>Pacientes</Title>
+      <Button
+        type="primary"
+        onClick={() => navigate("/patients/register")}
+      >
+        + Cadastrar novo paciente
+      </Button>
+      <Panel>
         <table className="w-full">
           <thead>
             <tr>
@@ -39,7 +49,7 @@ export default function PatientList() {
             </tr>
           </tbody>
         </table>
-      </div>
+      </Panel>
     </section>
   )
 }
