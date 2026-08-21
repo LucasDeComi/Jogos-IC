@@ -1,4 +1,6 @@
+import { useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { PatientContext } from "../context/PatientContext"
 import Title from "../components/ui/Title"
 import Button from "../components/ui/Button"
 import Panel from "../components/ui/Panel"
@@ -6,6 +8,8 @@ import TableHeaderCell from "../components/ui/TableHeaderCell"
 import TableBodyCell from "../components/ui/TableBodyCell"
 
 export default function PatientList() {
+  const { patients } = useContext(PatientContext);
+
   const navigate = useNavigate();
 
   return (
@@ -27,26 +31,13 @@ export default function PatientList() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <TableBodyCell bb pl>0001</TableBodyCell>
-              <TableBodyCell bb>Paciente 1</TableBodyCell>
-              <TableBodyCell bb bl>Ver</TableBodyCell>
-            </tr>
-            <tr>
-              <TableBodyCell bb pl>0002</TableBodyCell>
-              <TableBodyCell bb>Paciente 2</TableBodyCell>
-              <TableBodyCell bb bl>Ver</TableBodyCell>
-            </tr>
-            <tr>
-              <TableBodyCell bb pl>0003</TableBodyCell>
-              <TableBodyCell bb>Paciente 3</TableBodyCell>
-              <TableBodyCell bb bl>Ver</TableBodyCell>
-            </tr>
-            <tr>
-              <TableBodyCell pl>0004</TableBodyCell>
-              <TableBodyCell>Paciente 4</TableBodyCell>
-              <TableBodyCell bl>Ver</TableBodyCell>
-            </tr>
+            {patients && patients.map((patient, index) => (
+              <tr key={patient.id ?? index}>
+                <TableBodyCell bb={index !== patients.length - 1} pl>{patient.id}</TableBodyCell>
+                <TableBodyCell bb={index !== patients.length - 1}>{patient.name}</TableBodyCell>
+                <TableBodyCell bb={index !== patients.length - 1} bl>Ver</TableBodyCell>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Panel>
