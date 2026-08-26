@@ -1,23 +1,26 @@
-import { useContext } from "react"
-import { useParams } from "react-router-dom"
-import { PatientContext } from "../context/PatientContext"
-import Subtitle from "../components/ui/Subtitle"
-import Button from "../components/ui/Button"
-import Panel from "../components/ui/Panel"
-import Table from "../components/ui/Table"
-import TableHeaderCell from "../components/ui/TableHeaderCell"
-import TableBodyCell from "../components/ui/TableBodyCell"
-import TableActionsCell from "../components/ui/TableActionsCell"
+import { useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { PatientContext } from "../context/PatientContext";
+import Subtitle from "../components/ui/Subtitle";
+import Button from "../components/ui/Button";
+import Panel from "../components/ui/Panel";
+import Table from "../components/ui/Table";
+import TableHeaderCell from "../components/ui/TableHeaderCell";
+import TableBodyCell from "../components/ui/TableBodyCell";
+import TableActionsCell from "../components/ui/TableActionsCell";
+import { translateSetting } from "../utils/settings";
 
 export default function ViewPatient() {
     const { id } = useParams();
 
-    const { findPatient, patients } = useContext(PatientContext);
+    const { findPatient } = useContext(PatientContext);
     const patient = findPatient(id);
+
+    const navigate = useNavigate();
 
     return (
         <section className="flex flex-col items-start gap-5">
-            <Button>&larr; Voltar</Button>
+            <Button onClick={() => navigate("/patients")}>&larr; Voltar</Button>
             <div className="w-full flex justify-between gap-[25%]">
                 <Panel className="flex flex-col items-start gap-5 px-4 py-3">
                     <Subtitle>Dados do paciente</Subtitle>
@@ -43,28 +46,40 @@ export default function ViewPatient() {
                         <tbody>
                             <tr>
                                 <td>Tema:</td>
-                                <td className="pl-5">{patient.theme}</td>
+                                <td className="pl-5">
+                                {translateSetting("theme", patient.theme)}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Estilo:</td>
-                                <td className="pl-5">{patient.style}</td>
+                                <td className="pl-5">
+                                {translateSetting("style", patient.style)}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Tamanho dos itens:</td>
-                                <td className="pl-5">{patient.itemsSize}</td>
+                                <td className="pl-5">
+                                {translateSetting("itemsSize", patient.itemsSize)}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Contraste:</td>
-                                <td className="pl-5">{patient.contrast ? "Ativado" : "Desativado"}</td>
+                                <td className="pl-5">
+                                {translateSetting("contrast", patient.contrast)}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Usar símbolos:</td>
-                                <td className="pl-5">{patient.useSymbols ? "Sim" : "Não"}</td>
+                                <td className="pl-5">
+                                {translateSetting("useSymbols", patient.useSymbols)}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <div className="w-full flex justify-center">
-                        <Button>Editar Configurações</Button>
+                        <Button onClick={() => navigate(`/patients/settings/${id}`)}>
+                            Editar Configurações
+                        </Button>
                     </div>
                 </Panel>
             </div>
@@ -106,12 +121,12 @@ export default function ViewPatient() {
                         <TableBodyCell bl>Memória</TableBodyCell>
                         <TableBodyCell bl>Médio</TableBodyCell>
                         <TableActionsCell bl>
-                            <span>Histórico</span>
-                            <span>Remover</span>
+                        <span>Histórico</span>
+                        <span>Remover</span>
                         </TableActionsCell>
                     </tr>
                 </tbody>
             </Table>
         </section>
-    )
+    );
 }

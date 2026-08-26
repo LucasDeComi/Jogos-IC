@@ -5,8 +5,8 @@ export default function NavLink({ to, children }) {
     <Link
         to={to}
         className={({ isActive }) =>
-          `text-lg py-1 border-b-2 hover:font-medium 
-          ${ isActive ? "font-medium px-5 border-black" : "border-transparent"}`
+          `text-lg py-1 border-b-2 hover:font-semibold 
+          ${ isActive ? "font-semibold px-5 border-black" : "border-transparent"}`
         }
     >
         {children}
