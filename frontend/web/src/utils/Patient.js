@@ -1,9 +1,10 @@
 import { patientSettings as settings } from "./settings";
 
 export default class Patient {
-    constructor(_id, _name) {
+    constructor(_id, _name, _games = []) {
         this.id = _id;
         this.name = _name;
+        this.games = _games;
         this.theme = settings.theme;
         this.style = settings.style;
         this.itemsSize = settings.itemsSize;

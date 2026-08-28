@@ -26,7 +26,7 @@ export default function PatientList() {
           <tr>
             <TableHeaderCell bb pl>Prontuário</TableHeaderCell>
             <TableHeaderCell bb>Nome</TableHeaderCell>
-            <TableHeaderCell bb bl>Ações</TableHeaderCell>
+            <TableHeaderCell bb bl pl>Ações</TableHeaderCell>
           </tr>
         </thead>
         <tbody>

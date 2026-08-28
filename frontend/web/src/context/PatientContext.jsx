@@ -5,9 +5,9 @@ export const PatientContext = createContext();
 
 export function PatientProvider({ children }) {
     const [patients, setPatients] = useState([
-        new Patient("0001", "Gabriel Souza"),
-        new Patient("0002", "Leonardo Nunes"),
-        new Patient("0003", "João Gomes"),
+        new Patient("0001", "Gabriel Souza", [0, 1, 2]),
+        new Patient("0002", "Leonardo Nunes", [0, 2, 3, 4]),
+        new Patient("0003", "João Gomes", [0, 2, 4]),
     ]);
 
     function findPatient(id) {
@@ -28,8 +28,18 @@ export function PatientProvider({ children }) {
         ))
     }
 
+    function setPatientGames(id, updatedGames) {
+        const deduplicatedGames = [...new Set(updatedGames)];
+
+        setPatients(patients.map(patient =>
+            patient.id == id
+            ? { ...patient, games: deduplicatedGames }
+            : patient
+        ));
+    }
+
     return (
-        <PatientContext.Provider value={{ patients, setPatients, findPatient, addPatient, editPatient }}>
+        <PatientContext.Provider value={{ patients, setPatients, findPatient, addPatient, editPatient, setPatientGames }}>
             { children }
         </PatientContext.Provider>
     )

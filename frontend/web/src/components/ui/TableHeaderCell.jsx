@@ -4,7 +4,7 @@ export default function TableHeaderCell({ children, center, pl, pr, bl, bb  }) {
       className={`py-2.5 font-bold
       ${center ? "text-center" : "text-left"}
       ${pl ? "pl-5" : ""} ${pr ? "pr-5" : ""}
-      ${bl ? "pl-5 border-l-2 border-black" : ""}
+      ${bl ? "border-l-2 border-black" : ""}
       ${bb ? "border-b-2 border-black" : ""}`}
     >
       {children}

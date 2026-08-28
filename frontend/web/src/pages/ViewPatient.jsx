@@ -1,6 +1,7 @@
 import { useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
+import { GameContext } from "../context/GameContext";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
 import Panel from "../components/ui/Panel";
@@ -14,9 +15,18 @@ export default function ViewPatient() {
     const { id } = useParams();
 
     const { findPatient } = useContext(PatientContext);
+    const { findGame } = useContext(GameContext);
     const patient = findPatient(id);
 
     const navigate = useNavigate();
+
+    if (!patient) {
+        return null;
+    }
+
+    const patientGames = (patient.games ?? [])
+        .map((gameIndex) => findGame(gameIndex))
+        .filter(Boolean);
 
     return (
         <section className="flex flex-col items-start gap-5">
@@ -83,50 +93,45 @@ export default function ViewPatient() {
                     </div>
                 </Panel>
             </div>
-            <Subtitle>Jogos do paciente</Subtitle>
-            <Table>
-                <thead>
-                    <tr>
-                        <TableHeaderCell center bb>Jogo</TableHeaderCell>
-                        <TableHeaderCell center bb bl>Categoria</TableHeaderCell>
-                        <TableHeaderCell center bb bl>Habilidade</TableHeaderCell>
-                        <TableHeaderCell center bb bl>Dificuldade</TableHeaderCell>
-                        <TableHeaderCell center bb bl>Ações</TableHeaderCell>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <TableBodyCell bb pl>Jogo 1</TableBodyCell>
-                        <TableBodyCell bb bl>Memória</TableBodyCell>
-                        <TableBodyCell bb bl>Memória</TableBodyCell>
-                        <TableBodyCell bb bl>Médio</TableBodyCell>
-                        <TableActionsCell bb bl>
-                            <span>Histórico</span>
-                            <span>Remover</span>
-                        </TableActionsCell>
-                    </tr>
-                    <tr>
-                        <TableBodyCell bb pl>Jogo 1</TableBodyCell>
-                        <TableBodyCell bb bl>Memória</TableBodyCell>
-                        <TableBodyCell bb bl>Memória</TableBodyCell>
-                        <TableBodyCell bb bl>Médio</TableBodyCell>
-                        <TableActionsCell bb bl>
-                            <span>Histórico</span>
-                            <span>Remover</span>
-                        </TableActionsCell>
-                    </tr>
-                    <tr>
-                        <TableBodyCell pl>Jogo 1</TableBodyCell>
-                        <TableBodyCell bl>Memória</TableBodyCell>
-                        <TableBodyCell bl>Memória</TableBodyCell>
-                        <TableBodyCell bl>Médio</TableBodyCell>
-                        <TableActionsCell bl>
-                        <span>Histórico</span>
-                        <span>Remover</span>
-                        </TableActionsCell>
-                    </tr>
-                </tbody>
-            </Table>
+            <div className="flex justify-between items-center w-full">
+                <Subtitle>Jogos do paciente</Subtitle>
+                <Button type="primary" onClick={() => navigate(`/patients/games/${id}`)}>+ Adicionar Jogo</Button>
+            </div>
+
+            {patientGames.length === 0 ? (
+                <p className="italic text-gray-600">O paciente não tem nenhum jogo</p>
+            ) : (
+                <Table>
+                    <thead>
+                        <tr>
+                            <TableHeaderCell center bb>Jogo</TableHeaderCell>
+                            <TableHeaderCell center bb bl>Categoria</TableHeaderCell>
+                            <TableHeaderCell center bb bl>Habilidade</TableHeaderCell>
+                            <TableHeaderCell center bb bl>Dificuldade</TableHeaderCell>
+                            <TableHeaderCell center bb bl>Ações</TableHeaderCell>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {patientGames.map((game, index) => (
+                            <tr key={`${game.name}-${index}`}>
+                                <TableBodyCell bb={index !== patientGames.length - 1} pl>{game.name}</TableBodyCell>
+                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.category}</TableBodyCell>
+                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.skill}</TableBodyCell>
+                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.difficulty}</TableBodyCell>
+                                <TableActionsCell bb={index !== patientGames.length - 1} bl>
+                                    <Link
+                                        className="hover:underline"
+                                        to={`/patients/games/history?patient=${id}&game=${index}`}
+                                    >
+                                        Histórico
+                                    </Link>
+                                    <span>Remover</span>
+                                </TableActionsCell>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            )}
         </section>
     );
 }
