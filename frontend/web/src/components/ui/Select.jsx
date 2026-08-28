@@ -5,7 +5,7 @@ export default function Select({ children, label = null, value = "", onChange = 
             <select
                 value={value}
                 onChange={onChange}
-                className="px-2.5 py-2 border-2 border-black rounded-md"
+                className="p-2.5 border border-black rounded-md"
             >
                 {children}
             </select>

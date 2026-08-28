@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import Swal from "sweetalert2";
 import Patient from "../utils/Patient"
 
 export const PatientContext = createContext();
@@ -24,7 +23,7 @@ export function PatientProvider({ children }) {
     function editPatient(id, theme, style, itemsSize, contrast, useSymbols) {
         setPatients(patients.map(patient =>
             patient.id == id
-            ? {...patient, theme: theme, style: style, itemsSize: itemsSize, contrast: contrast, useSymbols: useSymbols}
+            ? {...patient, theme, style, itemsSize, contrast, useSymbols}
             : patient
         ))
     }

@@ -4,6 +4,7 @@ import PatientList from "../pages/PatientList";
 import RegisterPatient from "../pages/RegisterPatient";
 import ViewPatient from "../pages/ViewPatient";
 import PatientSettings from "../pages/PatientSettings";
+import TherapistSettings from "../pages/TherapistSettings";
 
 export default function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
         <Route path="/patients/register" element={<RegisterPatient />}/>
         <Route path="/patients/:id" element={<ViewPatient />}/>
         <Route path="/patients/settings/:id" element={<PatientSettings />}/>
+        <Route path="/settings" element={<TherapistSettings />}/>
       </Route>
     </Routes>
   )

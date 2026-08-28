@@ -36,10 +36,22 @@ export default function RegisterPatient() {
     addPatient(id, name);
 
     navigate("/patients");
+    Swal.fire({
+      title: "Paciente cadastrado com sucesso!",
+      icon: "success",
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      customClass: {
+          popup: "swal2-toast"
+      }
+    });
   }
 
   return (
-    <section className="flex flex-col items-start gap-15 pt-2">
+    <form className="flex flex-col items-start gap-15 pt-2">
       <Title>Cadastrar paciente</Title>
       <Panel className="max-w-200 flex flex-col gap-5 px-6 pt-4 pb-10">
         <Input
@@ -71,6 +83,6 @@ export default function RegisterPatient() {
           Cancelar
         </Button>
       </div>
-    </section>
+    </form>
   )
 }

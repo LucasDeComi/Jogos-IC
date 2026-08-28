@@ -1,5 +1,5 @@
-export default function Subtitle({ children }) {
+export default function Subtitle({ children, className = "" }) {
   return (
-    <h2 className="font-bold text-xl">{ children }</h2>
+    <h2 className={`font-bold text-xl ${className}`}>{ children }</h2>
   )
 }

@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
+import Swal from "sweetalert2";
 import Button from "../components/ui/Button";
 import Title from "../components/ui/Title";
 import Panel from "../components/ui/Panel";
@@ -24,17 +25,29 @@ export default function PatientSettings() {
   function editSettings() {
     editPatient(id, theme, style, itemsSize, contrast, useSymbols);
     navigate(`/patients/${id}`);
+    Swal.fire({
+      title: "Configurações editadas com sucesso!",
+      icon: "success",
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      customClass: {
+          popup: "swal2-toast"
+      }
+    });
   }
 
   return (
-    <section className="flex flex-col items-start gap-5">
+    <form className="flex flex-col items-start gap-5">
       <div className="relative flex items-center w-full">
         <Button onClick={() => navigate(`/patients/${id}`)}>&larr; Voltar</Button>
         <Title className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
           Configurações do paciente
         </Title>
       </div>
-      <div className="px-10 w-full">
+      <section className="px-10 w-full">
         <Panel>
           <div className="flex gap-5 items-center w-full px-5 py-3 border-b-2 border-black">
             <span className="text-[16px]">Prontuário: {patient.id}</span>
@@ -93,11 +106,11 @@ export default function PatientSettings() {
             />
           </form>
         </Panel>
-      </div>
+      </section>
       <div className="flex gap-5">
         <Button type="primary" onClick={() => editSettings()}>Salvar alterações</Button>
         <Button onClick={() => navigate(`/patients/${id}`)}>Cancelar</Button>
       </div>
-    </section>
+    </form>
   );
 }
