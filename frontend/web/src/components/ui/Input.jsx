@@ -1,6 +1,6 @@
-export default function Input({ type = "text", label = null, placeholder ="", value = "", onChange = () => {} }) {
+export default function Input({ type = "text", label = null, placeholder ="", value = "", className = "", onChange = () => {} }) {
   return (
-    <div className="flex flex-col items-start gap-1">
+    <div className={`flex flex-col items-start gap-1 ${className}`}>
         { label && <label className="text-lg font-medium">{label}</label> }
         <input
             type={type}

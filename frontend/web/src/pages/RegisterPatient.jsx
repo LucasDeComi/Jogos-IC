@@ -35,7 +35,7 @@ export default function RegisterPatient() {
 
     addPatient(id, name);
 
-    navigate("/patients");
+    navigate("/app/patients");
     Swal.fire({
       title: "Paciente cadastrado com sucesso!",
       icon: "success",
@@ -78,7 +78,7 @@ export default function RegisterPatient() {
         </Button>
         <Button
           large
-          onClick={() => navigate("/patients")}
+          onClick={() => navigate("/app/patients")}
         >
           Cancelar
         </Button>

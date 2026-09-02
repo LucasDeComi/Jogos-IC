@@ -24,7 +24,7 @@ export default function PatientSettings() {
 
   function editSettings() {
     editPatient(id, theme, style, itemsSize, contrast, useSymbols);
-    navigate(`/patients/${id}`);
+    navigate(`/app/patients/${id}`);
     Swal.fire({
       title: "Configurações editadas com sucesso!",
       icon: "success",
@@ -42,7 +42,7 @@ export default function PatientSettings() {
   return (
     <form className="flex flex-col items-start gap-5">
       <div className="relative flex items-center w-full">
-        <Button onClick={() => navigate(`/patients/${id}`)}>&larr; Voltar</Button>
+        <Button onClick={() => navigate(`/app/patients/${id}`)}>&larr; Voltar</Button>
         <Title className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
           Configurações do paciente
         </Title>
@@ -109,7 +109,7 @@ export default function PatientSettings() {
       </section>
       <div className="flex gap-5">
         <Button type="primary" onClick={() => editSettings()}>Salvar alterações</Button>
-        <Button onClick={() => navigate(`/patients/${id}`)}>Cancelar</Button>
+        <Button onClick={() => navigate(`/app/patients/${id}`)}>Cancelar</Button>
       </div>
     </form>
   );

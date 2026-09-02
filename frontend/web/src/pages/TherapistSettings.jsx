@@ -34,7 +34,7 @@ export default function TherapistSettings() {
 
         editTherapist(name, email, password, theme, style, itemsSize, contrast);
 
-        navigate("/patients");
+        navigate("/app/patients");
 
         Swal.fire({
             title: "Dados editados com sucesso!",

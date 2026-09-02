@@ -30,7 +30,7 @@ export default function ViewPatient() {
 
     return (
         <section className="flex flex-col items-start gap-5">
-            <Button onClick={() => navigate("/patients")}>&larr; Voltar</Button>
+            <Button onClick={() => navigate("/app/patients")}>&larr; Voltar</Button>
             <div className="w-full flex justify-between gap-[25%]">
                 <Panel className="flex flex-col items-start gap-5 px-4 py-3">
                     <Subtitle>Dados do paciente</Subtitle>
@@ -87,7 +87,7 @@ export default function ViewPatient() {
                         </tbody>
                     </table>
                     <div className="w-full flex justify-center">
-                        <Button onClick={() => navigate(`/patients/settings/${id}`)}>
+                        <Button onClick={() => navigate(`/app/patients/settings/${id}`)}>
                             Editar Configurações
                         </Button>
                     </div>
@@ -95,7 +95,7 @@ export default function ViewPatient() {
             </div>
             <div className="flex justify-between items-center w-full">
                 <Subtitle>Jogos do paciente</Subtitle>
-                <Button type="primary" onClick={() => navigate(`/patients/games/${id}`)}>+ Adicionar Jogo</Button>
+                <Button type="primary" onClick={() => navigate(`/app/patients/games/${id}`)}>+ Adicionar Jogo</Button>
             </div>
 
             {patientGames.length === 0 ? (
@@ -121,7 +121,7 @@ export default function ViewPatient() {
                                 <TableActionsCell bb={index !== patientGames.length - 1} bl>
                                     <Link
                                         className="hover:underline"
-                                        to={`/patients/games/history?patient=${id}&game=${index}`}
+                                        to={`/app/patients/games/history?patient=${id}&game=${index}`}
                                     >
                                         Histórico
                                     </Link>

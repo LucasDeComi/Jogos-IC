@@ -17,7 +17,7 @@ export default function PatientList() {
       <Title>Pacientes</Title>
       <Button
         type="primary"
-        onClick={() => navigate("/patients/register")}
+        onClick={() => navigate("/app/patients/register")}
       >
         + Cadastrar novo paciente
       </Button>
@@ -35,7 +35,7 @@ export default function PatientList() {
               <TableBodyCell bb={index !== patients.length - 1} pl>{patient.id}</TableBodyCell>
               <TableBodyCell bb={index !== patients.length - 1}>{patient.name}</TableBodyCell>
               <TableBodyCell bb={index !== patients.length - 1} bl>
-                <Link className="hover:underline" to={`/patients/${patient.id}`}>Ver</Link>
+                <Link className="hover:underline" to={`/app/patients/${patient.id}`}>Ver</Link>
               </TableBodyCell>
             </tr>
           ))}

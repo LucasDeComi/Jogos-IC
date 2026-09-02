@@ -67,7 +67,7 @@ export default function PatientGames() {
 
   function saveGames() {
     setPatientGames(id, selectedGames);
-    navigate(`/patients/${id}`);
+    navigate(`/app/patients/${id}`);
     Swal.fire({
       title: "Jogos alterados com sucesso!",
       icon: "success",
@@ -85,7 +85,7 @@ export default function PatientGames() {
   return (
     <section className="flex flex-col items-start gap-5">
       <div className="relative flex items-center w-full">
-        <Button onClick={() => navigate(`/patients/${id}`)}>
+        <Button onClick={() => navigate(`/app/patients/${id}`)}>
           &larr; Voltar
         </Button>
         <Title className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
@@ -241,7 +241,7 @@ export default function PatientGames() {
         <Button type="primary" onClick={saveGames}>
           Salvar alterações
         </Button>
-        <Button onClick={() => navigate(`/patients/${id}`)}>Cancelar</Button>
+        <Button onClick={() => navigate(`/app/patients/${id}`)}>Cancelar</Button>
       </div>
     </section>
   );

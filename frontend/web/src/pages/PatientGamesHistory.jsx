@@ -24,7 +24,7 @@ export default function PatientGamesHistory() {
   return (
     <section className="flex flex-col items-start gap-5">
       <div className="flex items-start justify-between w-full gap-4">
-        <Button onClick={() => navigate(`/patients/${patientId}`)}>&larr; Voltar</Button>
+        <Button onClick={() => navigate(`/app/patients/${patientId}`)}>&larr; Voltar</Button>
 
         <div className="flex flex-col items-center gap-1 pt-1 text-center">
           <Title>
