@@ -3,10 +3,12 @@ import controller from "../controllers/therapist.controller.js";
 import schema from "../validation/therapist.schema.js";
 import validation from "../middleware/validation.middleware.js";
 import { authTherapist } from "../middleware/auth.middleware.js";
+import resource from "../middleware/resource.middleware.js";
 
 const router = Router();
 
 router.use(authTherapist);
+router.use(resource.ensureTherapist);
 
 router.get("/", controller.find);
 router.patch("/email", validation.body(schema.updateEmail), controller.updateEmail);

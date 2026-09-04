@@ -44,6 +44,11 @@ class SkillRepository {
   async delete(id) {
     await skills.doc(id).delete();
   }
+
+  getRef(id) {
+    const ref = skills.doc(String(id));
+    return ref ?? null;
+  }
 }
 
 export default new SkillRepository();

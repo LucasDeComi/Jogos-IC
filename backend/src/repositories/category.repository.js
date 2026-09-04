@@ -44,6 +44,11 @@ class CategoryRepository {
   async delete(id) {
     await categories.doc(id).delete();
   }
+
+  getRef(id) {
+    const ref = categories.doc(String(id));
+    return ref ?? null;
+  }
 }
 
 export default new CategoryRepository();

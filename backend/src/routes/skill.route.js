@@ -3,6 +3,7 @@ import controller from "../controllers/skill.controller.js";
 import schema from "../validation/skill.schema.js";
 import validation from "../middleware/validation.middleware.js";
 import { authTherapist } from "../middleware/auth.middleware.js";
+import resource from "../middleware/resource.middleware.js";
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.use(authTherapist);
 
 router.post("/", validation.body(schema.create), controller.create);
 router.get("/", controller.find);
-router.patch("/:id", validation.body(schema.update), controller.update);
-router.delete("/:id", controller.delete);
+router.patch("/:id", resource.ensureSkill, validation.body(schema.update), controller.update);
+router.delete("/:id", resource.ensureSkill, controller.delete);
 
 export default router;
