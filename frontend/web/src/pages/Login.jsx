@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Header from "../components/layout/LoginHeader";
 import Panel from "../components/ui/Panel";
 import Title from "../components/ui/Title";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import loginBackground from "../assets/backgrounds/loginBackground.png";
+import loginLogo from "../assets/icons/loginLogo.svg"
+import userIcon from "../assets/icons/userIcon.svg";
+import passwordIcon from "../assets/icons/passwordIcon.svg"
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -14,10 +17,10 @@ export default function Login() {
     const navigate = useNavigate();
 
     function login() {
-        if(!email || !password) {
+        if (!email || !password) {
             Swal.fire({
                 title: "Preencha todos os campos.",
-                confirmButtonColor: "black"
+                confirmButtonColor: "#125559",
             });
             return;
         }
@@ -26,31 +29,45 @@ export default function Login() {
     }
 
     return (
-        <>
-            <Header />
-            <main className="flex justify-center p-10">
-                <Panel className="flex flex-col items-center gap-7.5 max-w-250 p-7.5">
-                    <Title className="text-3xl">Login</Title>
+        <div
+            className="min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
+            style={{
+                backgroundImage: `url(${loginBackground})`,
+            }}
+        >
+            <main className="flex flex-col gap-5 min-h-screen w-full items-center p-10">
+                <section className="flex gap-5 items-center">
+                    <img src={loginLogo} className="w-40" />
+                    <h1 className="text-2xl text-[#125559] font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
+                </section>
+                <Panel className="flex flex-col items-center gap-7.5 max-w-125 p-10 rounded-4xl bg-white/80 backdrop-blur-lg shadow-xl">
+                    <Title className="text-4xl">Login</Title>
                     <Input
-                        className="w-full max-w-125"
+                        className="w-full"
                         type="email"
                         label="E-mail"
+                        placeholder="Digite seu e-mail"
+                        icon={userIcon}
                         value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <Input
-                        className="w-full max-w-125"
+                        className="w-full"
                         type="password"
                         label="Senha"
+                        placeholder="Digite sua senha"
+                        icon={passwordIcon}
                         value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={() => login()} className="w-full max-w-125" type="primary">Entrar</Button>
-                    <div className="flex max-w-125 w-full justify-start">
-                        <Link className="text-[#666] italic hover:underline font-medium">Esqueceu sua senha?</Link>
-                    </div>
+                    <Button onClick={() => login()} className="w-full" type="primary">
+                        Entrar
+                    </Button>
+                    <Link className="text-[#458084] italic hover:underline font-medium">
+                        Esqueceu sua senha?
+                    </Link>
                 </Panel>
             </main>
-        </>
-    )
+        </div>
+    );
 }

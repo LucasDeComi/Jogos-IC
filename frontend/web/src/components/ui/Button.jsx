@@ -2,8 +2,12 @@ export default function Button({ type, large = false, onClick, buttonType = "but
   return (
     <button
       type={buttonType}
-      className={`font-semibold text-lg py-2 border-2 border-black rounded-sm cursor-pointer
-        ${type === "primary" ? "bg-black text-white" : "bg-white text-black"}
+      className={`font-semibold text-lg border-2 py-2 rounded-lg cursor-pointer transition-colors duration-200
+        ${type === "primary"
+          ? `bg-[#125559] border-[#125559] hover:bg-[#458084] text-white
+            hover:border-[#458084] active:bg-[#125559] active:border-[#125559]`
+          : "bg-white text-black border-black"
+        }
         ${large ? "px-12" : "px-6"}
         ${className}
       `}
