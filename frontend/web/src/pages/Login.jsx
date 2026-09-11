@@ -20,7 +20,7 @@ export default function Login() {
         if (!email || !password) {
             Swal.fire({
                 title: "Preencha todos os campos.",
-                confirmButtonColor: "#125559",
+                confirmButtonColor: "#20514F",
             });
             return;
         }
@@ -38,7 +38,7 @@ export default function Login() {
             <main className="flex flex-col gap-5 min-h-screen w-full items-center p-10">
                 <section className="flex gap-5 items-center">
                     <img src={loginLogo} className="w-40" />
-                    <h1 className="text-2xl text-[#125559] font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
+                    <h1 className="text-2xl text-[#20514F] font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
                 </section>
                 <Panel className="flex flex-col items-center gap-7.5 max-w-125 p-10 rounded-4xl bg-white/80 backdrop-blur-lg shadow-xl">
                     <Title className="text-4xl">Login</Title>

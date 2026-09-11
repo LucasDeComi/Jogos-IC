@@ -1,9 +1,9 @@
+import User from "./User";
 import { therapistSettings as settings } from "./settings";
 
-export default class Therapist {
+export default class Therapist extends User {
     constructor(_name, _email, _password) { 
-        this.name = _name;
-        this.email = _email;
+        super(_name)
         this.password = _password;
         this.theme = settings.theme;
         this.style = settings.style;

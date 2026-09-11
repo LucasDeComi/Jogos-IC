@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom"
-import Header from "../components/layout/AppHeader"
+import Aside from "../components/layout/Aside"
 
 export default function AppLayout() {
   return (
-    <div className="w-screen h-screen">
-        <Header />
-        <main className="w-full px-5 py-4">
-            <Outlet />
-        </main>
+    <div className="flex w-screen h-screen">
+      <Aside />
+      <main className="w-full px-5 py-4 bg-[var(--background)]">
+        <Outlet />
+      </main>
     </div>
   )
 }

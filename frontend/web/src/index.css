@@ -4,3 +4,9 @@
 * {
     font-family: Inter, sans-serif;
 }
+
+:root {
+    --background: #F5F7F8;
+    --primary: #20514F;
+    --hover: #2F6F6D;
+}
