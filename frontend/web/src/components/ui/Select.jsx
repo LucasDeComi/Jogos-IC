@@ -1,11 +1,11 @@
 export default function Select({ children, label = null, value = "", onChange = () => {}, }) {
     return (
         <div className="flex flex-col gap-1">
-            {label && <label className="text-[16px] font-semibold">{label}</label>}
+            {label && <label className="text-sm font-semibold">{label}</label>}
             <select
                 value={value}
                 onChange={onChange}
-                className="p-2.5 border border-black rounded-md"
+                className="p-3 border border-[var(--border)] rounded-lg text-sm"
             >
                 {children}
             </select>

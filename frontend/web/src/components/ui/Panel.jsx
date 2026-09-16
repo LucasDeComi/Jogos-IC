@@ -1,6 +1,6 @@
 export default function Panel({ children, className = "" }) {
   return (
-    <div className={`w-full border-2 border-[#E9E9E9] text-lg ${className.includes("rounded") ? "" : "rounded-xl"} ${className}`}>
+    <div className={`w-full border border-[var(--border)] bg-white text-lg ${className.includes("rounded") ? "" : "rounded-2xl"} ${className}`}>
       {children}
     </div>
   )

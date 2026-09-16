@@ -40,8 +40,8 @@ export default function Login() {
                     <img src={loginLogo} className="w-40" />
                     <h1 className="text-2xl text-[#20514F] font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
                 </section>
-                <Panel className="flex flex-col items-center gap-7.5 max-w-125 p-10 rounded-4xl bg-white/80 backdrop-blur-lg shadow-xl">
-                    <Title className="text-4xl">Login</Title>
+                <Panel className="flex flex-col items-center gap-5 max-w-105 p-10 rounded-4xl bg-white/80 backdrop-blur-lg shadow-xl">
+                    <Title>Login</Title>
                     <Input
                         className="w-full"
                         type="email"
@@ -60,10 +60,10 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={() => login()} className="w-full" type="primary">
+                    <Button onClick={() => login()} className="w-full rounded-xl mt-3" type="primary">
                         Entrar
                     </Button>
-                    <Link className="text-[#458084] italic hover:underline font-medium">
+                    <Link className="text-[#458084] text-sm hover:underline font-medium">
                         Esqueceu sua senha?
                     </Link>
                 </Panel>

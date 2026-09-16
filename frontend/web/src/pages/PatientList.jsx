@@ -6,6 +6,7 @@ import Button from "../components/ui/Button"
 import Table from "../components/ui/Table"
 import TableHeaderCell from "../components/ui/TableHeaderCell"
 import TableBodyCell from "../components/ui/TableBodyCell"
+import addIcon from "../assets/icons/add.svg"
 
 export default function PatientList() {
   const { patients } = useContext(PatientContext);
@@ -18,8 +19,9 @@ export default function PatientList() {
       <Button
         type="primary"
         onClick={() => navigate("/app/patients/register")}
+        icon={addIcon}
       >
-        + Cadastrar novo paciente
+        Cadastrar novo paciente 
       </Button>
       <Table>
         <thead>

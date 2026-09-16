@@ -1,6 +1,6 @@
 export default function Checkbox({ label = null, checked = false, onChange = () => {}, className = "" }) {
 	return (
-		<label className="flex items-center gap-2 text-lg font-medium">
+		<label className="flex items-center gap-2 text-sm font-medium">
 			<input
 				type="checkbox"
 				checked={checked}
