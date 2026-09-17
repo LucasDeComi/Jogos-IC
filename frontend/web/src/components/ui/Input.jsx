@@ -15,7 +15,7 @@ export default function Input({
 
   return (
     <div className={`flex flex-col items-start gap-1 ${className}`}>
-      {label && <label className="text-sm font-semibold">{label}</label>}
+      {label && <label className="text-sm font-semibold text-[var(--text-black)]">{label}</label>}
 
       <div className="flex w-full items-center overflow-hidden rounded-lg border border-[var(--border)] bg-white">
         {icon && (
@@ -29,7 +29,7 @@ export default function Input({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className="w-full border-0 bg-transparent p-2.5 text-sm text-[#0F172A] outline-none placeholder-[#A0AEC0]"
+          className="w-full border-0 bg-transparent p-2.5 text-sm text-[var(--text-black)] outline-none placeholder-[#A0AEC0]"
         />
 
         {type === "password" && (

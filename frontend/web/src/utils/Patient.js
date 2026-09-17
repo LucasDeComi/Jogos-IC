@@ -2,9 +2,10 @@ import User from "./User";
 import { patientSettings as settings } from "./settings";
 
 export default class Patient extends User {
-    constructor(_id, _name, _games = []) {
+    constructor(_id, _name, _age, _games = []) {
         super(_name);
         this.id = _id;
+        this.age = _age;
         this.games = _games;
         this.theme = settings.theme;
         this.style = settings.style;

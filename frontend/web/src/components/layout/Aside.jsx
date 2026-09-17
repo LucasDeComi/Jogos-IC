@@ -1,28 +1,34 @@
-import Link from "../ui/AsideLink"
-import logo from "../../assets/icons/logo.svg"
-import patients from "../../assets/icons/patients.svg"
-import quit from "../../assets/icons/quit.svg"
+import Link from "../ui/AsideLink";
+import logo from "../../assets/icons/logo.svg";
+import patients from "../../assets/icons/patients.svg";
+import quit from "../../assets/icons/quit.svg";
 
 export default function Aside() {
   return (
-    <aside className="flex flex-col items-center gap-15 px-5 py-8 min-w-65 bg-[var(--primary)]">
-        <div className="flex gap-3 items-center w-full">
-          <span className="bg-[#2ED0CC] w-9 h-9 rounded-lg" />
-          <div className="flex flex-col h-full justify-between">
-            <h1
-              className="text-white font-extrabold"
-              style={{ fontFamily: '"Onest", "Inter", sans-serif' }}
-            >
-              SJR
-            </h1>
-            <h2 className="text-[#2ED0CC] text-xs">JOGOS REABILITAÇÃO</h2>
-          </div>
+    <aside className="flex flex-col items-center gap-10 px-5 py-8 min-w-65 bg-[var(--primary)]">
+      <div className="flex gap-3 items-center w-full">
+        <span className="bg-[#2ED0CC] w-9 h-9 rounded-lg" />
+        <div className="flex flex-col h-full justify-between">
+          <h1
+            className="text-white font-extrabold"
+            style={{ fontFamily: '"Onest", "Inter", sans-serif' }}
+          >
+            SJR
+          </h1>
+          <h2 className="text-[#2ED0CC] text-xs">JOGOS REABILITAÇÃO</h2>
         </div>
-        <nav className="flex flex-col gap-2 pl-2 w-full">
-            <Link to="/app/patients" icon={patients}>Pacientes</Link>
-            <Link to="/app/settings" icon={patients}>Meus dados</Link>
-            <Link to="/login" icon={quit}>Sair</Link>
-        </nav>
+      </div>
+      <nav className="flex flex-col gap-2 w-full">
+        <Link to="/app/patients" icon={patients}>
+          Pacientes
+        </Link>
+        <Link to="/app/settings" icon={patients}>
+          Meus dados
+        </Link>
+        <Link to="/login" icon={quit}>
+          Sair
+        </Link>
+      </nav>
     </aside>
-  )
+  );
 }

@@ -1,12 +1,12 @@
-import { useContext } from "react"
-import { useNavigate, Link } from "react-router-dom"
-import { PatientContext } from "../context/PatientContext"
-import Title from "../components/ui/Title"
-import Button from "../components/ui/Button"
-import Table from "../components/ui/Table"
-import TableHeaderCell from "../components/ui/TableHeaderCell"
-import TableBodyCell from "../components/ui/TableBodyCell"
-import addIcon from "../assets/icons/add.svg"
+import { useContext } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { PatientContext } from "../context/PatientContext";
+import profileColors from "../utils/profileColors"; 
+import Title from "../components/ui/Title";
+import Description from "../components/ui/Description";
+import Button from "../components/ui/Button";
+import PatientCard from "../components/ui/PatientCard";
+import addIcon from "../assets/icons/add.svg";
 
 export default function PatientList() {
   const { patients } = useContext(PatientContext);
@@ -15,34 +15,30 @@ export default function PatientList() {
 
   return (
     <section className="flex flex-col items-start gap-7.5">
-      <Title>Pacientes</Title>
-      <Button
-        type="primary"
-        onClick={() => navigate("/app/patients/register")}
-        icon={addIcon}
-      >
-        Cadastrar novo paciente 
-      </Button>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeaderCell bb pl>Prontuário</TableHeaderCell>
-            <TableHeaderCell bb>Nome</TableHeaderCell>
-            <TableHeaderCell bb bl pl>Ações</TableHeaderCell>
-          </tr>
-        </thead>
-        <tbody>
-          {patients && patients.map((patient, index) => (
-            <tr key={patient.id ?? index}>
-              <TableBodyCell bb={index !== patients.length - 1} pl>{patient.id}</TableBodyCell>
-              <TableBodyCell bb={index !== patients.length - 1}>{patient.name}</TableBodyCell>
-              <TableBodyCell bb={index !== patients.length - 1} bl>
-                <Link className="hover:underline" to={`/app/patients/${patient.id}`}>Ver</Link>
-              </TableBodyCell>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <div className="flex w-full items-start justify-between">
+        <div className="flex flex-col gap-2">
+          <Title>Pacientes</Title>
+          <Description>Acompanhamento e evolução dos pacientes ativos no sistema</Description>
+        </div>
+        <Button
+          type="primary"
+          onClick={() => navigate("/app/patients/register")}
+          icon={addIcon}
+        >
+          Cadastrar novo paciente
+        </Button>
+      </div>
+      <hr />
+      <div className="grid grid-cols-3 gap-6 w-full">
+        {patients && patients.map((patient, index) => (
+          <PatientCard
+            color={profileColors[index % profileColors.length]}
+            name={patient.name}
+            id={patient.id}
+            age={patient.age}
+          />
+        ))}
+      </div>
     </section>
-  )
+  );
 }

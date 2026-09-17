@@ -5,9 +5,11 @@ export const PatientContext = createContext();
 
 export function PatientProvider({ children }) {
     const [patients, setPatients] = useState([
-        new Patient("0001", "Gabriel Souza", [0, 1, 2]),
-        new Patient("0002", "Leonardo Nunes", [0, 2, 3, 4]),
-        new Patient("0003", "João Gomes", [0, 2, 4]),
+        new Patient("0001", "Gabriel Souza", 9, [0, 1, 2]),
+        new Patient("0002", "Leonardo Nunes", 12, [0, 2, 3, 4]),
+        new Patient("0003", "João Gomes", 20, [0, 2, 4]),
+        new Patient("0004", "Manoel Ferreira", 38, [1, 3, 4]),
+        new Patient("0005", "Maria Lopes", 8, [1, 2, 4, 5])
     ]);
 
     function findPatient(id) {
