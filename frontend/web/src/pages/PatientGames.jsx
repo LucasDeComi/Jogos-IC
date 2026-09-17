@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
+import PatientHeader from "../components/ui/PatientHeader";
 import Button from "../components/ui/Button";
 import Title from "../components/ui/Title";
 import Panel from "../components/ui/Panel";
@@ -84,14 +85,13 @@ export default function PatientGames() {
 
   return (
     <section className="flex flex-col items-start gap-5">
-      <div className="relative flex items-center w-full">
-        <Button onClick={() => navigate(`/app/patients/${id}`)}>
-          &larr; Voltar
-        </Button>
-        <Title className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
-          Adicionar jogo ao paciente
-        </Title>
-      </div>
+      <PatientHeader
+        title="Adicionar jogo ao paciente"
+        description="Selecione um jogo terapêutico e defina as configurações de dificuldade e acessibilidade"
+        backLinkPath={`/app/patients/${id}`}
+        patientName={patient.name}
+        patientId={patient.id}
+      />
 
       <div className="w-full">
         <Button onClick={() => setIsFilterOpen(true)}>Filtrar jogos</Button>

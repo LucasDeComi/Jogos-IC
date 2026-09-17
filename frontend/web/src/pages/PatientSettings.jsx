@@ -2,8 +2,8 @@ import { useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import Swal from "sweetalert2";
+import PatientHeader from "../components/ui/PatientHeader";
 import Button from "../components/ui/Button";
-import Title from "../components/ui/Title";
 import Panel from "../components/ui/Panel";
 import Select from "../components/ui/Select";
 import Option from "../components/ui/Option";
@@ -41,12 +41,14 @@ export default function PatientSettings() {
 
   return (
     <form className="flex flex-col items-start gap-5">
-      <div className="relative flex items-center w-full">
-        <Button onClick={() => navigate(`/app/patients/${id}`)}>&larr; Voltar</Button>
-        <Title className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
-          Configurações do paciente
-        </Title>
-      </div>
+      <PatientHeader
+        title="Configurações do paciente"
+        description="Ajuste o comportamento do sistema de jogos para este paciente específico"
+        backLinkPath={`/app/patients/${id}`}
+        patientName={patient.name}
+        patientId={patient.id}
+      />
+      <hr />
       <section className="px-10 w-full">
         <Panel>
           <div className="flex gap-5 items-center w-full px-5 py-3 border-b-2 border-black">

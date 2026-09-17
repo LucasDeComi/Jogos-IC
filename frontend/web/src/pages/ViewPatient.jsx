@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
+import PatientHeader from "../components/ui/PatientHeader";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
 import Panel from "../components/ui/Panel";
@@ -30,7 +31,13 @@ export default function ViewPatient() {
 
     return (
         <section className="flex flex-col items-start gap-5">
-            <Button onClick={() => navigate("/app/patients")}>&larr; Voltar</Button>
+            <PatientHeader
+                title="Ficha do paciente"
+                description="Acompanhe anotações clínicas, dados cadastrais e os jogos terapêuticos ativos"
+                backLinkPath="/app/patients"
+                patientName={patient.name}
+                patientId={patient.id}
+            />
             <div className="w-full flex justify-between gap-[25%]">
                 <Panel className="flex flex-col items-start gap-5 px-4 py-3">
                     <Subtitle>Dados do paciente</Subtitle>

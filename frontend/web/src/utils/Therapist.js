@@ -4,6 +4,7 @@ import { therapistSettings as settings } from "./settings";
 export default class Therapist extends User {
     constructor(_name, _email, _password) { 
         super(_name)
+        this.email = _email;
         this.password = _password;
         this.theme = settings.theme;
         this.style = settings.style;

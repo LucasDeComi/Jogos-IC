@@ -21,7 +21,7 @@ export default function PatientCard({ color, name, id, age }) {
             {patient.getInitials()}
           </span>
           <div className="flex flex-col justify-center">
-            <h4 className="text-[16px] text-[var(--text-black)] font-bold">{name}</h4>
+            <h4 className="text-[16px] text-(--text-black) font-bold">{name}</h4>
             <span className="text-xs text-[#718096]">Prontuário {id}</span>
           </div>
         </div>

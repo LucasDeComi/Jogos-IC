@@ -5,7 +5,7 @@ export default function Checkbox({ label = null, checked = false, onChange = () 
 				type="checkbox"
 				checked={checked}
 				onChange={onChange}
-				className={`h-4 w-4 accent-black ${className}`}
+				className={`h-5 w-5 accent-(--primary) ${className}`}
 			/>
 			{label}
 		</label>

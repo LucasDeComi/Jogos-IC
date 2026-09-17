@@ -5,7 +5,7 @@ export default function Select({ children, label = null, value = "", onChange = 
             <select
                 value={value}
                 onChange={onChange}
-                className="p-3 border border-[var(--border)] rounded-lg text-sm"
+                className="p-3 border border-(--border) rounded-lg text-sm"
             >
                 {children}
             </select>

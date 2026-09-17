@@ -1,7 +1,7 @@
 export default function Title({ children, className = "" }) {
   return (
     <h1
-      className={`font-bold text-2xl text-[var(--primary)] ${className}`}
+      className={`font-bold text-2xl var(--primary) ${className}`}
       style={{ fontFamily: '"Onest", "Inter", sans-serif' }}
     >
       {children}
