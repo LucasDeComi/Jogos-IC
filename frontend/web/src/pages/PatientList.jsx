@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
-import profileColors from "../utils/profileColors"; 
+import { profileColors } from "../utils/colors";
 import Title from "../components/ui/Title";
 import Description from "../components/ui/Description";
 import Button from "../components/ui/Button";
@@ -29,7 +29,7 @@ export default function PatientList() {
         </Button>
       </div>
       <hr />
-      <div className="grid grid-cols-3 gap-6 w-full">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 w-full">
         {patients && patients.map((patient, index) => (
           <PatientCard
             color={profileColors[index % profileColors.length]}

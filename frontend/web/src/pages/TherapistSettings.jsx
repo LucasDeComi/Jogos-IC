@@ -83,38 +83,34 @@ export default function TherapistSettings() {
         </Panel>
         <Panel className="flex flex-col gap-5 px-8 py-7">
           <Subtitle className="mb-2">Preferências de exibição</Subtitle>
-          <Select
-            label="Tema de tela"
-            value={theme}
-            onChange={(e) => setTheme(e.target.value)}
-          >
-            <option value="light">Claro</option>
-            <option value="dark">Escuro</option>
-            <option value="auto">Automático</option>
-          </Select>
-          <div className="flex gap-10 mb-5">
-            <div className="flex-1">
-              <Select
-                label="Tamanho dos itens"
-                value={itemsSize}
-                onChange={(e) => setItemsSize(e.target.value)}
-              >
-                <option value="small">Pequeno</option>
-                <option value="medium">Médio</option>
-                <option value="big">Grande</option>
-              </Select>
-            </div>
-            <div className="flex-1">
-              <Select
-                label="Tipo de estilo"
-                value={style}
-                onChange={(e) => setStyle(e.target.value)}
-              >
-                <option value="standart">Padrão</option>
-                <option value="compact">Reduzido</option>
-                <option value="elegant">Elegante</option>
-              </Select>
-            </div>
+          <div className="grid grid-cols-2 gap-5 mb-5">
+            <Select
+              label="Tema de tela"
+              value={theme}
+              onChange={(e) => setTheme(e.target.value)}
+            >
+              <option value="light">Claro</option>
+              <option value="dark">Escuro</option>
+              <option value="auto">Automático</option>
+            </Select>
+            <Select
+              label="Tamanho dos itens"
+              value={itemsSize}
+              onChange={(e) => setItemsSize(e.target.value)}
+            >
+              <option value="small">Pequeno</option>
+              <option value="medium">Médio</option>
+              <option value="big">Grande</option>
+            </Select>
+            <Select
+              label="Tipo de estilo"
+              value={style}
+              onChange={(e) => setStyle(e.target.value)}
+            >
+              <option value="standart">Padrão</option>
+              <option value="compact">Reduzido</option>
+              <option value="elegant">Elegante</option>
+            </Select>
           </div>
           <Checkbox
             label="Alto contraste"
@@ -123,9 +119,12 @@ export default function TherapistSettings() {
           />
         </Panel>
       </section>
-      <Button type="primary" onClick={() => editSettings()}>
-        Salvar alterações
-      </Button>
+      <div className="flex gap-4 px-5">
+        <Button type="primary" onClick={() => editSettings()}>
+          Salvar alterações
+        </Button>
+        <Button onClick={() => navigate("/app/patients")}>Cancelar</Button>
+      </div>
     </form>
   );
 }

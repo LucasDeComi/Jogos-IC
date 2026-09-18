@@ -6,11 +6,19 @@ import PatientHeader from "../components/ui/PatientHeader";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
 import Panel from "../components/ui/Panel";
+import CardNote from "../components/ui/CardNote";
+import DataRow from "../components/ui/DataRow";
+import GameCard from "../components/ui/GameCard";
 import Table from "../components/ui/Table";
 import TableHeaderCell from "../components/ui/TableHeaderCell";
 import TableBodyCell from "../components/ui/TableBodyCell";
 import TableActionsCell from "../components/ui/TableActionsCell";
 import { translateSetting } from "../utils/settings";
+import { profileColors } from "../utils/colors";
+import add from "../assets/icons/add.svg";
+import notes from "../assets/icons/notes.svg";
+import patientData from "../assets/icons/patientData.svg";
+import patientSettings from "../assets/icons/patientSettings.svg";
 
 export default function ViewPatient() {
     const { id } = useParams();
@@ -38,106 +46,60 @@ export default function ViewPatient() {
                 patientName={patient.name}
                 patientId={patient.id}
             />
-            <div className="w-full flex justify-between gap-[25%]">
-                <Panel className="flex flex-col items-start gap-5 px-4 py-3">
-                    <Subtitle>Dados do paciente</Subtitle>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Prontuário:</td>
-                                <td className="pl-2">{patient.id}</td>
-                            </tr>
-                            <tr>
-                                <td>Nome:</td>
-                                <td className="pl-2">{patient.name}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <Panel className="h-full p-2">
-                        <span className="">Prontuário e nome não podem ser editados</span>
-                    </Panel>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full">
+                <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+                    <Subtitle small icon={notes}>Evolução do paciente</Subtitle>
+                    <CardNote dateTime={new Date("2026-06-10T14:00:00")}>Apresentou boa atenção e evolução no labirinto motor. Coordenação mais estável.</CardNote>
+                    <hr />
+                    <CardNote dateTime={new Date("2026-06-08T15:30:00")}>Foco inicial reduzido nos minutos iniciais, mas completou as tarefas de memória visual recomendadas.</CardNote>
+                    <Link className="text-(--button) text-sm hover:underline font-semibold">
+                        Ver todas as anotações
+                    </Link>
                 </Panel>
-                <Panel className="flex flex-col items-start gap-5 px-4 py-3">
-                    <Subtitle>Configurações do Paciente</Subtitle>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>Tema:</td>
-                                <td className="pl-5">
-                                {translateSetting("theme", patient.theme)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Estilo:</td>
-                                <td className="pl-5">
-                                {translateSetting("style", patient.style)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Tamanho dos itens:</td>
-                                <td className="pl-5">
-                                {translateSetting("itemsSize", patient.itemsSize)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Contraste:</td>
-                                <td className="pl-5">
-                                {translateSetting("contrast", patient.contrast)}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Usar símbolos:</td>
-                                <td className="pl-5">
-                                {translateSetting("useSymbols", patient.useSymbols)}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+                    <Subtitle small icon={patientData}>Dados do paciente</Subtitle>
+                    <div className="flex flex-col gap-3 w-full">
+                        <DataRow title="Prontuário" value={patient.id} />
+                        <DataRow title="Nome completo" value={patient.name} />
+                        <DataRow title="Data de nascimento" value="12/03/2016" />
+                        <DataRow title="Idade" value={`${patient.age} anos`} />
+                    </div>
+                </Panel>
+                <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+                    <Subtitle small icon={patientSettings}>Configurações do Paciente</Subtitle>
+                    <div className="flex flex-col gap-3 w-full">
+                        <DataRow title="Tema da tela" value={translateSetting("theme", patient.theme)} />
+                        <DataRow title="Tamanho dos itens" value={translateSetting("style", patient.style)} />
+                        <DataRow title="Tipo de estilo" value={translateSetting("itemsSize", patient.itemsSize)} />
+                        <DataRow title="Alto contraste" value={translateSetting("contrast", patient.contrast)} />
+                        <DataRow title="Usar símbolos" value={translateSetting("useSymbols", patient.useSymbols)} />
+                    </div>
                     <div className="w-full flex justify-center">
-                        <Button onClick={() => navigate(`/app/patients/settings/${id}`)}>
+                        <Button className="w-full" type="edit" size="small" onClick={() => navigate(`/app/patients/settings/${id}`)}>
                             Editar Configurações
                         </Button>
                     </div>
                 </Panel>
             </div>
             <div className="flex justify-between items-center w-full">
-                <Subtitle>Jogos do paciente</Subtitle>
-                <Button type="primary" onClick={() => navigate(`/app/patients/games/${id}`)}>+ Adicionar Jogo</Button>
+                <Subtitle>Jogos atribuídos</Subtitle>
+                <Button type="primary" size="small" icon={add} onClick={() => navigate(`/app/patients/games/${id}`)}>Adicionar Jogo</Button>
             </div>
 
             {patientGames.length === 0 ? (
                 <p className="italic text-gray-600">O paciente não tem nenhum jogo</p>
-            ) : (
-                <Table>
-                    <thead>
-                        <tr>
-                            <TableHeaderCell center bb>Jogo</TableHeaderCell>
-                            <TableHeaderCell center bb bl>Categoria</TableHeaderCell>
-                            <TableHeaderCell center bb bl>Habilidade</TableHeaderCell>
-                            <TableHeaderCell center bb bl>Dificuldade</TableHeaderCell>
-                            <TableHeaderCell center bb bl>Ações</TableHeaderCell>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {patientGames.map((game, index) => (
-                            <tr key={`${game.name}-${index}`}>
-                                <TableBodyCell bb={index !== patientGames.length - 1} pl>{game.name}</TableBodyCell>
-                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.category}</TableBodyCell>
-                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.skill}</TableBodyCell>
-                                <TableBodyCell bb={index !== patientGames.length - 1} bl>{game.difficulty}</TableBodyCell>
-                                <TableActionsCell bb={index !== patientGames.length - 1} bl>
-                                    <Link
-                                        className="hover:underline"
-                                        to={`/app/patients/games/history?patient=${id}&game=${index}`}
-                                    >
-                                        Histórico
-                                    </Link>
-                                    <span>Remover</span>
-                                </TableActionsCell>
-                            </tr>
-                        ))}
-                    </tbody>
-                </Table>
+            ) : patientGames.map((game, index) => (
+                    <GameCard
+                        key={index}
+                        color={profileColors[index % profileColors.length]}
+                        name={game.name}
+                        category={game.category}
+                        skill={game.skill}
+                        difficulty={game.difficulty}
+                        gameId={index}
+                        patientId={id}
+                    />
+                )
             )}
         </section>
     );
