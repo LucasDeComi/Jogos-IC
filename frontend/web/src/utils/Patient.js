@@ -2,10 +2,10 @@ import User from "./User";
 import { patientSettings as settings } from "./settings";
 
 export default class Patient extends User {
-    constructor(_id, _name, _age, _games = []) {
+    constructor(_id, _name, _birthDate, _games = []) {
         super(_name);
         this.id = _id;
-        this.age = _age;
+        this.birthDate = _birthDate;
         this.games = _games;
         this.theme = settings.theme;
         this.style = settings.style;
@@ -20,5 +20,11 @@ export default class Patient extends User {
         this.itemsSize = _itemsSize;
         this.contrast = _contrast;
         this.useSymbols = _useSymbols;
+    }
+
+    getAge() {
+        const now = new Date();
+        const age = now.getFullYear() - this.birthDate.getFullYear() - (now.getMonth() < this.birthDate.getMonth() ? 1 : 0);
+        return age;
     }
 }

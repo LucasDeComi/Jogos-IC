@@ -45,8 +45,7 @@ export default function PatientSettings() {
         title="Configurações do paciente"
         description="Ajuste o comportamento do sistema de jogos para este paciente específico"
         backLinkPath={`/app/patients/${id}`}
-        patientName={patient.name}
-        patientId={patient.id}
+        patient={patient}
       />
       <hr />
       <section className="px-10 w-full">

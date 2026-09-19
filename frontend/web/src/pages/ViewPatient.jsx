@@ -21,6 +21,7 @@ import patientData from "../assets/icons/patientData.svg";
 import patientSettings from "../assets/icons/patientSettings.svg";
 
 export default function ViewPatient() {
+    const formatter = new Intl.DateTimeFormat('pt-BR');
     const { id } = useParams();
 
     const { findPatient } = useContext(PatientContext);
@@ -43,8 +44,7 @@ export default function ViewPatient() {
                 title="Ficha do paciente"
                 description="Acompanhe anotações clínicas, dados cadastrais e os jogos terapêuticos ativos"
                 backLinkPath="/app/patients"
-                patientName={patient.name}
-                patientId={patient.id}
+                patient={patient}
             />
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full">
                 <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
@@ -61,8 +61,8 @@ export default function ViewPatient() {
                     <div className="flex flex-col gap-3 w-full">
                         <DataRow title="Prontuário" value={patient.id} />
                         <DataRow title="Nome completo" value={patient.name} />
-                        <DataRow title="Data de nascimento" value="12/03/2016" />
-                        <DataRow title="Idade" value={`${patient.age} anos`} />
+                        <DataRow title="Data de nascimento" value={formatter.format(patient.birthDate)} />
+                        <DataRow title="Idade" value={`${patient.getAge()} anos`} />
                     </div>
                 </Panel>
                 <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
@@ -85,22 +85,24 @@ export default function ViewPatient() {
                 <Subtitle>Jogos atribuídos</Subtitle>
                 <Button type="primary" size="small" icon={add} onClick={() => navigate(`/app/patients/games/${id}`)}>Adicionar Jogo</Button>
             </div>
-
-            {patientGames.length === 0 ? (
-                <p className="italic text-gray-600">O paciente não tem nenhum jogo</p>
-            ) : patientGames.map((game, index) => (
-                    <GameCard
-                        key={index}
-                        color={profileColors[index % profileColors.length]}
-                        name={game.name}
-                        category={game.category}
-                        skill={game.skill}
-                        difficulty={game.difficulty}
-                        gameId={index}
-                        patientId={id}
-                    />
-                )
-            )}
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 w-full">
+                {patientGames.length === 0 ? (
+                    <p className="text-[#718096] text-[13px]">O paciente não tem nenhum jogo</p>
+                ) : patientGames.map((game, index) => (
+                        <GameCard
+                            key={index}
+                            color={profileColors[index % profileColors.length]}
+                            name={game.name}
+                            category={game.category}
+                            skill={game.skill}
+                            difficulty={game.difficulty}
+                            gameId={index}
+                            patientId={id}
+                        />
+                    )
+                )}
+            </div>
+            
         </section>
     );
 }

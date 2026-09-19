@@ -33,9 +33,7 @@ export default function PatientList() {
         {patients && patients.map((patient, index) => (
           <PatientCard
             color={profileColors[index % profileColors.length]}
-            name={patient.name}
-            id={patient.id}
-            age={patient.age}
+            patient={patient}
           />
         ))}
       </div>

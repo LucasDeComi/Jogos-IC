@@ -89,8 +89,7 @@ export default function PatientGames() {
         title="Adicionar jogo ao paciente"
         description="Selecione um jogo terapêutico e defina as configurações de dificuldade e acessibilidade"
         backLinkPath={`/app/patients/${id}`}
-        patientName={patient.name}
-        patientId={patient.id}
+        patient={patient}
       />
 
       <div className="w-full">

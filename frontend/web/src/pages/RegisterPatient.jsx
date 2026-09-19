@@ -13,13 +13,14 @@ import Tip from "../components/ui/Tip";
 export default function RegisterPatient() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
+  const [birth, setBirth] = useState("");
 
   const { addPatient, findPatient } = useContext(PatientContext);
 
   const navigate = useNavigate();
 
   function register() {
-    if (!id || !name) {
+    if (!id || !name || !birth) {
       Swal.fire({
         title: "Preencha todos os campos.",
         confirmButtonColor: "#0F7675",
@@ -36,7 +37,7 @@ export default function RegisterPatient() {
       return;
     }
 
-    addPatient(id, name);
+    addPatient(id, name, birth);
 
     navigate("/app/patients");
     Swal.fire({
@@ -58,7 +59,9 @@ export default function RegisterPatient() {
       <BackLink to="/app/patients">Voltar para a lista</BackLink>
       <div className="flex flex-col gap-2">
         <Title>Cadastrar paciente</Title>
-        <Description>Adicione um novo perfil de paciente ao SJR para começar o tratamento</Description>
+        <Description>
+          Adicione um novo perfil de paciente ao SJR para começar o tratamento
+        </Description>
       </div>
       <hr />
       <Panel className="max-w-200 flex flex-col gap-5 px-8 py-7">
@@ -77,7 +80,17 @@ export default function RegisterPatient() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Tip>Prontuário e Nome do paciente não podem ser editados após a criação do cadastro.</Tip>
+        <Input
+          type="date"
+          label="Data de nascimento"
+          autoComplete="off"
+          value={birth}
+          onChange={(e) => setBirth(e.target.value)}
+        />
+        <Tip>
+          Prontuário e Nome do paciente não podem ser editados após a criação do
+          cadastro.
+        </Tip>
         <div className="flex gap-7.5">
           <Button type="primary" onClick={() => register()} className="px-7">
             Cadastrar

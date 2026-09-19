@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import Panel from "./Panel"
 import PatientCardItem from "./PatientCardItem";
-import User from "../../utils/User"
 import view from "../../assets/icons/view.svg"
 import calendar from "../../assets/icons/calendar.svg"
 import userIcon from "../../assets/icons/userIcon.svg"
 import clock from "../../assets/icons/clock.svg"
 
-export default function PatientCard({ color, name, id, age }) {
-  const patient = new User(name);
+export default function PatientCard({ color, patient }) {
+  const { id, name } = patient;
 
   return (
     <Panel className="flex flex-col gap-3 p-6">
@@ -40,7 +39,7 @@ export default function PatientCard({ color, name, id, age }) {
         <PatientCardItem
           icon={calendar}
           title="IDADE"
-          value={`${age} anos`}
+          value={`${patient.getAge()} anos`}
         />
         <PatientCardItem
           icon={userIcon}

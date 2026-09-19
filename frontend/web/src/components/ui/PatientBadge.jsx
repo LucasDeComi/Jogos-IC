@@ -1,8 +1,7 @@
-import User from "../../utils/User"
 import { profileColors as colors } from "../../utils/colors"
 
-export default function PatientBadge({ name, id }) {
-    const patient = new User(name);
+export default function PatientBadge({ patient }) {
+    const { id, name } = patient;
 
     return (
         <div className="flex px-4 py-1.5 gap-2.5 rounded-full bg-[#E6F4F4]">
