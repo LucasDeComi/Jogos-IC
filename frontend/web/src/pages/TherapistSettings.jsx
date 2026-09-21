@@ -59,6 +59,7 @@ export default function TherapistSettings() {
           Gerencie suas informações profissionais e preferências de interface
         </Description>
       </div>
+      <hr />
       <section className="w-full flex justify-between gap-[5%]">
         <Panel className="flex flex-col gap-3 px-8 py-7">
           <Subtitle className="mb-2">Dados Pessoais</Subtitle>

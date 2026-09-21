@@ -1,14 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Onest:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
-:root {
+:root[theme="light"] {
     --background: #F4F7F6;
     --border: #E2E8F0;
+    --border-hover: #CBD5E0;
     --primary: #0B4F4E;
-    --button: #0F7675;
+    --secondary: #718096;
     --hover: #178C8A;
-    --text-black: #1A202C;
-    font-family: "Instrument Sans", "Segoe UI", sans-serif;
+    --title: #0B4F4E;
+    --text: #1A202C;
+    --transparent: #E6F4F4;
+    --transparent-border: #A8CCCC;
+    --transparent-hover: #D4EAEA;
+    --aside: #0B4F4E;
+    --panel: #FFF;
+    --button: #0F7675;
+    --button-border: #149B99;
+    --button-hover: #2F6F6D70;
+    --input: #FFF;
+    --input-hover: #F9FAFB;
+    --link: #0F7675;
+    --active: #FFF;
+    --inactive: #E6F4F4;
+    --tip: #0B4F4E;
+}
+
+:root[theme="dark"] {
+    --background: #090C15;
+    --border: #1F2937;
+    --border-hover: #374151;
+    --primary: #1CC2C0;
+    --secondary: #9CA3AF;
+    --hover: #178C8A;
+    --title: #FFF;
+    --text: #FFF;
+    --transparent: #113A3C;
+    --transparent-border: #1CC2C0;
+    --transparent-hover: #174C4E;
+    --aside: #111622;
+    --panel: #111622;
+    --button: #0F7675;
+    --button-border: #1CC2C0;
+    --button-hover: #1CC2C020;
+    --input: #161D2C;
+    --input-hover: #1A2233;
+    --link: #1CC2C0;
+    --active: #FFF;
+    --inactive: #E6F4F4;
+    --tip: #FFF;
 }
 
 html, body, #root {
@@ -29,5 +69,5 @@ body {
 
 hr {
     width: 100%;
-    border-color: #E2E8F0;
+    border-color: var(--border);
 }

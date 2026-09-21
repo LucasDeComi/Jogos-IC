@@ -18,14 +18,14 @@ export default function Input({
   return (
     <div className={`flex flex-col items-start gap-1 ${className}`}>
       {label && (
-        <label className="text-sm font-semibold text-(--text-black)">
+        <label className="text-sm font-semibold text-(--text)">
           {label}
         </label>
       )}
 
-      <div className="flex w-full items-center overflow-hidden rounded-lg border border-(--border) bg-white">
+      <div className="flex w-full items-center overflow-hidden rounded-lg bg-(--input) border border-(--border)">
         {icon && (
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-white">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center">
             <img src={icon} className="h-4 w-4 object-contain" />
           </div>
         )}
@@ -36,14 +36,14 @@ export default function Input({
           autoComplete={autoComplete}
           value={value}
           onChange={onChange}
-          className="w-full border-0 bg-transparent p-2.5 text-sm text-(--text-black) outline-none placeholder-[#A0AEC0]"
+          className="w-full border-0 bg-transparent p-2.5 text-sm text-(--text) outline-none placeholder-[#A0AEC0]"
         />
 
         {type === "password" && (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center bg-white transition hover:bg-gray-50"
+            className="flex h-11 w-11 shrink-0 items-center justify-center bg-(--input) transition-colors hover:bg-(--input-hover)"
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
           >
             <img src={viewIcon} className="h-4 w-4 object-contain" />

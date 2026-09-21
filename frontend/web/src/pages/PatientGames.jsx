@@ -21,7 +21,6 @@ export default function PatientGames() {
   const patient = findPatient(id);
 
   const [selectedGames, setSelectedGames] = useState([]);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     category: "",
     skill: "",
@@ -62,10 +61,6 @@ export default function PatientGames() {
     setFilters((current) => ({ ...current, [field]: value }));
   }
 
-  function clearFilters() {
-    setFilters({ category: "", skill: "", difficulty: "" });
-  }
-
   function saveGames() {
     setPatientGames(id, selectedGames);
     navigate(`/app/patients/${id}`);
@@ -91,86 +86,6 @@ export default function PatientGames() {
         backLinkPath={`/app/patients/${id}`}
         patient={patient}
       />
-
-      <div className="w-full">
-        <Button onClick={() => setIsFilterOpen(true)}>Filtrar jogos</Button>
-      </div>
-
-      {isFilterOpen && (
-        <div className="fixed inset-0 z-40">
-          <div
-            className="absolute inset-0 bg-black/20"
-            onClick={() => setIsFilterOpen(false)}
-          />
-
-          <div className="absolute left-8 top-24 z-10 w-90 rounded-xl border-2 border-black bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
-            <div className="mb-5 flex items-center justify-between gap-3">
-              <Title className="text-2xl">Filtros</Title>
-              <button
-                type="button"
-                onClick={() => setIsFilterOpen(false)}
-                className="cursor-pointer border-2 border-black bg-white px-2 py-1 text-lg font-bold rounded-sm"
-              >
-                X
-              </button>
-            </div>
-
-            <Panel className="flex flex-col gap-4 p-4">
-              <Select
-                label="Categoria"
-                value={filters.category}
-                onChange={(event) =>
-                  handleFilterChange("category", event.target.value)
-                }
-              >
-                <option value="">Todas</option>
-                {categoryOptions.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </Select>
-
-              <Select
-                label="Habilidade"
-                value={filters.skill}
-                onChange={(event) =>
-                  handleFilterChange("skill", event.target.value)
-                }
-              >
-                <option value="">Todas</option>
-                {skillOptions.map((skill) => (
-                  <option key={skill} value={skill}>
-                    {skill}
-                  </option>
-                ))}
-              </Select>
-
-              <Select
-                label="Dificuldade"
-                value={filters.difficulty}
-                onChange={(event) =>
-                  handleFilterChange("difficulty", event.target.value)
-                }
-              >
-                <option value="">Todas</option>
-                {difficultyOptions.map((difficulty) => (
-                  <option key={difficulty} value={difficulty}>
-                    {difficulty}
-                  </option>
-                ))}
-              </Select>
-            </Panel>
-
-            <div className="mt-5 flex gap-3">
-              <Button type="primary" onClick={() => setIsFilterOpen(false)}>
-                Aplicar
-              </Button>
-              <Button onClick={clearFilters}>Limpar</Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="w-full">
         <Table>

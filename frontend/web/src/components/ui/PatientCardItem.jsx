@@ -5,7 +5,7 @@ export default function PatientCardItem({ icon = null, title, value }) {
             <img src={icon} className="w-3 h-3" />
             <h5 className="text-[11px] text-[#A0AEC0] font-semibold">{title.toUpperCase()}</h5>
         </div>
-        <span className="text-[13px] font-semibold">{value}</span>
+        <span className="text-[13px] text-(--text) font-semibold">{value}</span>
     </div>
   )
 }

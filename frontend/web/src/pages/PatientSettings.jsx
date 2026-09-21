@@ -47,7 +47,6 @@ export default function PatientSettings() {
         backLinkPath={`/app/patients/${id}`}
         patient={patient}
       />
-      <hr />
       <section className="px-10 w-full">
         <Panel>
           <div className="flex gap-5 items-center w-full px-5 py-3 border-b-2 border-black">

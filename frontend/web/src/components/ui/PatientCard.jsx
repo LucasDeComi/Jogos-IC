@@ -20,14 +20,14 @@ export default function PatientCard({ color, patient }) {
             {patient.getInitials()}
           </span>
           <div className="flex flex-col justify-center">
-            <h4 className="text-[16px] text-(--text-black) font-bold">{name}</h4>
-            <span className="text-xs text-[#718096]">Prontuário {id}</span>
+            <h4 className="text-[16px] text-(--text) font-bold">{name}</h4>
+            <span className="text-xs text-(--secondary)">Prontuário {id}</span>
           </div>
         </div>
         <Link 
           className={`
-            flex justify-center items-center w-8 h-8 border border-transparent bg-[#E6F4F4] rounded-lg
-            transition-colors duration-150 hover:bg-[#D4EAEA] hover:border-[#A8CCCC]
+            flex justify-center items-center w-8 h-8 border border-transparent bg-(--transparent) rounded-lg
+            transition-colors duration-150 hover:bg-(--transparent-hover) hover:border-(transparent-border)
           `}
           to={`/app/patients/${id}`}
         >

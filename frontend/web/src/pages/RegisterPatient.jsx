@@ -28,6 +28,14 @@ export default function RegisterPatient() {
       return;
     }
 
+    if(new Date(birth) > new Date()) {
+      Swal.fire({
+        title: "A data de nascimento não pode estar no futuro.",
+        confirmButtonColor: "#0F7675",
+      });
+      return;
+    }
+
     const patientExists = findPatient(id);
     if (patientExists) {
       Swal.fire({

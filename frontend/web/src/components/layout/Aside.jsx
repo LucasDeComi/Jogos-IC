@@ -6,7 +6,7 @@ import quit from "../../assets/icons/quit.svg";
 
 export default function Aside() {
   return (
-    <aside className="flex flex-col items-center gap-10 px-5 py-8 min-w-65 bg-(--primary)">
+    <aside className="flex flex-col items-center gap-10 px-5 py-8 min-w-65 bg-(--aside)">
       <div className="flex gap-3 items-center w-full">
         <span className="bg-[#2ED0CC] w-9 h-9 rounded-lg" />
         <div className="flex flex-col h-full justify-between">

@@ -9,10 +9,6 @@ import Panel from "../components/ui/Panel";
 import CardNote from "../components/ui/CardNote";
 import DataRow from "../components/ui/DataRow";
 import GameCard from "../components/ui/GameCard";
-import Table from "../components/ui/Table";
-import TableHeaderCell from "../components/ui/TableHeaderCell";
-import TableBodyCell from "../components/ui/TableBodyCell";
-import TableActionsCell from "../components/ui/TableActionsCell";
 import { translateSetting } from "../utils/settings";
 import { profileColors } from "../utils/colors";
 import add from "../assets/icons/add.svg";
@@ -52,7 +48,7 @@ export default function ViewPatient() {
                     <CardNote dateTime={new Date("2026-06-10T14:00:00")}>Apresentou boa atenção e evolução no labirinto motor. Coordenação mais estável.</CardNote>
                     <hr />
                     <CardNote dateTime={new Date("2026-06-08T15:30:00")}>Foco inicial reduzido nos minutos iniciais, mas completou as tarefas de memória visual recomendadas.</CardNote>
-                    <Link className="text-(--button) text-sm hover:underline font-semibold">
+                    <Link className="text-(--link) text-sm hover:underline font-semibold">
                         Ver todas as anotações
                     </Link>
                 </Panel>
@@ -87,10 +83,11 @@ export default function ViewPatient() {
             </div>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 w-full">
                 {patientGames.length === 0 ? (
-                    <p className="text-[#718096] text-[13px]">O paciente não tem nenhum jogo</p>
+                    <p className="text-(--secondary) text-[13px]">O paciente não tem nenhum jogo</p>
                 ) : patientGames.map((game, index) => (
                         <GameCard
                             key={index}
+                            toolButtons={true}
                             color={profileColors[index % profileColors.length]}
                             name={game.name}
                             category={game.category}
