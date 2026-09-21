@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Panel from "./Panel"
 import PatientCardItem from "./PatientCardItem";
+import Icon from "./Icon";
 import view from "../../assets/icons/view.svg"
 import calendar from "../../assets/icons/calendar.svg"
 import userIcon from "../../assets/icons/userIcon.svg"
@@ -31,7 +32,7 @@ export default function PatientCard({ color, patient }) {
           `}
           to={`/app/patients/${id}`}
         >
-          <img src={view} className="w-4 h-4" />
+          <Icon src={view} size={16} color="var(--primary)" />
         </Link>
       </section>
       <hr />

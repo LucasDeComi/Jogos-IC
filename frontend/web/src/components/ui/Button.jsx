@@ -1,3 +1,5 @@
+import Icon from "./Icon";
+
 export default function Button({ type, size, onClick, buttonType = "button", className = "", icon = null, children }) {
   return (
     <button
@@ -15,7 +17,7 @@ export default function Button({ type, size, onClick, buttonType = "button", cla
     >
       {icon && (
         <span className="flex h-[1em] w-[1em] shrink-0 items-center justify-center leading-none">
-          <img src={icon} alt="" className="h-full w-full object-contain" />
+          <Icon src={icon} size="100%" color={type === "primary" ? "#FFF" : type === "edit" ? "var(--link)" : "var(--secondary)"} />
         </span>
       )}
       <span>{children}</span>

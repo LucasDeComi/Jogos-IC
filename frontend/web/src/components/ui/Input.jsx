@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Icon from "./Icon";
 import viewIcon from "../../assets/icons/viewPassword.svg";
 
 export default function Input({
@@ -26,7 +27,7 @@ export default function Input({
       <div className="flex w-full items-center overflow-hidden rounded-lg bg-(--input) border border-(--border)">
         {icon && (
           <div className="flex h-11 w-11 shrink-0 items-center justify-center">
-            <img src={icon} className="h-4 w-4 object-contain" />
+            <Icon src={icon} size={16} color="var(--secondary)" />
           </div>
         )}
 
@@ -46,7 +47,7 @@ export default function Input({
             className="flex h-11 w-11 shrink-0 items-center justify-center bg-(--input) transition-colors hover:bg-(--input-hover)"
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
           >
-            <img src={viewIcon} className="h-4 w-4 object-contain" />
+            <Icon src={viewIcon} size={16} color="var(--secondary)" />
           </button>
         )}
       </div>

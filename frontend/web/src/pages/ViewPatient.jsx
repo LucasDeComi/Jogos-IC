@@ -6,6 +6,7 @@ import PatientHeader from "../components/ui/PatientHeader";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
 import Panel from "../components/ui/Panel";
+import PanelTitle from "../components/ui/PanelTitle";
 import CardNote from "../components/ui/CardNote";
 import DataRow from "../components/ui/DataRow";
 import GameCard from "../components/ui/GameCard";
@@ -44,7 +45,7 @@ export default function ViewPatient() {
             />
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full">
                 <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
-                    <Subtitle small icon={notes}>Evolução do paciente</Subtitle>
+                    <PanelTitle small icon={notes}>Evolução do paciente</PanelTitle>
                     <CardNote dateTime={new Date("2026-06-10T14:00:00")}>Apresentou boa atenção e evolução no labirinto motor. Coordenação mais estável.</CardNote>
                     <hr />
                     <CardNote dateTime={new Date("2026-06-08T15:30:00")}>Foco inicial reduzido nos minutos iniciais, mas completou as tarefas de memória visual recomendadas.</CardNote>
@@ -53,7 +54,7 @@ export default function ViewPatient() {
                     </Link>
                 </Panel>
                 <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
-                    <Subtitle small icon={patientData}>Dados do paciente</Subtitle>
+                    <PanelTitle small icon={patientData}>Dados do paciente</PanelTitle>
                     <div className="flex flex-col gap-3 w-full">
                         <DataRow title="Prontuário" value={patient.id} />
                         <DataRow title="Nome completo" value={patient.name} />
@@ -62,7 +63,7 @@ export default function ViewPatient() {
                     </div>
                 </Panel>
                 <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
-                    <Subtitle small icon={patientSettings}>Configurações do Paciente</Subtitle>
+                    <PanelTitle small icon={patientSettings}>Configurações do Paciente</PanelTitle>
                     <div className="flex flex-col gap-3 w-full">
                         <DataRow title="Tema da tela" value={translateSetting("theme", patient.theme)} />
                         <DataRow title="Tamanho dos itens" value={translateSetting("style", patient.style)} />

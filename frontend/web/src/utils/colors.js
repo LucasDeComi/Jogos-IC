@@ -12,7 +12,8 @@ export class BlockColor {
 export const profileColors = ["#8075E3", "#38B2AC", "#ED8936", "#E53E3E", "#319795"];
 
 export function blockColors() {
-    const { theme } = useContext(TherapistContext);
+    const { therapist } = useContext(TherapistContext);
+    const theme = therapist.theme === "auto" ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"  : therapist.theme;
 
     return {
         green: theme === "light" ? new BlockColor("#E6F4F4", "#0B4F4E") : new BlockColor("#113A3C", "#1CC2C0"),
