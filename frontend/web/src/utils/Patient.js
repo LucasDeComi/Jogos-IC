@@ -12,14 +12,18 @@ export default class Patient extends User {
         this.itemsSize = settings.itemsSize;
         this.contrast = settings.contrast;
         this.useSymbols = settings.useSymbols;
+        this.soundEffects = settings.soundEffects;
+        this.voiceInstructions = settings.voiceInstructions;
     }
 
-    updateSettings(_theme, _style, _itemsSize, _contrast, _useSymbols) {
+    updateSettings(_theme, _style, _itemsSize, _contrast, _useSymbols, _soundEffects, _voiceInstructions) {
         this.theme = _theme;
         this.style = _style;
         this.itemsSize = _itemsSize;
         this.contrast = _contrast;
         this.useSymbols = _useSymbols;
+        this.soundEffects = _soundEffects;
+        this.voiceInstructions = _voiceInstructions;
     }
 
     getAge() {

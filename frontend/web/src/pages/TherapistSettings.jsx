@@ -40,6 +40,8 @@ export default function TherapistSettings() {
     Swal.fire({
       title: "Dados editados com sucesso!",
       icon: "success",
+      background: "var(--panel)",
+      color: "var(--text)",
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,

@@ -1,0 +1,49 @@
+:root[theme="light"] {
+  --background: #f4f7f6;
+  --border: #e2e8f0;
+  --border-hover: #cbd5e0;
+  --primary: #0b4f4e;
+  --secondary: #718096;
+  --hover: #178c8a;
+  --title: #0b4f4e;
+  --text: #1a202c;
+  --transparent: #e6f4f4;
+  --transparent-border: #a8cccc;
+  --transparent-hover: #d4eaea;
+  --aside: #0b4f4e;
+  --panel: #fff;
+  --button: #0f7675;
+  --button-border: #149b99;
+  --button-hover: #2f6f6d70;
+  --input: #fff;
+  --input-hover: #f9fafb;
+  --link: #0f7675;
+  --active: #fff;
+  --inactive: #e6f4f4;
+  --tip: #0b4f4e;
+}
+
+:root[theme="dark"] {
+  --background: #090c15;
+  --border: #1f2937;
+  --border-hover: #374151;
+  --primary: #1cc2c0;
+  --secondary: #9ca3af;
+  --hover: #178c8a;
+  --title: #fff;
+  --text: #fff;
+  --transparent: #113a3c;
+  --transparent-border: #1cc2c0;
+  --transparent-hover: #174c4e;
+  --aside: #111622;
+  --panel: #111622;
+  --button: #0f7675;
+  --button-border: #1cc2c0;
+  --button-hover: #1cc2c020;
+  --input: #161d2c;
+  --input-hover: #1a2233;
+  --link: #1cc2c0;
+  --active: #fff;
+  --inactive: #e6f4f4;
+  --tip: #fff;
+}

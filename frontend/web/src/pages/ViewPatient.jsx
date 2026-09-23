@@ -70,6 +70,8 @@ export default function ViewPatient() {
                         <DataRow title="Tipo de estilo" value={translateSetting("itemsSize", patient.itemsSize)} />
                         <DataRow title="Alto contraste" value={translateSetting("contrast", patient.contrast)} />
                         <DataRow title="Usar símbolos" value={translateSetting("useSymbols", patient.useSymbols)} />
+                        <DataRow title="Efeitos sonoros dos jogos" value={translateSetting("soundEffects", patient.soundEffects)} />
+                        <DataRow title="Orientações por voz" value={translateSetting("voiceInstructions", patient.voiceInstructions)} />
                     </div>
                     <div className="w-full flex justify-center">
                         <Button className="w-full" type="edit" size="small" onClick={() => navigate(`/app/patients/settings/${id}`)}>

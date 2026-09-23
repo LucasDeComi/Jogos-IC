@@ -11,6 +11,8 @@ export const patientSettings = {
   itemsSize: "medium",
   contrast: false,
   useSymbols: true,
+  soundEffects: true,
+  voiceInstructions: true,
 };
 
 const settingTranslations = {
@@ -36,6 +38,14 @@ const settingTranslations = {
   useSymbols: {
     true: "Sim",
     false: "Não",
+  },
+  soundEffects: {
+    true: "Sim",
+    false: "Não",
+  },
+  voiceInstructions: {
+    true: "Ativado",
+    false: "Desativado",
   },
 };
 
