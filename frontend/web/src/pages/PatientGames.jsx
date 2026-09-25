@@ -4,15 +4,17 @@ import Swal from "sweetalert2";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
 import PatientHeader from "../components/ui/PatientHeader";
-import Button from "../components/ui/Button";
-import Title from "../components/ui/Title";
 import Panel from "../components/ui/Panel";
+import PanelTitle from "../components/ui/PanelTitle";
+import Input from "../components/ui/Input";
+import Button from "../components/ui/Button";
 import Select from "../components/ui/Select";
-import Table from "../components/ui/Table";
-import TableHeaderCell from "../components/ui/TableHeaderCell";
-import TableBodyCell from "../components/ui/TableBodyCell";
-import TableActionsCell from "../components/ui/TableActionsCell";
-import Checkbox from "../components/ui/Checkbox";
+import Label from "../components/ui/Label";
+import DifficultySelect from "../components/ui/DifficultySelect";
+import GameCard from "../components/ui/GameCard";
+import PatientGame from "../utils/PatientGame";
+import { profileColors } from "../utils/colors";
+import searchIcon from "../assets/icons/search.svg";
 
 export default function PatientGames() {
   const { id } = useParams();
@@ -21,6 +23,8 @@ export default function PatientGames() {
   const patient = findPatient(id);
 
   const [selectedGames, setSelectedGames] = useState([]);
+  const [activeGameId, setActiveGameId] = useState(null);
+  const [search, setSearch] = useState("");
   const [filters, setFilters] = useState({
     category: "",
     skill: "",
@@ -29,31 +33,53 @@ export default function PatientGames() {
 
   const categoryOptions = [...new Set(games.map((game) => game.category))];
   const skillOptions = [...new Set(games.map((game) => game.skill))];
-  const difficultyOptions = [...new Set(games.map((game) => game.difficulty))];
-
-  const filteredGames = games.filter((game) => {
-    const categoryMatch = filters.category
-      ? game.category === filters.category
-      : true;
-    const skillMatch = filters.skill ? game.skill === filters.skill : true;
-    const difficultyMatch = filters.difficulty
-      ? game.difficulty === filters.difficulty
-      : true;
-
-    return categoryMatch && skillMatch && difficultyMatch;
-  });
+  const difficultyOptions = [
+    ...new Set(
+      games.map(
+        (_, gameId) =>
+          selectedGames.find((association) => association.gameId === gameId)
+            ?.difficulty ?? "Médio",
+      ),
+    ),
+  ];
 
   useEffect(() => {
-    setSelectedGames(patient?.games ?? []);
+    setSelectedGames(
+      (patient?.games ?? []).map(
+        ({ gameId, difficulty, movementFocuses }) =>
+          new PatientGame(gameId, difficulty, movementFocuses),
+      ),
+    );
+    setActiveGameId(null);
   }, [patient]);
 
   const navigate = useNavigate();
 
-  function toggleGame(gameIndex) {
+  function selectGame(gameIndex) {
+    setActiveGameId(gameIndex);
+    setSelectedGames((current) => {
+      const isSelected = current.some(
+        (association) => association.gameId === gameIndex,
+      );
+
+      return isSelected ? current : [...current, new PatientGame(gameIndex)];
+    });
+  }
+
+  function removeActiveGame() {
     setSelectedGames((current) =>
-      current.includes(gameIndex)
-        ? current.filter((index) => index !== gameIndex)
-        : [...current, gameIndex],
+      current.filter((association) => association.gameId !== activeGameId),
+    );
+    setActiveGameId(null);
+  }
+
+  function updateAssociation(gameId, changes) {
+    setSelectedGames((current) =>
+      current.map((association) =>
+        association.gameId === gameId
+          ? { ...association, ...changes }
+          : association,
+      ),
     );
   }
 
@@ -61,12 +87,33 @@ export default function PatientGames() {
     setFilters((current) => ({ ...current, [field]: value }));
   }
 
+  const filteredGames = games
+    .map((game, gameId) => ({
+      game,
+      gameId,
+      association: selectedGames.find((item) => item.gameId === gameId),
+    }))
+    .filter(({ game, association }) => {
+      const searchMatch = `${game.name} ${game.category} ${game.skill}`
+        .toLocaleLowerCase("pt-BR")
+        .includes(search.trim().toLocaleLowerCase("pt-BR"));
+      const categoryMatch = !filters.category || game.category === filters.category;
+      const skillMatch = !filters.skill || game.skill === filters.skill;
+      const difficultyMatch =
+        !filters.difficulty ||
+        (association?.difficulty ?? "Médio") === filters.difficulty;
+
+      return searchMatch && categoryMatch && skillMatch && difficultyMatch;
+    });
+
   function saveGames() {
     setPatientGames(id, selectedGames);
     navigate(`/app/patients/${id}`);
     Swal.fire({
       title: "Jogos alterados com sucesso!",
       icon: "success",
+      background: "var(--panel)",
+      color: "var(--text)",
       toast: true,
       position: "bottom-end",
       showConfirmButton: false,
@@ -78,8 +125,14 @@ export default function PatientGames() {
     });
   }
 
+  const activeGame =
+    activeGameId === null ? null : games[activeGameId] ?? null;
+  const activeAssociation = selectedGames.find(
+    (association) => association.gameId === activeGameId,
+  );
+
   return (
-    <section className="flex flex-col items-start gap-5">
+    <section className="flex flex-col items-start gap-5 h-full">
       <PatientHeader
         title="Adicionar jogo ao paciente"
         description="Selecione um jogo terapêutico e defina as configurações de dificuldade e acessibilidade"
@@ -87,71 +140,102 @@ export default function PatientGames() {
         patient={patient}
       />
 
-      <div className="w-full">
-        <Table>
-          <thead>
-            <tr>
-              <TableHeaderCell center bb>
-                Selecionar
-              </TableHeaderCell>
-              <TableHeaderCell center bb bl>
-                Jogo
-              </TableHeaderCell>
-              <TableHeaderCell center bb bl>
-                Categoria
-              </TableHeaderCell>
-              <TableHeaderCell center bb bl>
-                Habilidade
-              </TableHeaderCell>
-              <TableHeaderCell center bb bl>
-                Dificuldade
-              </TableHeaderCell>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredGames.length === 0 ? (
-              <tr>
-                <td colSpan={5} className="py-6 text-center font-medium">
-                  Nenhum jogo encontrado para estes filtros.
-                </td>
-              </tr>
-            ) : (
-              filteredGames.map((game, index) => {
-                const gameIndex = games.indexOf(game);
-
-                return (
-                  <tr key={`${game.name}-${gameIndex}`}>
-                    <TableActionsCell
-                      center={index !== filteredGames.length - 1}
-                      bb={index !== filteredGames.length - 1}
-                      pl
-                    >
-                      <Checkbox
-                        checked={selectedGames.includes(gameIndex)}
-                        onChange={() => toggleGame(gameIndex)}
-                      />
-                    </TableActionsCell>
-                    <TableBodyCell bb={index !== filteredGames.length - 1} bl>
-                      {game.name}
-                    </TableBodyCell>
-                    <TableBodyCell bb={index !== filteredGames.length - 1} bl>
-                      {game.category}
-                    </TableBodyCell>
-                    <TableBodyCell bb={index !== filteredGames.length - 1} bl>
-                      {game.skill}
-                    </TableBodyCell>
-                    <TableBodyCell bb={index !== filteredGames.length - 1} bl>
-                      {game.difficulty}
-                    </TableBodyCell>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </Table>
+      <div className="grid grid-cols-[minmax(300px,3fr)_minmax(300px,2fr)] gap-6 w-full h-full">
+        <section className="flex flex-col gap-5 w-full">
+          <Panel className="flex flex-col gap-4 p-5 w-full">
+            <Input
+              icon={searchIcon}
+              placeholder="Pesquisar jogos disponíveis"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+            <div className="grid grid-cols-3 gap-3">
+              <Select
+                label="Categoria"
+                value={filters.category}
+                onChange={(event) =>
+                  handleFilterChange("category", event.target.value)
+                }
+              >
+                <option value="">Todas</option>
+                {categoryOptions.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                label="Habilidade"
+                value={filters.skill}
+                onChange={(event) =>
+                  handleFilterChange("skill", event.target.value)
+                }
+              >
+                <option value="">Todas</option>
+                {skillOptions.map((skill) => (
+                  <option key={skill} value={skill}>
+                    {skill}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                label="Dificuldade"
+                value={filters.difficulty}
+                onChange={(event) =>
+                  handleFilterChange("difficulty", event.target.value)
+                }
+              >
+                <option value="">Todas</option>
+                {difficultyOptions.map((difficulty) => (
+                  <option key={difficulty} value={difficulty}>
+                    {difficulty}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </Panel>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-3 w-full">
+            {filteredGames.map(({ game, gameId, association }, index) => (
+              <GameCard
+                key={gameId}
+                color={profileColors[index % profileColors.length]}
+                name={game.name}
+                category={game.category}
+                skill={game.skill}
+                movementFocuses={association?.movementFocuses}
+                gameId={gameId}
+                patientId={id}
+                onClick={() => selectGame(gameId)}
+              />
+            ))}
+          </div>
+        </section>
+        <Panel className="flex flex-col gap-6 p-6">
+          <PanelTitle>Configurações do jogo</PanelTitle>
+          {activeGame && activeAssociation ? (
+            <div className="flex flex-col gap-5">
+              <h3 className="text-base font-semibold text-(--text)">
+                {activeGame.name}
+              </h3>
+              <div className="flex flex-col gap-2">
+                <Label>Dificuldade</Label>
+                <DifficultySelect
+                  value={activeAssociation.difficulty}
+                  onChange={(difficulty) =>
+                    updateAssociation(activeGameId, { difficulty })
+                  }
+                />
+              </div>
+            </div>
+          ) : (
+            <p className="text-sm text-(--secondary)">
+              Selecione um jogo para configurar sua associação com o paciente.
+            </p>
+          )}
+        </Panel>
       </div>
 
-      <div className="flex gap-5">
+      <div className="hidden gap-5">
         <Button type="primary" onClick={saveGames}>
           Salvar alterações
         </Button>

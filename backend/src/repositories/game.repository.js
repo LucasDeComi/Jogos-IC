@@ -26,10 +26,6 @@ class GameRepository {
       return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     }
 
-    if (filters.difficulty) {
-      const snapshot = await games.where("difficulty", "==", filters.difficulty).get();
-      return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    }
   }
 
   async update(id, data) {

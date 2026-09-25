@@ -1,4 +1,5 @@
 import check from "../../assets/icons/check.svg";
+import Label from "./Label";
 
 export default function Checkbox({
   label = null,
@@ -7,7 +8,7 @@ export default function Checkbox({
   className = "",
 }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-(--text) font-medium">
+    <Label className="flex items-center gap-2">
       <input
         type="checkbox"
         checked={checked}
@@ -27,6 +28,6 @@ export default function Checkbox({
         {checked && <img src={check} alt="" className="h-[70%] w-[70%]" />}
       </span>
       {label}
-    </label>
+    </Label>
   );
 }

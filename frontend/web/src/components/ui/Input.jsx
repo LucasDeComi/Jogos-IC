@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "./Icon";
+import Label from "./Label";
 import viewIcon from "../../assets/icons/viewPassword.svg";
 
 export default function Input({
@@ -19,9 +20,7 @@ export default function Input({
   return (
     <div className={`flex flex-col items-start gap-1 ${className}`}>
       {label && (
-        <label className="text-sm font-semibold text-(--text)">
-          {label}
-        </label>
+        <Label>{label}</Label>
       )}
 
       <div className="flex w-full items-center overflow-hidden rounded-lg bg-(--input) border border-(--border)">

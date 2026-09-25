@@ -13,6 +13,8 @@
   --aside: #0b4f4e;
   --panel: #fff;
   --button: #0f7675;
+  --difficulty-button: #fff;
+  --difficulty-text: #0b4f4e;
   --button-border: #149b99;
   --button-hover: #2f6f6d70;
   --input: #fff;
@@ -38,6 +40,8 @@
   --aside: #111622;
   --panel: #111622;
   --button: #0f7675;
+  --difficulty-button: #0f7675;
+  --difficulty-text: #fff;
   --button-border: #1cc2c0;
   --button-hover: #1cc2c020;
   --input: #161d2c;

@@ -5,11 +5,11 @@ export const GameContext = createContext();
 
 export function GameProvider({ children }) {
   const [games, setGames] = useState([
-    new Game("Jogo 1", "Memória", "Memória", "Médio"),
-    new Game("Jogo 2", "Atenção", "Atenção", "Fácil"),
-    new Game("Jogo 3", "Coordenação", "Coordenação Motora", "Difícil"),
-    new Game("Jogo 4", "Linguagem", "Linguagem", "Médio"),
-    new Game("Jogo 5", "Raciocínio", "Raciocínio Lógico", "Difícil"),
+    new Game("Jogo 1", "Memória", "Memória"),
+    new Game("Jogo 2", "Atenção", "Atenção"),
+    new Game("Jogo 3", "Coordenação", "Coordenação Motora"),
+    new Game("Jogo 4", "Linguagem", "Linguagem"),
+    new Game("Jogo 5", "Raciocínio", "Raciocínio Lógico"),
   ]);
 
   function findGame(index) {
