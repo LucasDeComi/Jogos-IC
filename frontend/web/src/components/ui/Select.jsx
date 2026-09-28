@@ -1,6 +1,6 @@
 import Label from "./Label";
 
-export default function Select({ children, label = null, value = "", onChange = () => {}, disabled = false }) {
+export default function Select({ children, className = "", label = null, value = "", onChange = () => {}, disabled = false, compact = false }) {
     return (
         <div className="flex flex-col gap-1">
             {label && <Label>{label}</Label>}
@@ -8,7 +8,7 @@ export default function Select({ children, label = null, value = "", onChange = 
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
-                className="p-3 border border-(--border) rounded-lg bg-(--input) text-sm text-(--text) disabled:cursor-not-allowed disabled:opacity-50"
+                className={`${compact ? "py-1.5 px-3 rounded-lg text-[13px]" : "p-3 rounded-lg text-sm"} border border-(--border) bg-(--input) text-(--text) disabled:cursor-not-allowed disabled:opacity-50 ${className}`}
             >
                 {children}
             </select>
