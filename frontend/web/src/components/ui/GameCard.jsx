@@ -7,6 +7,7 @@ import { blockColors as colors } from "../../utils/colors";
 import game from "../../assets/icons/game.svg";
 import view from "../../assets/icons/viewGame.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
+import removeIcon from "../../assets/icons/remove.svg";
 import Swal from "sweetalert2";
 
 export default function GameCard({
@@ -20,6 +21,9 @@ export default function GameCard({
   gameId,
   patientId,
   onClick,
+  removeButton = false,
+  onRemove,
+  compact = false,
 }) {
   const { findPatient, setPatientGames } = useContext(PatientContext);
   const patient = findPatient(patientId);
@@ -67,24 +71,26 @@ export default function GameCard({
 
   return (
     <Panel
-      className="flex justify-between items-center gap-3 p-6"
+      className={`flex justify-between items-center ${compact ? "gap-2 p-3" : "gap-3 p-6"}`}
       onClick={onClick}
     >
-      <div className="flex items-center gap-4">
+      <div className={`flex items-center ${compact ? "gap-3" : "gap-4"} w-full`}>
         <span
-          className="flex justify-center items-center w-12 h-12 rounded-xl"
+          className={`flex shrink-0 justify-center items-center ${compact ? "w-8 h-8 rounded-lg" : "min-w-12 min-h-12 rounded-xl"}`}
           style={{ backgroundColor: color }}
         >
-          <img src={game} />
+          <img src={game} className={compact ? "w-4 h-4" : ""} />
         </span>
         <div className="flex flex-col justify-between">
-          <h4 className="text-[16px] text-(--text) font-bold">{name}</h4>
+          <h4 className={`${compact ? "text-sm" : "text-[16px]"} text-(--text) font-bold`}>
+            {name}
+          </h4>
           <div className="flex flex-wrap gap-2">
             <GameCardItem colors={colors().green}>{category}</GameCardItem>
             <GameCardItem colors={colors().gray}>{difficulty}</GameCardItem>
             <GameCardItem colors={colors().red}>{skill}</GameCardItem>
             {movementFocuses.map((focus, index) => (
-              <GameCardItem key={`${focus}-${index}`} colors={colors().green}>
+              <GameCardItem key={`${focus}-${index}`} colors={colors().yellow}>
                 {focus}
               </GameCardItem>
             ))}
@@ -112,6 +118,19 @@ export default function GameCard({
             <img src={deleteIcon} className="w-4 h-4" />
           </button>
         </div>
+      )}
+      {removeButton && (
+        <button
+          type="button"
+          aria-label={`Remover ${name}`}
+          className={`flex shrink-0 justify-center items-center ${compact ? "w-7 h-7" : "w-8 h-8"} border border-(--border) rounded-lg transition-colors duration-150 hover:border-(--border-hover)`}
+          onClick={(event) => {
+            event.stopPropagation();
+            onRemove?.();
+          }}
+        >
+          <img src={removeIcon} alt="" className="w-3 h-3" />
+        </button>
       )}
     </Panel>
   );

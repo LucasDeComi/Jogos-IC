@@ -10,10 +10,10 @@ import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 import Select from "../components/ui/Select";
 import Label from "../components/ui/Label";
+import Checkbox from "../components/ui/Checkbox";
 import DifficultySelect from "../components/ui/DifficultySelect";
 import GameCard from "../components/ui/GameCard";
 import PatientGame from "../utils/PatientGame";
-import { profileColors } from "../utils/colors";
 import searchIcon from "../assets/icons/search.svg";
 
 export default function PatientGames() {
@@ -62,15 +62,61 @@ export default function PatientGames() {
         (association) => association.gameId === gameIndex,
       );
 
-      return isSelected ? current : [...current, new PatientGame(gameIndex)];
+      if (isSelected) {
+        return current;
+      }
+
+      return [...current, new PatientGame(gameIndex)];
     });
   }
 
-  function removeActiveGame() {
-    setSelectedGames((current) =>
-      current.filter((association) => association.gameId !== activeGameId),
+  async function removeActiveGame(gameId) {
+    const result = await Swal.fire({
+      title: "Remover jogo associado?",
+      text: `Deseja remover ${games[gameId]?.name} da lista?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Remover",
+      confirmButtonColor: "var(--button)",
+      cancelButtonText: "Cancelar",
+      reverseButtons: true,
+      background: "var(--panel)",
+      color: "var(--text)",
+      customClass: {
+        popup: "swal2-app-popup",
+        title: "swal2-app-title",
+        confirmButton: "swal2-app-confirm",
+        cancelButton: "swal2-app-cancel",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    setPatientGames(
+      id,
+      (patient?.games ?? []).filter(
+        (association) => association.gameId !== gameId,
+      ),
     );
-    setActiveGameId(null);
+    if (activeGameId === gameId) {
+      setActiveGameId(null);
+    }
+    Swal.fire({
+      title: `${games[gameId]?.name} removido com sucesso!`,
+      icon: "success",
+      background: "var(--panel)",
+      color: "var(--text)",
+      toast: true,
+      position: "bottom-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      customClass: {
+        popup: "swal2-toast",
+      },
+    });
   }
 
   function updateAssociation(gameId, changes) {
@@ -81,6 +127,22 @@ export default function PatientGames() {
           : association,
       ),
     );
+  }
+
+  function toggleMovementFocus(focus) {
+    setSelectedGames((current) => {
+      return current.map((association) => {
+        if (association.gameId !== activeGameId) {
+          return association;
+        }
+
+        const movementFocuses = association.movementFocuses.includes(focus)
+          ? association.movementFocuses.filter((item) => item !== focus)
+          : [...association.movementFocuses, focus];
+
+        return { ...association, movementFocuses };
+      });
+    });
   }
 
   function handleFilterChange(field, value) {
@@ -106,11 +168,33 @@ export default function PatientGames() {
       return searchMatch && categoryMatch && skillMatch && difficultyMatch;
     });
 
-  function saveGames() {
+  async function saveGames() {
+    const result = await Swal.fire({
+      title: "Confirmar alterações?",
+      text: "As alterações na lista de jogos serão aplicadas ao paciente.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Confirmar",
+      confirmButtonColor: "var(--button)",
+      cancelButtonText: "Continuar editando",
+      reverseButtons: true,
+      background: "var(--panel)",
+      color: "var(--text)",
+      customClass: {
+        popup: "swal2-app-popup",
+        title: "swal2-app-title",
+        confirmButton: "swal2-app-confirm",
+        cancelButton: "swal2-app-cancel",
+      },
+    });
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
     setPatientGames(id, selectedGames);
-    navigate(`/app/patients/${id}`);
     Swal.fire({
-      title: "Jogos alterados com sucesso!",
+      title: `${activeGame.name} ${isNewActiveGame ? "adicionado" : "editado"} com sucesso!`,
       icon: "success",
       background: "var(--panel)",
       color: "var(--text)",
@@ -125,11 +209,85 @@ export default function PatientGames() {
     });
   }
 
+  async function cancelChanges() {
+    const savedGames = patient?.games ?? [];
+    const gamesToKeep = selectedGames.filter((association) => {
+      const isSaved = savedGames.some(
+        (savedGame) => savedGame.gameId === association.gameId,
+      );
+      const hasConfiguration =
+        association.difficulty !== "Médio" ||
+        (association.movementFocuses ?? []).length > 0;
+
+      return isSaved || hasConfiguration;
+    });
+    const hasChanges =
+      gamesToKeep.length !== savedGames.length ||
+      gamesToKeep.some((association) => {
+        const savedAssociation = savedGames.find(
+          (savedGame) => savedGame.gameId === association.gameId,
+        );
+
+        if (
+          !savedAssociation ||
+          savedAssociation.difficulty !== association.difficulty
+        ) {
+          return true;
+        }
+
+        const movementFocuses = association.movementFocuses ?? [];
+        const savedMovementFocuses = savedAssociation.movementFocuses ?? [];
+
+        return (
+          movementFocuses.length !== savedMovementFocuses.length ||
+          movementFocuses.some((focus) => !savedMovementFocuses.includes(focus))
+        );
+      });
+
+    if (!hasChanges) {
+      setSelectedGames(gamesToKeep);
+      setActiveGameId(null);
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Descartar alterações?",
+      text: "As alterações ainda não salvas serão perdidas.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Descartar alterações",
+      confirmButtonColor: "var(--button)",
+      cancelButtonText: "Continuar editando",
+      reverseButtons: true,
+      background: "var(--panel)",
+      color: "var(--text)",
+      customClass: {
+        popup: "swal2-app-popup",
+        title: "swal2-app-title",
+        confirmButton: "swal2-app-confirm",
+        cancelButton: "swal2-app-cancel",
+      },
+    });
+
+    if (result.isConfirmed) {
+      setSelectedGames(
+        (patient?.games ?? []).map(
+          ({ gameId, difficulty, movementFocuses }) =>
+            new PatientGame(gameId, difficulty, movementFocuses),
+        ),
+      );
+      setActiveGameId(null);
+    }
+  }
+
   const activeGame =
     activeGameId === null ? null : games[activeGameId] ?? null;
   const activeAssociation = selectedGames.find(
     (association) => association.gameId === activeGameId,
   );
+  const isNewActiveGame =
+    activeGameId !== null &&
+    !patient?.games?.some((association) => association.gameId === activeGameId);
 
   return (
     <section className="flex flex-col items-start gap-5 h-full">
@@ -194,15 +352,14 @@ export default function PatientGames() {
               </Select>
             </div>
           </Panel>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-3 w-full">
-            {filteredGames.map(({ game, gameId, association }, index) => (
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3 w-full">
+            {filteredGames.map(({ game, gameId }) => (
               <GameCard
                 key={gameId}
-                color={profileColors[index % profileColors.length]}
+                color={game.color}
                 name={game.name}
                 category={game.category}
                 skill={game.skill}
-                movementFocuses={association?.movementFocuses}
                 gameId={gameId}
                 patientId={id}
                 onClick={() => selectGame(gameId)}
@@ -226,21 +383,62 @@ export default function PatientGames() {
                   }
                 />
               </div>
+              <div className="flex flex-col gap-4">
+                <Label>Focos de movimento (Partes do corpo)</Label>
+                <div className="flex flex-col gap-6">
+                  {activeGame.movementFocuses.map((focus) => (
+                    <Checkbox
+                      key={focus}
+                      label={focus}
+                      checked={activeAssociation.movementFocuses.includes(focus)}
+                      onChange={() => toggleMovementFocus(focus)}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <Button type="primary" size="large" onClick={saveGames}>
+                  {isNewActiveGame ? "Adicionar Jogo" : "Salvar alterações"}
+                </Button>
+                <Button size="large" onClick={cancelChanges}>Cancelar</Button>
+              </div>
             </div>
           ) : (
             <p className="text-sm text-(--secondary)">
               Selecione um jogo para configurar sua associação com o paciente.
             </p>
           )}
+          <hr />
+          <div className="flex flex-col gap-3">
+            {selectedGames
+              .filter(({ gameId }) =>
+                patient?.games?.some((association) => association.gameId === gameId),
+              )
+              .map(({ gameId }) => {
+                const game = games[gameId];
+
+                if (!game) {
+                  return null;
+                }
+
+                return (
+                  <GameCard
+                    key={gameId}
+                    color={game.color}
+                    name={game.name}
+                    gameId={gameId}
+                    patientId={id}
+                    onClick={() => selectGame(gameId)}
+                    removeButton
+                    onRemove={() => removeActiveGame(gameId)}
+                    compact
+                  />
+                );
+              })}
+          </div>
         </Panel>
       </div>
 
-      <div className="hidden gap-5">
-        <Button type="primary" onClick={saveGames}>
-          Salvar alterações
-        </Button>
-        <Button onClick={() => navigate(`/app/patients/${id}`)}>Cancelar</Button>
-      </div>
     </section>
   );
 }

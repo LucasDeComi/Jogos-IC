@@ -11,7 +11,6 @@ import CardNote from "../components/ui/CardNote";
 import DataRow from "../components/ui/DataRow";
 import GameCard from "../components/ui/GameCard";
 import { translateSetting } from "../utils/settings";
-import { profileColors } from "../utils/colors";
 import add from "../assets/icons/add.svg";
 import notes from "../assets/icons/notes.svg";
 import patientData from "../assets/icons/patientData.svg";
@@ -138,17 +137,17 @@ export default function ViewPatient() {
           Adicionar Jogo
         </Button>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(500px,1fr))] gap-6 w-full">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 w-full">
         {patientGames.length === 0 ? (
           <p className="text-(--secondary) text-[13px]">
             O paciente não tem nenhum jogo
           </p>
         ) : (
-          patientGames.map(({ game, gameId, difficulty, movementFocuses }, index) => (
+          patientGames.map(({ game, gameId, difficulty, movementFocuses }) => (
             <GameCard
               key={gameId}
               toolButtons={true}
-              color={profileColors[index % profileColors.length]}
+              color={game.color}
               name={game.name}
               category={game.category}
               skill={game.skill}

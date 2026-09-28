@@ -19,5 +19,6 @@ export function blockColors() {
         green: theme === "light" ? new BlockColor("#E6F4F4", "#0B4F4E") : new BlockColor("#113A3C", "#1CC2C0"),
         gray: theme === "light" ? new BlockColor("#F4F7F6", "#718096") : new BlockColor("#161D2C", "#9CA3AF"),
         red: theme === "light" ? new BlockColor("#FFF0F0", "#E53E3E") : new BlockColor("#3A161D", "#F56565"),
+        yellow: theme === "light" ? new BlockColor("#FFF8E6", "#B7791F") : new BlockColor("#3A2E16", "#ECC94B"),
     }
 };
