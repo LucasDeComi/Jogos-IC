@@ -5,7 +5,7 @@ import Panel from "./Panel";
 import GameCardItem from "./GameCardItem";
 import { blockColors as colors } from "../../utils/colors";
 import game from "../../assets/icons/game.svg";
-import view from "../../assets/icons/viewGame.svg";
+import view from "../../assets/icons/chartBar.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import removeIcon from "../../assets/icons/remove.svg";
 import Swal from "sweetalert2";

@@ -1,13 +1,10 @@
-export default function TableHeaderCell({ children, center, pl, pr, bl, bb  }) {
+export default function TableHeaderCell({ children, className = "" }) {
   return (
     <th
-      className={`py-2.5 font-bold
-      ${center ? "text-center" : "text-left"}
-      ${pl ? "pl-5" : ""} ${pr ? "pr-5" : ""}
-      ${bl ? "border-l-2 border-black" : ""}
-      ${bb ? "border-b-2 border-black" : ""}`}
+      scope="col"
+      className={`text-[13px] text-(--secondary) font-bold text-left ${className}`}
     >
       {children}
     </th>
-  )
+  );
 }
