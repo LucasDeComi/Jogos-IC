@@ -6,7 +6,7 @@ export default function CardNote({ dateTime = new Date(), children }) {
     return (
         <div className="flex flex-col gap-2">
             <h4 className="text-[13px] text-(--text) font-bold">{date} às {time}</h4>
-            <span className="text-[13px] text-(--secondary)">{children}</span>
+            <span className="line-clamp-3 text-[13px] text-(--secondary)">{children}</span>
         </div>
     )
 }

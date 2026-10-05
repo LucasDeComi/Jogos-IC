@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
+import { TherapistNoteContext } from "../context/TherapistNoteContext";
 import PatientHeader from "../components/ui/PatientHeader";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
@@ -22,6 +23,7 @@ export default function ViewPatient() {
 
   const { findPatient } = useContext(PatientContext);
   const { findGame } = useContext(GameContext);
+  const { findNotesByPatient } = useContext(TherapistNoteContext);
   const patient = findPatient(id);
 
   const navigate = useNavigate();
@@ -36,6 +38,9 @@ export default function ViewPatient() {
       game: findGame(association.gameId),
     }))
     .filter(({ game }) => Boolean(game));
+  const latestNotes = findNotesByPatient(id)
+    .sort((first, second) => second.dateTime - first.dateTime)
+    .slice(0, 2);
 
   return (
     <section className="flex flex-col items-start gap-5">
@@ -50,16 +55,13 @@ export default function ViewPatient() {
           <PanelTitle small icon={notes}>
             Evolução do paciente
           </PanelTitle>
-          <CardNote dateTime={new Date("2026-06-10T14:00:00")}>
-            Apresentou boa atenção e evolução no labirinto motor. Coordenação
-            mais estável.
-          </CardNote>
-          <hr />
-          <CardNote dateTime={new Date("2026-06-08T15:30:00")}>
-            Foco inicial reduzido nos minutos iniciais, mas completou as tarefas
-            de memória visual recomendadas.
-          </CardNote>
-          <Link className="text-(--link) text-sm hover:underline font-semibold">
+          {latestNotes.map((note, index) => (
+            <div key={note.id} className="flex w-full flex-col gap-4">
+              {index > 0 && <hr />}
+              <CardNote dateTime={note.dateTime}>{note.content}</CardNote>
+            </div>
+          ))}
+          <Link to={`/app/patients/notes/${id}`} className="text-(--link) text-sm hover:underline font-semibold">
             Ver todas as anotações
           </Link>
         </Panel>

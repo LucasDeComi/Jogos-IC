@@ -13,4 +13,14 @@ export default class User {
         
         return initials.toUpperCase();
     }
+
+    getName() {
+        const nameSplit = this.name.split(" ");
+        if(nameSplit.length <= 1) return this.name;
+        
+        const firstName = nameSplit[0];
+        const lastName = nameSplit.at(-1);
+
+        return `${firstName} ${lastName}`;
+    }
 }

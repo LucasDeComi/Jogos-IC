@@ -4,6 +4,7 @@ import AppLayout from "../layouts/AppLayout";
 import PatientList from "../pages/PatientList";
 import RegisterPatient from "../pages/RegisterPatient";
 import ViewPatient from "../pages/ViewPatient";
+import TherapistNotes from "../pages/TherapistNotes";
 import PatientGames from "../pages/PatientGames";
 import PatientGamesHistory from "../pages/PatientGamesHistory";
 import PatientSettings from "../pages/PatientSettings";
@@ -19,6 +20,7 @@ export default function AppRoutes() {
         <Route path="patients" element={<PatientList />} />
         <Route path="patients/register" element={<RegisterPatient />} />
         <Route path="patients/:id" element={<ViewPatient />} />
+        <Route path="patients/notes/:id" element={<TherapistNotes />}/>
         <Route path="patients/games/:id" element={<PatientGames />} />
         <Route path="patients/games/history" element={<PatientGamesHistory />} />
         <Route path="patients/settings/:id" element={<PatientSettings />} />
