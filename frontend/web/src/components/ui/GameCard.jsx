@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { PatientContext } from "../../context/PatientContext";
 import Panel from "./Panel";
-import GameCardItem from "./GameCardItem";
+import CardItem from "./CardItem";
 import { blockColors as colors } from "../../utils/colors";
 import game from "../../assets/icons/game.svg";
 import view from "../../assets/icons/chartBar.svg";
@@ -86,13 +86,13 @@ export default function GameCard({
             {name}
           </h4>
           <div className="flex flex-wrap gap-2">
-            <GameCardItem colors={colors().green}>{category}</GameCardItem>
-            <GameCardItem colors={colors().gray}>{difficulty}</GameCardItem>
-            <GameCardItem colors={colors().red}>{skill}</GameCardItem>
+            <CardItem colors={colors().green}>{category}</CardItem>
+            <CardItem colors={colors().gray}>{difficulty}</CardItem>
+            <CardItem colors={colors().red}>{skill}</CardItem>
             {movementFocuses.map((focus, index) => (
-              <GameCardItem key={`${focus}-${index}`} colors={colors().yellow}>
+              <CardItem key={`${focus}-${index}`} colors={colors().yellow}>
                 {focus}
-              </GameCardItem>
+              </CardItem>
             ))}
           </div>
         </div>

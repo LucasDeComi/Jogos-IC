@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Icon from "./Icon";
-import backIcon from "../../assets/icons/back.svg";
+import backIcon from "../../assets/icons/backPage.svg";
 
 export default function BackLink({ to, children, className = "" }) {
   return (

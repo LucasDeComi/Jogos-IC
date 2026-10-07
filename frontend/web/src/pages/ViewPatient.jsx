@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
-import { TherapistNoteContext } from "../context/TherapistNoteContext";
 import PatientHeader from "../components/ui/PatientHeader";
 import Subtitle from "../components/ui/Subtitle";
 import Button from "../components/ui/Button";
@@ -21,9 +20,8 @@ export default function ViewPatient() {
   const formatter = new Intl.DateTimeFormat("pt-BR");
   const { id } = useParams();
 
-  const { findPatient } = useContext(PatientContext);
+  const { findPatient, findNotesByPatient } = useContext(PatientContext);
   const { findGame } = useContext(GameContext);
-  const { findNotesByPatient } = useContext(TherapistNoteContext);
   const patient = findPatient(id);
 
   const navigate = useNavigate();

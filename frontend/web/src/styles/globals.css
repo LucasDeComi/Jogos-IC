@@ -23,6 +23,7 @@
   --active: #fff;
   --inactive: #e6f4f4;
   --tip: #0b4f4e;
+  --item: #a0aec0;
 }
 
 :root[theme="dark"] {
@@ -50,4 +51,5 @@
   --active: #fff;
   --inactive: #e6f4f4;
   --tip: #fff;
+  --item: #4a5568;
 }
