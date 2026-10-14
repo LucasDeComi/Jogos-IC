@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 
-export default function Subtitle({ icon = null, small = false, children, className = "" }) {
+export default function PanelTitle({ icon = null, small = false, children, className = "" }) {
   return (
     <h2
       className={`inline-flex items-center gap-2 font-bold text-(--primary) ${small ? "text-[16px]" : "text-lg"} ${className}`}
