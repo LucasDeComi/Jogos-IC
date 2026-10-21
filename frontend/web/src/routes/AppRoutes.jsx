@@ -5,6 +5,8 @@ import PatientList from "../pages/PatientList";
 import RegisterPatient from "../pages/RegisterPatient";
 import ViewPatient from "../pages/ViewPatient";
 import TherapistNotes from "../pages/TherapistNotes";
+import AddNote from "../pages/AddNote";
+import EditNote from "../pages/EditNote";
 import PatientGames from "../pages/PatientGames";
 import PatientGamesHistory from "../pages/PatientGamesHistory";
 import PatientSettings from "../pages/PatientSettings";
@@ -21,6 +23,8 @@ export default function AppRoutes() {
         <Route path="patients/register" element={<RegisterPatient />} />
         <Route path="patients/:id" element={<ViewPatient />} />
         <Route path="patients/notes/:id" element={<TherapistNotes />}/>
+        <Route path="patients/notes/add" element={<AddNote />}/>
+        <Route path="patients/notes/edit/:id" element={<EditNote />}/>
         <Route path="patients/games/:id" element={<PatientGames />} />
         <Route path="patients/games/history" element={<PatientGamesHistory />} />
         <Route path="patients/settings/:id" element={<PatientSettings />} />

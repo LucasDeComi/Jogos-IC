@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
 import PatientHeader from "../components/ui/PatientHeader";
@@ -37,6 +37,8 @@ import pen from "../assets/icons/pen.svg";
 const gameBlockColorKeys = ["purple", "green", "yellow", "red", "gray"];
 
 export default function TherapistNotes() {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [filters, setFilters] = useState({
     gameId: "",
@@ -112,7 +114,8 @@ export default function TherapistNotes() {
         backLinkPath={`/app/patients/${id}`}
         button={{
           text: "Nova anotação",
-          icon: add
+          icon: add,
+          onClick: () => navigate(`/app/patients/notes/add?patient=${id}`)
         }}
         patient={patient}
       />
