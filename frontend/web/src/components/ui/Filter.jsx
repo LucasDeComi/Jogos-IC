@@ -1,6 +1,6 @@
 import Icon from "./Icon";
 
-export default function Filter({ children, className = "", label = null, value = "", onChange = () => {}, disabled = false, compact = false, icon = null, iconColor = "var(--button)" }) {
+export default function Filter({ children, className = "", label = null, value = "", onChange = () => {}, disabled = false, compact = false, icon = null, iconColor = "var(--link)" }) {
     return (
         <div className="flex flex-col gap-1">
             { label && <label className="text-sm font-semibold text-(--secondary) text-[11px]">{label}</label> }
