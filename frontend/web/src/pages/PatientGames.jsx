@@ -46,8 +46,22 @@ export default function PatientGames() {
   useEffect(() => {
     setSelectedGames(
       (patient?.games ?? []).map(
-        ({ gameId, difficulty, movementFocuses, notes }) =>
-          new PatientGame(gameId, difficulty, movementFocuses, notes),
+        ({
+          gameId,
+          difficulty,
+          movementFocuses,
+          evolutionLevel,
+          supportLevel,
+          notes,
+        }) =>
+          new PatientGame(
+            gameId,
+            difficulty,
+            movementFocuses,
+            evolutionLevel,
+            supportLevel,
+            notes,
+          ),
       ),
     );
     setActiveGameId(null);
@@ -272,8 +286,22 @@ export default function PatientGames() {
     if (result.isConfirmed) {
       setSelectedGames(
         (patient?.games ?? []).map(
-          ({ gameId, difficulty, movementFocuses, notes }) =>
-            new PatientGame(gameId, difficulty, movementFocuses, notes),
+          ({
+            gameId,
+            difficulty,
+            movementFocuses,
+            evolutionLevel,
+            supportLevel,
+            notes,
+          }) =>
+            new PatientGame(
+              gameId,
+              difficulty,
+              movementFocuses,
+              evolutionLevel,
+              supportLevel,
+              notes,
+            ),
         ),
       );
       setActiveGameId(null);

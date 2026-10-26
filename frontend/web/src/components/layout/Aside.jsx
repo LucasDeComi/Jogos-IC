@@ -10,7 +10,7 @@ export default function Aside() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <aside className={`flex shrink-0 flex-col items-center gap-10 py-8 bg-(--aside) transition-[width] duration-200 ${isCollapsed ? "w-24 min-w-24 px-3" : "w-65 min-w-65 px-5"}`}>
+    <aside className={`flex shrink-0 flex-col items-center gap-10 bg-(--aside) transition-[width] duration-200 ${isCollapsed ? "w-24 min-w-24 px-3 py-6" : "w-65 min-w-65 px-5 py-8"}`}>
       <div className={`flex items-center w-full ${isCollapsed ? "flex-col justify-center gap-2" : "gap-3"}`}>
         <span className="bg-[#2ED0CC] w-9 h-9 rounded-lg aspect-square" />
         <div className="flex flex-col h-full justify-between">

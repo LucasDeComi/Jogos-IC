@@ -4,19 +4,31 @@ import Swal from "sweetalert2";
 import { PatientContext } from "../context/PatientContext";
 import { TherapistContext } from "../context/TherapistContext";
 import { GameContext } from "../context/GameContext";
-import { profileColors } from "../utils/colors";
+import { cardColors, profileColors } from "../utils/colors";
 import { formatDateTime } from "../utils/formatDates";
 import PatientHeader from "../components/ui/PatientHeader";
 import Panel from "../components/ui/Panel";
 import PanelHeader from "../components/ui/PanelHeader";
+import PanelTitle from "../components/ui/PanelTitle";
 import Label from "../components/ui/Label";
 import Radio from "../components/ui/Radio";
 import TextArea from "../components/ui/TextArea";
 import Button from "../components/ui/Button";
+import Icon from "../components/ui/Icon";
+import GameSessionCard from "../components/ui/GameSessionCard";
+import SessionDetails from "../components/ui/SessionDetails";
 import sessionIcon from "../assets/icons/control.svg";
 import gameIcon from "../assets/icons/game.svg";
 import clinicalRegister from "../assets/icons/clinical-register.svg";
 import check from "../assets/icons/check.svg";
+import lock from "../assets/icons/lock.svg";
+import time from "../assets/icons/time.svg";
+import difficulty from "../assets/icons/difficulty.svg";
+import conclusion from "../assets/icons/conclusion.svg";
+import focus from "../assets/icons/focus.svg";
+import info from "../assets/icons/info.svg";
+
+const gameCardColorKeys = ["purple", "green", "yellow", "red", "gray"];
 
 export default function AddNote() {
   const navigate = useNavigate();
@@ -24,29 +36,33 @@ export default function AddNote() {
   const [searchParams] = useSearchParams();
   const patientId = searchParams.get("patient");
   const [selectedGameId, setSelectedGameId] = useState(null);
-  const [selectedSessionId, setSelectedSessionId] = useState(null);
+  const [selectedSession, setSelectedSession] = useState(null);
   const [content, setContent] = useState("");
+  const [nextConduct, setNextConduct] = useState("");
   const { findPatient, addTherapistNote } = useContext(PatientContext);
   const { findGame } = useContext(GameContext);
   const { therapist } = useContext(TherapistContext);
 
   const patient = patientId ? findPatient(patientId) ?? null : null;
   const patientGames = (patient?.games ?? []).map(
-    ({ gameId: patientGameId, notes = [] }) => ({
+    ({ gameId: patientGameId, difficulty, notes = [] }, index) => ({
       id: patientGameId,
       name:
         findGame(patientGameId)?.name ?? `Jogo ${Number(patientGameId) + 1}`,
+      color: profileColors[index % profileColors.length],
+      difficulty,
       sessions: notes,
     }),
   );
   const selectedGame = patientGames.find(
     ({ id }) => id === selectedGameId,
   );
+  const hasSelectedSession = Boolean(selectedSession && selectedGame);
 
   function saveNote() {
     if (
       selectedGameId === null ||
-      selectedSessionId === null ||
+      !selectedSession ||
       !content.trim()
     ) {
       Swal.fire({
@@ -63,8 +79,6 @@ export default function AddNote() {
       gameId: selectedGameId,
       therapistName: therapist.name,
       content: content.trim(),
-      evolutionLevel: "Alta",
-      supportLevel: "Médio",
     });
 
     navigate(`/app/patients/notes/${patientId}`);
@@ -84,6 +98,40 @@ export default function AddNote() {
     });
   }
 
+  async function cancelNote() {
+    const hasSelectedGameOrSession =
+      selectedGameId !== null || Boolean(selectedSession);
+    const hasWrittenContent = Boolean(content.trim() || nextConduct.trim());
+
+    if (!hasSelectedGameOrSession && !hasWrittenContent) {
+      navigate(`/app/patients/notes/${patientId}`);
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: "Descartar alterações?",
+      text: "As alterações ainda não salvas serão perdidas.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Descartar alterações",
+      confirmButtonColor: "var(--button)",
+      cancelButtonText: "Continuar editando",
+      reverseButtons: true,
+      background: "var(--panel)",
+      color: "var(--text)",
+      customClass: {
+        popup: "swal2-app-popup",
+        title: "swal2-app-title",
+        confirmButton: "swal2-app-confirm",
+        cancelButton: "swal2-app-cancel",
+      },
+    });
+
+    if (result.isConfirmed) {
+      navigate(`/app/patients/notes/${patientId}`);
+    }
+  }
+
   return (
     <div className="flex flex-col items-start gap-4 h-full">
       <PatientHeader
@@ -93,7 +141,9 @@ export default function AddNote() {
         backLinkPath={`/app/patients/notes/${patientId}`}
         patient={patient}
       />
-      <section className="grid grid-cols-[minmax(0,2fr)_minmax(0,1fr)] gap-5 w-full">
+      <section
+        className={`grid ${hasSelectedSession ? "grid-cols-[minmax(0,2fr)_minmax(0,1fr)]" : "grid-cols-1"} gap-5 w-full`}
+      >
         <Panel className="flex flex-col">
           <div className="flex flex-col gap-4.5 p-6">
             <PanelHeader
@@ -113,7 +163,7 @@ export default function AddNote() {
                     checked={selectedGameId === id}
                     onClick={() => {
                       setSelectedGameId(id);
-                      setSelectedSessionId(null);
+                      setSelectedSession(null);
                     }}
                   />
                 ))}
@@ -135,8 +185,8 @@ export default function AddNote() {
                       <Radio
                         key={session.id ?? index}
                         title={formatDateTime(session.dateTime, " às ")}
-                        checked={selectedSessionId === (session.id ?? index)}
-                        onClick={() => setSelectedSessionId(session.id ?? index)}
+                        checked={selectedSession === session}
+                        onClick={() => setSelectedSession(session)}
                         indicatorPosition="left"
                       />
                     ))
@@ -165,20 +215,72 @@ export default function AddNote() {
             <TextArea
               label="Próxima conduta"
               placeholder="Indique os objetivos e os ajustes para a próxima sessão."
+              value={nextConduct}
+              onChange={(event) => setNextConduct(event.target.value)}
             />
           </div>
           <hr />
           <div className="flex justify-between items-center px-6 py-4.5">
             <span className="text-xs text-(--secondary)">Responsável: {therapist.name}</span>
             <div className="flex gap-2.5">
-              <Button onClick={() => navigate(`/app/patients/notes/${patientId}`)}>Cancelar</Button>
+              <Button onClick={cancelNote}>Cancelar</Button>
               <Button type="primary" icon={check} onClick={saveNote}>
                 Salvar anotação
               </Button>
             </div>
           </div>
         </Panel>
-        <Panel></Panel>
+        {hasSelectedSession && (
+          <div className="flex flex-col gap-4">
+            <Panel className="flex flex-col gap-5 p-6">
+              <section className="flex flex-col gap-2">
+                <PanelTitle small>Especificações da Sessão</PanelTitle>
+                <div className="flex items-center gap-1.25">
+                  <Icon src={lock} color="var(--secondary)" size={12} />
+                  <span className="text-[11px] text-(--secondary)">Somente leitura</span>
+                </div>
+              </section>
+              <GameSessionCard
+                colors={cardColors()[gameCardColorKeys[selectedGame.id % gameCardColorKeys.length]]}
+                icon={gameIcon}
+                title={selectedGame.name}
+                date={selectedSession.dateTime}
+                patient={patient}
+              />
+              <section className="grid grid-cols-2 gap-3">
+                <SessionDetails
+                  title="DURAÇÃO"
+                  value="22 minutos"
+                  icon={time}
+                />
+                <SessionDetails
+                  title="DIFICULDADE"
+                  value={selectedGame.difficulty}
+                  icon={difficulty}
+                />
+                <SessionDetails
+                  title="CONCLUSÃO"
+                  value="3 de 3 tentativas"
+                  icon={conclusion}
+                />
+                <SessionDetails
+                  title="FOCO TERAPÊUTICO"
+                  value="Coordenação"
+                  icon={focus}
+                />
+              </section>
+              <hr />
+              <span className="text-xs text-(--secondary) text-justify">Dados da sessão jogada. Estas informações não são alteradas pela anotação.</span>
+            </Panel>
+            <div className="flex gap-2.5 p-4.5 rounded-lg bg-(--transparent)">
+              <Icon src={info} color="var(--link)" size={17} />
+              <div className="flex flex-col gap-1.25">
+                <h5 className="text-[13px] text-(--primary) font-semibold">Uma sessão por anotação</h5>
+                <span className="text-xs text-(--primary)">Escolha primeiro o jogo. Depois, selecione uma sessão já jogada por este paciente nesse jogo.</span>
+              </div>
+            </div>
+          </div>
+        )}
       </section>
     </div>
   )

@@ -55,6 +55,9 @@ export default function TherapistNotes() {
   const noteColors = colors();
   const patient = findPatient(id);
   const patientNotes = findNotesByPatient(id);
+  const selectedNoteGame = patient?.games?.find(
+    (game) => game.gameId === selectedNote?.gameId,
+  );
   const gameOptions = [
     ...new Set(patientNotes.map((note) => note.gameId)),
   ].map((gameId) => ({
@@ -179,7 +182,7 @@ export default function TherapistNotes() {
       <section
         className={`grid gap-5 w-full h-full transition-[grid-template-columns] duration-300 ease-in-out ${
           selectedNote
-            ? "grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:grid-cols-[minmax(0,7fr)_minmax(0,3fr)]"
+            ? "grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:grid-cols-[minmax(0,6fr)_minmax(0,4fr)]"
             : "grid-cols-1"
         }`}
       >
@@ -282,16 +285,16 @@ export default function TherapistNotes() {
             <section className="flex gap-2 w-full">
               <TextCard
                 title="RESPOSTA"
-                text={selectedNote.evolutionLevel}
+                text={selectedNoteGame?.evolutionLevel ?? "—"}
                 colors={{
                   Baixa: "red",
                   Média: "yellow",
                   Alta: "green",
-                }[selectedNote.evolutionLevel]}
+                }[selectedNoteGame?.evolutionLevel]}
               />
               <TextCard
                 title="SUPORTE"
-                text={selectedNote.supportLevel}
+                text={selectedNoteGame?.supportLevel ?? "—"}
                 colors="gray"
               />
             </section>
@@ -305,7 +308,7 @@ export default function TherapistNotes() {
                 />
                 <SessionDetails
                   title="DIFICULDADE"
-                  value="Médio"
+                  value={selectedNoteGame?.difficulty ?? "—"}
                   icon={difficulty}
                 />
                 <SessionDetails
