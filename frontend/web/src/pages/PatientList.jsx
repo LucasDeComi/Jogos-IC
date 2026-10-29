@@ -29,7 +29,7 @@ export default function PatientList() {
         </Button>
       </div>
       <hr />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 w-full">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 w-full">
         {patients && patients.map((patient, index) => (
           <PatientCard
             color={profileColors[index % profileColors.length]}

@@ -44,6 +44,7 @@ export function PatientProvider({ children }) {
           new TherapistNote(9, "0001", 2, "Helena Almeida", "Precisou de suporte pontual para coordenar os movimentos, com melhora no ritmo.", "2026-10-06T10:00:00", "Praticar a coordenação com movimentos em ritmo gradual e reduzir o suporte conforme necessário."),
         ]],
       ]),
+      "AVC",
     ),
     new Patient(
       "0002",
@@ -64,6 +65,7 @@ export function PatientProvider({ children }) {
           new TherapistNote(13, "0002", 4, "Lucas Carvalho", "Demonstrou maior controle dos braços durante as tarefas de alcance.", "2026-08-20T13:00:00", "Variar a direção dos alcances e aumentar a distância de forma gradual."),
         ]],
       ]),
+      "Acidente de trânsito",
     ),
     new Patient(
       "0003",
@@ -82,6 +84,7 @@ export function PatientProvider({ children }) {
           new TherapistNote(17, "0003", 4, "Beatriz Ferreira", "Manteve o desempenho e identificou os erros sem orientação direta.", "2026-10-05T11:45:00", "Introduzir novos desafios e reforçar a revisão autônoma das respostas."),
         ]],
       ]),
+      "Fratura",
     ),
     new Patient(
       "0004",
@@ -100,6 +103,7 @@ export function PatientProvider({ children }) {
           new TherapistNote(21, "0004", 4, "Mariana Costa", "Manteve o equilíbrio durante os movimentos e concluiu as tarefas propostas.", "2026-10-06T15:00:00", "Variar os movimentos de equilíbrio e manter atenção à segurança durante a atividade."),
         ]],
       ]),
+      "AVC",
     ),
     new Patient(
       "0005",
@@ -118,6 +122,7 @@ export function PatientProvider({ children }) {
           new TherapistNote(25, "0005", 4, "Beatriz Ferreira", "Finalizou a atividade com suporte verbal pontual.", "2026-07-15T11:30:00"),
         ]],
       ]),
+      "Acidente de trânsito",
     ),
   ]);
 
@@ -126,8 +131,8 @@ export function PatientProvider({ children }) {
     return patient;
   }
 
-  function addPatient(id, name, birthDate) {
-    const newPatient = new Patient(id, name, new Date(birthDate));
+  function addPatient(id, name, birthDate, diagnosis) {
+    const newPatient = new Patient(id, name, new Date(birthDate), [], diagnosis);
     setPatients([...patients, newPatient]);
   }
 

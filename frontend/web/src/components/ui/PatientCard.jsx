@@ -1,14 +1,22 @@
 import { Link } from "react-router-dom";
-import Panel from "./Panel"
+import Panel from "./Panel";
 import PatientCardItem from "./PatientCardItem";
 import Icon from "./Icon";
-import view from "../../assets/icons/view.svg"
-import calendar from "../../assets/icons/calendar.svg"
-import userIcon from "../../assets/icons/userIcon.svg"
-import clock from "../../assets/icons/clock.svg"
+import view from "../../assets/icons/view.svg";
+import calendar from "../../assets/icons/calendar.svg";
+import diagnostic from "../../assets/icons/diagnostic.svg";
+import clock from "../../assets/icons/clock.svg";
+import { formatDate } from "../../utils/formatDates";
 
 export default function PatientCard({ color, patient }) {
   const { id, name } = patient;
+  const latestSession = (patient.games ?? [])
+    .flatMap((game) => game.notes ?? [])
+    .reduce(
+      (latest, note) =>
+        !latest || note.dateTime > latest ? note.dateTime : latest,
+      null,
+    );
 
   return (
     <Panel className="flex flex-col gap-3 p-6">
@@ -43,16 +51,16 @@ export default function PatientCard({ color, patient }) {
           value={`${patient.getAge()} anos`}
         />
         <PatientCardItem
-          icon={userIcon}
-          title="TERAPEUTA"
-          value="Clara Santos"
+          icon={diagnostic}
+          title="DIAGNÓSTICO"
+          value={patient.diagnosis || "Não informado"}
         />
         <PatientCardItem
           icon={clock}
           title="ÚLTIMA SESSÃO"
-          value="10/06/2026"
+          value={latestSession ? formatDate(latestSession) : "—"}
         />
       </section>
     </Panel>
-  )
+  );
 }

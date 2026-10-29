@@ -7,6 +7,7 @@ import Title from "../components/ui/Title";
 import Description from "../components/ui/Description";
 import Panel from "../components/ui/Panel";
 import Input from "../components/ui/Input";
+import Select from "../components/ui/Select";
 import Button from "../components/ui/Button";
 import Tip from "../components/ui/Tip";
 
@@ -14,13 +15,14 @@ export default function RegisterPatient() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
+  const [diagnosis, setDiagnosis] = useState("");
 
   const { addPatient, findPatient } = useContext(PatientContext);
 
   const navigate = useNavigate();
 
   function register() {
-    if (!id || !name || !birth) {
+    if (!id || !name || !birth || !diagnosis.trim()) {
       Swal.fire({
         title: "Preencha todos os campos.",
         confirmButtonColor: "#0F7675",
@@ -45,7 +47,7 @@ export default function RegisterPatient() {
       return;
     }
 
-    addPatient(id, name, birth);
+    addPatient(id, name, birth, diagnosis.trim());
 
     navigate("/app/patients");
     Swal.fire({
@@ -95,6 +97,16 @@ export default function RegisterPatient() {
           value={birth}
           onChange={(e) => setBirth(e.target.value)}
         />
+        <Select
+          label="Diagnóstico"
+          value={diagnosis}
+          onChange={(event) => setDiagnosis(event.target.value)}
+        >
+          <option value="">Selecione um diagnóstico</option>
+          <option value="AVC">AVC</option>
+          <option value="Acidente de trânsito">Acidente de trânsito</option>
+          <option value="Fratura">Fratura</option>
+        </Select>
         <Tip>
           Prontuário e Nome do paciente não podem ser editados após a criação do
           cadastro.
