@@ -2,6 +2,28 @@ import Patient from "../utils/Patient";
 import PatientGame from "../utils/PatientGame";
 import TherapistNote from "../utils/TherapistNote";
 
+const sessionScoreSets = [
+  [1120, 1000, 950, 900, 850, 820, 750, 770],
+  [780, 820, 790, 880, 930, 910, 980, 1020],
+  [640, 700, 690, 760, 810, 790, 870, 920],
+  [900, 860, 940, 920, 1010, 980, 1050, 1090],
+  [500, 580, 620, 600, 710, 680, 760, 810],
+];
+const sessionDaysAgo = [1, 3, 5, 8, 12, 17, 23, 29];
+
+const createRecentSessions = (scores = sessionScoreSets[0]) =>
+  scores.map((score, index) => {
+    const dateTime = new Date();
+    dateTime.setDate(dateTime.getDate() - sessionDaysAgo[index]);
+    dateTime.setHours(9 + index, 15, 0, 0);
+
+    return {
+      id: index + 1,
+      score,
+      dateTime,
+    };
+  });
+
 const gameAssociations = (associations) =>
   associations.map(
     ([
@@ -11,6 +33,12 @@ const gameAssociations = (associations) =>
       evolutionLevel,
       supportLevel,
       notes = [],
+      sessions = notes.map((note) => ({
+        id: note.id,
+        score:
+          sessionScoreSets[0][(note.id - 1) % sessionScoreSets[0].length],
+        dateTime: note.dateTime,
+      })),
     ]) =>
       new PatientGame(
         gameId,
@@ -19,6 +47,7 @@ const gameAssociations = (associations) =>
         evolutionLevel,
         supportLevel,
         notes,
+        sessions,
       ),
   );
 
@@ -33,7 +62,7 @@ export function createInitialPatients() {
         [0, "Médio", ["Mãos (Gestos finos)", "Braços (Coordenação ampla)"], "Alta", "Mínimo", [
           new TherapistNote(1, "0001", 0, "Mariana Costa", "Manteve a atenção durante a atividade e concluiu as etapas com mais precisão.", "2026-06-10T14:00:00", "Manter atividades de atenção sustentada e aumentar gradualmente o nível de desafio."),
           new TherapistNote(7, "0001", 0, "Mariana Costa", "Aumentou a precisão ao selecionar os estímulos e precisou de menos lembretes.", "2026-10-03T14:00:00", "Propor novas sequências de estímulos e reduzir gradualmente as pistas."),
-        ]],
+        ], createRecentSessions(sessionScoreSets[0])],
         [1, "Fácil", ["Mãos (Gestos finos)", "Cabeça / Pescoço"], "Alta", "Mínimo", [
           new TherapistNote(2, "0001", 1, "Rafael Martins", "Precisou de incentivo para iniciar, mas completou as tarefas de memória visual.", "2026-06-08T15:30:00", "Usar pistas visuais no início e incentivar o início independente da atividade."),
           new TherapistNote(8, "0001", 1, "Rafael Martins", "Completou as etapas com autonomia e manteve a atenção até o fim.", "2026-09-16T15:30:00", "Aumentar gradualmente a quantidade de itens nas tarefas de memória visual."),
@@ -51,7 +80,7 @@ export function createInitialPatients() {
       gameAssociations([
         [0, "Médio", ["Pernas (Deslocamento)", "Tronco (Postura)"], "Média", "Mínimo", [
           new TherapistNote(10, "0002", 0, "Beatriz Ferreira", "Manteve a postura durante a atividade e concluiu as etapas propostas.", "2026-09-30T09:30:00", "Manter atividades posturais e ampliar progressivamente o tempo de sustentação."),
-        ]],
+        ], createRecentSessions(sessionScoreSets[1])],
         [2, "Difícil", ["Pernas (Deslocamento)", "Cabeça / Pescoço"], "Média", "Médio", [
           new TherapistNote(3, "0002", 2, "Helena Almeida", "Apresentou dificuldade na coordenação dos movimentos e se beneficiou de orientações frequentes.", "2026-06-06T10:15:00", "Repetir movimentos em etapas curtas com demonstração e pistas verbais."),
           new TherapistNote(11, "0002", 2, "Helena Almeida", "Respondeu melhor às instruções e realizou mais movimentos sem ajuda física.", "2026-10-04T10:15:00", "Reduzir gradualmente as orientações e estimular a execução independente."),
@@ -72,7 +101,7 @@ export function createInitialPatients() {
       gameAssociations([
         [0, "Médio", ["Mãos (Gestos finos)", "Pernas (Deslocamento)"], "Alta", "Mínimo", [
           new TherapistNote(14, "0003", 0, "Rafael Martins", "Realizou a atividade com ritmo constante e boa coordenação das mãos.", "2026-10-02T14:30:00", "Introduzir tarefas de coordenação manual com maior variedade de estímulos."),
-        ]],
+        ], createRecentSessions(sessionScoreSets[2])],
         [2, "Difícil", ["Mãos (Gestos finos)", "Tronco (Postura)"], "Alta", "Mínimo", [
           new TherapistNote(15, "0003", 2, "Mariana Costa", "Concluiu as etapas com menos pausas e manteve uma postura estável.", "2026-09-25T10:30:00", "Aumentar gradualmente a duração da atividade, respeitando a necessidade de pausas."),
         ]],
@@ -91,7 +120,7 @@ export function createInitialPatients() {
       gameAssociations([
         [1, "Fácil", ["Mãos (Gestos finos)", "Braços (Coordenação ampla)"], "Média", "Médio", [
           new TherapistNote(18, "0004", 1, "Lucas Carvalho", "Realizou os movimentos com maior controle e aceitou bem as orientações.", "2026-09-22T13:15:00", "Manter os exercícios com pistas verbais e ampliar a variedade de movimentos."),
-        ]],
+        ], createRecentSessions(sessionScoreSets[3])],
         [3, "Médio", ["Pernas (Deslocamento)", "Cabeça / Pescoço"], "Média", "Médio", [
           new TherapistNote(5, "0004", 3, "Beatriz Ferreira", "Acompanhou as instruções com suporte pontual e concluiu a maior parte da atividade.", "2026-06-02T09:20:00", "Dividir as instruções em etapas e manter suporte pontual durante a execução."),
           new TherapistNote(19, "0004", 3, "Beatriz Ferreira", "Completou todas as etapas com lembretes verbais pontuais.", "2026-10-01T09:20:00", "Reduzir gradualmente os lembretes e verificar a compreensão antes de iniciar."),
@@ -111,7 +140,7 @@ export function createInitialPatients() {
         [1, "Fácil", ["Tronco (Postura)", "Cabeça / Pescoço"], "Média", "Médio", [
           new TherapistNote(6, "0005", 1, "Lucas Carvalho", "Precisou de apoio contínuo para manter o foco e avançar nas etapas propostas.", "2026-05-29T13:10:00", "Usar objetivos curtos e pausas planejadas para apoiar a manutenção do foco."),
           new TherapistNote(22, "0005", 1, "Lucas Carvalho", "Manteve o foco por mais tempo e precisou de menos apoio para avançar.", "2026-10-04T13:10:00", "Ampliar gradualmente o tempo de atividade e observar a necessidade de apoio."),
-        ]],
+        ], createRecentSessions(sessionScoreSets[4])],
         [2, "Difícil", ["Mãos (Gestos finos)", "Pernas (Deslocamento)"], "Média", "Médio", [
           new TherapistNote(23, "0005", 2, "Rafael Martins", "Coordenou os movimentos com mais segurança e concluiu a sequência.", "2026-09-29T10:00:00", "Introduzir sequências motoras variadas mantendo o ritmo confortável."),
         ]],

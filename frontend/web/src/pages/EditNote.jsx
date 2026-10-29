@@ -26,8 +26,6 @@ import conclusion from "../assets/icons/conclusion.svg";
 import focus from "../assets/icons/focus.svg";
 import clock from "../assets/icons/clock.svg";
 
-const gameCardColorKeys = ["purple", "green", "yellow", "red", "gray"];
-
 export default function EditNote() {
   const { id: noteId } = useParams();
   const { findPatient, findTherapistNote } = useContext(PatientContext);
@@ -49,8 +47,7 @@ function EditNoteForm({ note, patient }) {
   const noteGame = patient.games?.find((game) => game.gameId === note.gameId);
   const game = findGame(note.gameId);
   const gameName = game?.name ?? `Jogo ${Number(note.gameId) + 1}`;
-  const gameCardColors =
-    cardColors()[gameCardColorKeys[note.gameId % gameCardColorKeys.length]];
+  const gameCardColors = cardColors().green;
   const [content, setContent] = useState(note?.content ?? "");
   const [nextConduct, setNextConduct] = useState(note?.nextConduct ?? "");
 

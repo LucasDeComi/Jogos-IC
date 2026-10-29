@@ -137,7 +137,7 @@ export default function ViewPatient() {
           Adicionar Jogo
         </Button>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(400px,1fr))] gap-6 w-full">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(420px,1fr))] gap-6 w-full">
         {patientGames.length === 0 ? (
           <p className="text-(--secondary) text-[13px]">
             O paciente não tem nenhum jogo

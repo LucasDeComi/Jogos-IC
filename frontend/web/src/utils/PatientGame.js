@@ -6,6 +6,7 @@ export default class PatientGame {
     _evolutionLevel = "Média",
     _supportLevel = "Médio",
     _notes = [],
+    _sessions = [],
   ) {
     this.gameId = _gameId;
     this.difficulty = _difficulty;
@@ -13,5 +14,9 @@ export default class PatientGame {
     this.evolutionLevel = _evolutionLevel;
     this.supportLevel = _supportLevel;
     this.notes = [..._notes];
+    this.sessions = _sessions.map((session) => ({
+      ...session,
+      dateTime: new Date(session.dateTime),
+    }));
   }
 }

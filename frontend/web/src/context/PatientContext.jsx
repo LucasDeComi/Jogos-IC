@@ -52,6 +52,7 @@ export function PatientProvider({ children }) {
             association.evolutionLevel,
             association.supportLevel,
             association.notes,
+            association.sessions,
           );
           return [game.gameId, game];
         }),
@@ -116,6 +117,7 @@ export function PatientProvider({ children }) {
                         nextConduct,
                       ),
                     ],
+                    game.sessions,
                   )
                 : game,
             ),
@@ -174,6 +176,7 @@ export function PatientProvider({ children }) {
                           )
                         : note,
                     ),
+                    game.sessions,
                   )
                 : game;
             }),

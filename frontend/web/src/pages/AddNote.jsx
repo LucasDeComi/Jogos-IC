@@ -28,8 +28,6 @@ import conclusion from "../assets/icons/conclusion.svg";
 import focus from "../assets/icons/focus.svg";
 import info from "../assets/icons/info.svg";
 
-const gameCardColorKeys = ["purple", "green", "yellow", "red", "gray"];
-
 export default function AddNote() {
   const navigate = useNavigate();
 
@@ -155,12 +153,12 @@ export default function AddNote() {
             <div className="flex flex-col gap-2">
               <Label>Jogo</Label>
               <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Jogo">
-                {patientGames.map(({ id, name }, index) => (
+                {patientGames.map(({ id, name, color }) => (
                   <Radio
                     key={id}
                     title={name}
                     icon={gameIcon}
-                    iconColor={profileColors[index % profileColors.length]}
+                    iconColor={color}
                     checked={selectedGameId === id}
                     onClick={() => {
                       setSelectedGameId(id);
@@ -242,7 +240,7 @@ export default function AddNote() {
                 </div>
               </section>
               <GameSessionCard
-                colors={cardColors()[gameCardColorKeys[selectedGame.id % gameCardColorKeys.length]]}
+                colors={cardColors().green}
                 icon={gameIcon}
                 title={selectedGame.name}
                 date={selectedSession.dateTime}

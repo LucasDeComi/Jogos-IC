@@ -53,6 +53,7 @@ export default function PatientGames() {
           evolutionLevel,
           supportLevel,
           notes,
+          sessions,
         }) =>
           new PatientGame(
             gameId,
@@ -61,6 +62,7 @@ export default function PatientGames() {
             evolutionLevel,
             supportLevel,
             notes,
+            sessions,
           ),
       ),
     );
@@ -293,6 +295,7 @@ export default function PatientGames() {
             evolutionLevel,
             supportLevel,
             notes,
+            sessions,
           }) =>
             new PatientGame(
               gameId,
@@ -301,6 +304,7 @@ export default function PatientGames() {
               evolutionLevel,
               supportLevel,
               notes,
+              sessions,
             ),
         ),
       );
