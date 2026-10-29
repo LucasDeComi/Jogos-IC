@@ -323,29 +323,32 @@ export default function TherapistNotes() {
                 />
               </div>
             </section>
-            <section
-              className="flex gap-2.5 rounded-lg p-3"
-              style={{ backgroundColor: colors()["yellow"].background }}
-            >
-              <Icon src={lamp} color={colors()["yellow"].text} size={10} className="mt-1" />
-              <div className="flex flex-col gap-3/4">
-                <h5
-                  className="text-[11px] font-bold"
-                  style={{ color: colors()["yellow"].text }}  
-                >
-                  PRÓXIMA CONDUTA
-                </h5>
-                <p className="text-(--text) text-xs">
-                  Manter o nível médio e reduzir gradualmente os comandos verbais na próxima sessão.
-                </p>
-              </div>
-            </section>
+            {selectedNote.nextConduct?.trim() && (
+              <section
+                className="flex gap-2.5 rounded-lg p-3"
+                style={{ backgroundColor: colors()["yellow"].background }}
+              >
+                <Icon src={lamp} color={colors()["yellow"].text} size={10} className="mt-1" />
+                <div className="flex flex-col gap-3/4">
+                  <h5
+                    className="text-[11px] font-bold"
+                    style={{ color: colors()["yellow"].text }}
+                  >
+                    PRÓXIMA CONDUTA
+                  </h5>
+                  <p className="text-(--text) text-xs">
+                    {selectedNote.nextConduct}
+                  </p>
+                </div>
+              </section>
+            )}
             <section className="flex justify-between items-center w-full">
               <span className="text-[11px] text-(--secondary)">Registrado por {selectedNote.therapistName}</span>
               <Button
                 type="edit"
                 size="small"
                 icon={pen}
+                onClick={() => navigate(`/app/patients/notes/edit/${selectedNote.id}`)}
               >
                 Editar anotação
               </Button>

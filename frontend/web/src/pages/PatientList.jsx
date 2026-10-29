@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { profileColors } from "../utils/colors";
 import Title from "../components/ui/Title";

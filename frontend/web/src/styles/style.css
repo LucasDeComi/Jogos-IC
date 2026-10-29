@@ -20,3 +20,8 @@ hr {
   width: 100%;
   border-color: var(--border);
 }
+
+option {
+  background-color: var(--panel);
+  color: var(--text);
+}

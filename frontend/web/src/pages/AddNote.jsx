@@ -79,6 +79,7 @@ export default function AddNote() {
       gameId: selectedGameId,
       therapistName: therapist.name,
       content: content.trim(),
+      nextConduct: nextConduct.trim(),
     });
 
     navigate(`/app/patients/notes/${patientId}`);
