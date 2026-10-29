@@ -1,12 +1,10 @@
 import { createContext, useState } from "react";
-import Therapist from "../utils/Therapist";
+import { createInitialTherapist } from "../data/initialTherapist";
 
 export const TherapistContext = createContext();
 
 export function TherapistProvider({ children }) {
-    const [therapist, setTherapist] = useState(
-        new Therapist("Fábio Oliveira", "terapeuta@email.com", "1234")
-    );
+    const [therapist, setTherapist] = useState(createInitialTherapist);
 
     function editTherapist(name, email, password, theme, style, itemsSize, contrast) {
         setTherapist({

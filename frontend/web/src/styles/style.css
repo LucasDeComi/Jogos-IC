@@ -25,3 +25,11 @@ option {
   background-color: var(--panel);
   color: var(--text);
 }
+
+input[type="date"] {
+  color-scheme: light;
+}
+
+:root[theme="dark"] input[type="date"] {
+  color-scheme: dark;
+}

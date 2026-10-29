@@ -1,3 +1,24 @@
+.swal2-popup {
+  background: var(--panel) !important;
+  color: var(--text) !important;
+}
+
+.swal2-title,
+.swal2-html-container {
+  color: var(--text) !important;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: var(--button) !important;
+  color: #fff !important;
+}
+
+.swal2-styled.swal2-cancel {
+  border: 1px solid var(--border) !important;
+  background-color: var(--input) !important;
+  color: var(--text) !important;
+}
+
 .swal2-toast .swal2-success [class^="swal2-success-circular-line"],
 .swal2-toast .swal2-success .swal2-success-fix {
   background-color: var(--panel) !important;

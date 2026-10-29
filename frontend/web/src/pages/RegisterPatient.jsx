@@ -101,6 +101,7 @@ export default function RegisterPatient() {
           label="Diagnóstico"
           value={diagnosis}
           onChange={(event) => setDiagnosis(event.target.value)}
+          required
         >
           <option value="">Selecione um diagnóstico</option>
           <option value="AVC">AVC</option>

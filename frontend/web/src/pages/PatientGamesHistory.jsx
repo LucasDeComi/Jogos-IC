@@ -210,7 +210,7 @@ export default function PatientGamesHistory() {
               </p>
             )}
           </Panel>
-          <Panel className="flex h-128 min-h-0 flex-col gap-4 overflow-y-scroll p-6">
+          <Panel className="flex h-128 min-h-0 flex-col gap-4 overflow-y-auto p-6">
             <PanelTitle>Histórico de sessões</PanelTitle>
             <table className="w-full border-separate border-spacing-y-2">
               <thead>

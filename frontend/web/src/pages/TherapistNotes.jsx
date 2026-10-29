@@ -187,7 +187,7 @@ export default function TherapistNotes() {
         }`}
       >
         <Panel className="flex min-w-0 flex-col justify-between">
-          <div className="flex flex-col h-full overflow-y-scroll">
+          <div className="flex flex-col h-full overflow-y-auto">
             <div className="flex justify-between border-b border-(--border) px-5 py-4">
               <PanelTitle small>Anotações do paciente</PanelTitle>
               <button
