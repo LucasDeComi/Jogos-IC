@@ -13,6 +13,7 @@ import PanelTitle from "../components/ui/PanelTitle";
 import TextArea from "../components/ui/TextArea";
 import Button from "../components/ui/Button";
 import Icon from "../components/ui/Icon";
+import Info from "../components/ui/Info";
 import GameSessionCard from "../components/ui/GameSessionCard";
 import SessionDetails from "../components/ui/SessionDetails";
 import SessionData from "../components/ui/SessionData";
@@ -269,17 +270,11 @@ function EditNoteForm({ note, patient }) {
               anotação.
             </span>
           </Panel>
-          <div className="flex gap-2.5 p-4.5 rounded-lg bg-(--transparent)">
-            <Icon src={lock} color="var(--link)" size={17} />
-            <div className="flex flex-col gap-1.25">
-              <h5 className="text-[13px] text-(--primary) font-semibold">
-                Vínculo preservado
-              </h5>
-              <span className="text-xs text-(--primary)">
-                Jogo, sessão, data e hora não podem ser alterados. Você pode editar apenas o registro clínico.
-              </span>
-            </div>
-          </div>
+          <Info
+            icon={lock}
+            title="Vínculo preservado"
+            text="Jogo, sessão, data e hora não podem ser alterados. Você pode editar apenas o registro clínico."
+          />
         </div>
       </section>
     </div>

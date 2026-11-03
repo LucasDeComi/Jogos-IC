@@ -19,8 +19,15 @@ export function TherapistProvider({ children }) {
         })
     }
 
+    function toggleTheme() {
+        setTherapist((current) => ({
+            ...current,
+            theme: current.theme === "dark" ? "light" : "dark",
+        }));
+    }
+
     return (
-        <TherapistContext.Provider value={{ therapist, editTherapist }}>
+        <TherapistContext.Provider value={{ therapist, editTherapist, toggleTheme }}>
             { children }
         </TherapistContext.Provider>
     )

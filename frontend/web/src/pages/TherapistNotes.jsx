@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { PatientContext } from "../context/PatientContext";
 import { GameContext } from "../context/GameContext";
 import PatientHeader from "../components/ui/PatientHeader";
@@ -38,6 +38,7 @@ const gameBlockColorKeys = ["purple", "green", "yellow", "red", "gray"];
 
 export default function TherapistNotes() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { id } = useParams();
   const [filters, setFilters] = useState({
@@ -55,6 +56,16 @@ export default function TherapistNotes() {
   const noteColors = colors();
   const patient = findPatient(id);
   const patientNotes = findNotesByPatient(id);
+  const requestedGameId = searchParams.get("game");
+  const requestedSessionId = searchParams.get("session");
+  const activeSession =
+    requestedSessionId && patient?.games
+      ? patient.games
+          .find((game) => String(game.gameId) === String(requestedGameId))
+          ?.sessions?.find(
+            (session) => String(session.id) === String(requestedSessionId),
+          ) ?? null
+      : null;
   const selectedNoteGame = patient?.games?.find(
     (game) => game.gameId === selectedNote?.gameId,
   );
@@ -67,9 +78,16 @@ export default function TherapistNotes() {
   const therapistOptions = [
     ...new Set(patientNotes.map((note) => note.therapistName)),
   ];
+  const activeGameId = requestedGameId || filters.gameId;
   const filteredNotes = patientNotes.filter((note) => {
     const matchesGame =
-      !filters.gameId || String(note.gameId) === filters.gameId;
+      !activeGameId || String(note.gameId) === activeGameId;
+    const matchesSession =
+      !activeSession ||
+      String(note.sessionId ?? note.id) === String(activeSession.id) ||
+      (!note.sessionId &&
+        new Date(note.dateTime).getTime() ===
+          new Date(activeSession.dateTime).getTime());
     const matchesTherapist =
       !filters.therapistName || note.therapistName === filters.therapistName;
     const days = Number(filters.period);
@@ -77,7 +95,7 @@ export default function TherapistNotes() {
       !filters.period ||
       note.dateTime >= new Date(now - days * 24 * 60 * 60 * 1000);
 
-    return matchesGame && matchesTherapist && matchesPeriod;
+    return matchesGame && matchesSession && matchesTherapist && matchesPeriod;
   });
   const noteCount = filteredNotes.length;
   const sortedNotes = [...filteredNotes].sort((first, second) =>
@@ -128,7 +146,7 @@ export default function TherapistNotes() {
             className="md:min-w-40"
             label="JOGO"
             icon={control}
-            value={filters.gameId}
+            value={filters.gameId || requestedGameId || ""}
             onChange={(event) => updateFilter("gameId", event.target.value)}
           >
             <option value="">Todos os jogos</option>

@@ -16,7 +16,27 @@ export class CardColor {
     }
 }
 
-export const profileColors = ["#8075E3", "#38B2AC", "#ED8936", "#E53E3E", "#319795"];
+export const profileColors = {
+    purple: "#8075E3",
+    teal: "#38B2AC",
+    orange: "#ED8936",
+    red: "#E53E3E",
+    green: "#319795",
+};
+
+export const profileColorValues = Object.values(profileColors);
+
+export const progressColors = {
+    red: "#FC8181",
+    yellow: "#F6AD55",
+    blue: "#63B3ED",
+    orange: "#ED8936",
+    green: "#48BB78",
+    purple: "#A78BFA",
+    teal: "#4FD1C5",
+};
+
+export const progressColorValues = Object.values(progressColors);
 
 export function blockColors() {
     const { therapist } = useContext(TherapistContext);
@@ -28,6 +48,7 @@ export function blockColors() {
         red: theme === "light" ? new BlockColor("#FFF0F0", "#E53E3E") : new BlockColor("#3A161D", "#F56565"),
         yellow: theme === "light" ? new BlockColor("#FFF8E6", "#B7791F") : new BlockColor("#3A2E16", "#ECC94B"),
         purple: theme === "light" ? new BlockColor("#F3E8FF", "#6B21A8") : new BlockColor("#322659", "#D6BCFA"),
+        blue: theme === "light" ? new BlockColor("#EAF6FF", "#2B6CB0") : new BlockColor("#132B46", "#63B3ED"),
     }
 };
 

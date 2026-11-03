@@ -35,20 +35,30 @@ const gameAssociations = (associations) =>
       notes = [],
       sessions = notes.map((note) => ({
         id: note.id,
+        sessionId: note.id,
         score:
           sessionScoreSets[0][(note.id - 1) % sessionScoreSets[0].length],
         dateTime: note.dateTime,
       })),
-    ]) =>
-      new PatientGame(
+    ]) => {
+      const normalizedNotes = notes.map((note) => {
+        note.sessionId = note.sessionId ?? note.id;
+        return note;
+      });
+
+      return new PatientGame(
         gameId,
         difficulty,
         movementFocuses,
         evolutionLevel,
         supportLevel,
-        notes,
-        sessions,
-      ),
+        normalizedNotes,
+        sessions.map((session) => ({
+          ...session,
+          sessionId: session.sessionId ?? session.id,
+        })),
+      );
+    },
   );
 
 

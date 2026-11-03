@@ -7,6 +7,7 @@ export default class TherapistNote {
     _content,
     _dateTime,
     _nextConduct = "",
+    _sessionId = null,
   ) {
     this.id = _id;
     this.patientId = _patientId;
@@ -15,5 +16,6 @@ export default class TherapistNote {
     this.content = _content;
     this.dateTime = new Date(_dateTime);
     this.nextConduct = _nextConduct;
+    this.sessionId = _sessionId;
   }
 }

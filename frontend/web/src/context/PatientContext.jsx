@@ -81,6 +81,7 @@ export function PatientProvider({ children }) {
     content,
     nextConduct = "",
     dateTime = new Date(),
+    sessionId = null,
   }) {
     setPatients((currentPatients) => {
       const allNotes = currentPatients.flatMap((patient) =>
@@ -115,6 +116,7 @@ export function PatientProvider({ children }) {
                         content,
                         dateTime,
                         nextConduct,
+                        sessionId,
                       ),
                     ],
                     game.sessions,
@@ -173,6 +175,7 @@ export function PatientProvider({ children }) {
                             content,
                             note.dateTime,
                             nextConduct,
+                            note.sessionId ?? note.id,
                           )
                         : note,
                     ),

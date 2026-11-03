@@ -1,4 +1,4 @@
-import { profileColors as colors } from "../../utils/colors"
+import { profileColorValues as colors } from "../../utils/colors"
 
 export default function PatientBadge({ patient }) {
     const { id, name } = patient;

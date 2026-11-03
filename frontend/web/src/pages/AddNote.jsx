@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { PatientContext } from "../context/PatientContext";
 import { TherapistContext } from "../context/TherapistContext";
 import { GameContext } from "../context/GameContext";
-import { cardColors, profileColors } from "../utils/colors";
+import { cardColors, profileColorValues } from "../utils/colors";
 import { formatDateTime } from "../utils/formatDates";
 import PatientHeader from "../components/ui/PatientHeader";
 import Panel from "../components/ui/Panel";
@@ -15,6 +15,7 @@ import Radio from "../components/ui/Radio";
 import TextArea from "../components/ui/TextArea";
 import Button from "../components/ui/Button";
 import Icon from "../components/ui/Icon";
+import Info from "../components/ui/Info";
 import GameSessionCard from "../components/ui/GameSessionCard";
 import SessionDetails from "../components/ui/SessionDetails";
 import sessionIcon from "../assets/icons/control.svg";
@@ -43,13 +44,13 @@ export default function AddNote() {
 
   const patient = patientId ? findPatient(patientId) ?? null : null;
   const patientGames = (patient?.games ?? []).map(
-    ({ gameId: patientGameId, difficulty, notes = [] }, index) => ({
+    ({ gameId: patientGameId, difficulty, sessions = [], notes = [] }, index) => ({
       id: patientGameId,
       name:
         findGame(patientGameId)?.name ?? `Jogo ${Number(patientGameId) + 1}`,
-      color: profileColors[index % profileColors.length],
+      color: profileColorValues[index % profileColorValues.length],
       difficulty,
-      sessions: notes,
+      sessions: sessions.length > 0 ? sessions : notes,
     }),
   );
   const selectedGame = patientGames.find(
@@ -78,6 +79,7 @@ export default function AddNote() {
       therapistName: therapist.name,
       content: content.trim(),
       nextConduct: nextConduct.trim(),
+      sessionId: selectedSession?.id ?? null,
     });
 
     navigate(`/app/patients/notes/${patientId}`);
@@ -271,13 +273,11 @@ export default function AddNote() {
               <hr />
               <span className="text-xs text-(--secondary) text-justify">Dados da sessão jogada. Estas informações não são alteradas pela anotação.</span>
             </Panel>
-            <div className="flex gap-2.5 p-4.5 rounded-lg bg-(--transparent)">
-              <Icon src={info} color="var(--link)" size={17} />
-              <div className="flex flex-col gap-1.25">
-                <h5 className="text-[13px] text-(--primary) font-semibold">Uma sessão por anotação</h5>
-                <span className="text-xs text-(--primary)">Escolha primeiro o jogo. Depois, selecione uma sessão já jogada por este paciente nesse jogo.</span>
-              </div>
-            </div>
+            <Info
+              icon={info}
+              title="Uma sessão por anotação"
+              text="Escolha primeiro o jogo. Depois, selecione uma sessão já jogada por este paciente nesse jogo."
+            />
           </div>
         )}
       </section>

@@ -1,5 +1,5 @@
 import Game from "../utils/Game";
-import { profileColors } from "../utils/colors";
+import { profileColorValues } from "../utils/colors";
 
 const movementFocuses = [
   "Mãos (Gestos finos)",
@@ -24,7 +24,7 @@ export function createInitialGames() {
         name,
         category,
         skill,
-        profileColors[index % profileColors.length],
+        profileColorValues[index % profileColorValues.length],
         movementFocuses,
       ),
   );
