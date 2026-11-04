@@ -155,6 +155,7 @@ export default function ViewPatient() {
               movementFocuses={movementFocuses}
               gameId={gameId}
               patientId={id}
+              onClick={() => navigate(`/app/patients/games/history?patient=${patient.id}&game=${gameId}`)}
             />
           ))
         )}

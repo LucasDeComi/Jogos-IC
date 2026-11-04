@@ -1,11 +1,9 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import { PatientContext } from "../../context/PatientContext";
 import Panel from "./Panel";
 import CardItem from "./CardItem";
 import { blockColors as colors } from "../../utils/colors";
 import game from "../../assets/icons/game.svg";
-import view from "../../assets/icons/chartBar.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import removeIcon from "../../assets/icons/remove.svg";
 import Swal from "sweetalert2";
@@ -71,7 +69,7 @@ export default function GameCard({
 
   return (
     <Panel
-      className={`flex justify-between items-center ${compact ? "gap-2 p-3" : "gap-3 p-6"}`}
+      className={`flex justify-between items-center transition-colors duration-200 hover:bg-(--input) ${compact ? "gap-2 p-3" : "gap-3 p-6"}`}
       onClick={onClick}
     >
       <div className={`flex items-center ${compact ? "gap-3" : "gap-4"} w-full`}>
@@ -99,23 +97,19 @@ export default function GameCard({
       </div>
       {toolButtons && (
         <div className="flex items-center gap-3">
-          <Link
-            className={`
-              flex justify-center items-center w-8 h-8 border border-(--border) rounded-lg
-              transition-colors duration-150 hover:border-(--border-hover)
-            `}
-            to={`/app/patients/games/history?patient=${patientId}&game=${gameId}`}
-          >
-            <img src={view} className="w-4 h-4" />
-          </Link>
           <button
+            type="button"
+            aria-label={`Desassociar ${name}`}
             className={`
               flex justify-center items-center w-8 h-8 border border-(--border) rounded-lg
               transition-colors duration-150 hover:border-(--border-hover)
             `}
-            onClick={removeGame}
+            onClick={(event) => {
+              event.stopPropagation();
+              removeGame();
+            }}
           >
-            <img src={deleteIcon} className="w-4 h-4" />
+            <img src={deleteIcon} alt="" className="w-4 h-4" />
           </button>
         </div>
       )}
