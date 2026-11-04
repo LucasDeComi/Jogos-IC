@@ -2,10 +2,11 @@ import User from "./User";
 import { therapistSettings as settings } from "./settings";
 
 export default class Therapist extends User {
-    constructor(_name, _email, _password) { 
+    constructor(_name, _email, _password, _isSidebarCollapsed = false) {
         super(_name)
         this.email = _email;
         this.password = _password;
+        this.isSidebarCollapsed = _isSidebarCollapsed;
         this.theme = settings.theme;
         this.style = settings.style;
         this.itemsSize = settings.itemsSize;
