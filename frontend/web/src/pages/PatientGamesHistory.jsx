@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import {
   CartesianGrid,
   Line,
@@ -40,9 +40,16 @@ import conclusion from "../assets/icons/conclusion.svg";
 import focus from "../assets/icons/focus.svg";
 
 export default function PatientGamesHistory() {
-  const [period, setPeriod] = useState("30");
-  const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const deepLinkedSessionId = searchParams.get("session");
+  const [period, setPeriod] = useState(() =>
+    deepLinkedSessionId === null ? "30" : "all",
+  );
+  const [selectedSessionId, setSelectedSessionId] = useState(
+    deepLinkedSessionId,
+  );
+  const sessionChartRef = useRef(null);
   const patientId = searchParams.get("patient");
   const gameId = searchParams.get("game");
 
@@ -69,7 +76,12 @@ export default function PatientGamesHistory() {
     .sort((first, second) => second.dateTime - first.dateTime);
 
   useEffect(() => {
-    if (selectedSessionId && !visibleSessions.some((session) => session.id === selectedSessionId)) {
+    if (
+      selectedSessionId !== null &&
+      !visibleSessions.some(
+        (session) => String(session.id) === selectedSessionId,
+      )
+    ) {
       setSelectedSessionId(null);
     }
   }, [selectedSessionId, visibleSessions]);
@@ -77,7 +89,22 @@ export default function PatientGamesHistory() {
   const selectedSession =
     selectedSessionId === null
       ? null
-      : visibleSessions.find((session) => session.id === selectedSessionId) ?? null;
+      : visibleSessions.find(
+          (session) => String(session.id) === selectedSessionId,
+        ) ?? null;
+
+  useEffect(() => {
+    if (
+      selectedSession &&
+      location.hash === "#session-performance" &&
+      sessionChartRef.current
+    ) {
+      sessionChartRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [location.hash, selectedSession]);
 
   const patientNotes = patient ? findNotesByPatient(patient.id) : [];
   const gameNotes = patientNotes
@@ -151,7 +178,7 @@ export default function PatientGamesHistory() {
         0,
       )
     : "—";
-  const sessionDurationMinutes = 22;
+  const sessionDurationMinutes = selectedSession?.duration ?? 22;
   const maxChartPoints = 8;
   const step = Math.max(1, Math.ceil(sessionDurationMinutes / (maxChartPoints - 1)));
   const sessionTicks = Array.from(
@@ -209,7 +236,7 @@ export default function PatientGamesHistory() {
     : [];
 
   const hasSessions = sessions.length > 0;
-  const notesLink = `/app/patients/notes/${patientId}?game=${gameId}${selectedSession ? `&session=${selectedSession.id}` : ""}`;
+  const sessionsLink = `/app/patients/${patientId}?game=${gameId}${selectedSession ? `&session=${selectedSession.id}` : ""}`;
 
   return (
     <div className="flex flex-col items-start gap-5">
@@ -391,14 +418,17 @@ export default function PatientGamesHistory() {
                   </thead>
                   <tbody>
                     {visibleSessions.map((session) => {
-                      const isSelected = selectedSessionId === session.id;
+                      const isSelected =
+                        selectedSessionId === String(session.id);
 
                       return (
                         <tr
                           key={session.id}
                           onClick={() =>
                             setSelectedSessionId((current) =>
-                              current === session.id ? null : session.id,
+                              current === String(session.id)
+                                ? null
+                                : String(session.id),
                             )
                           }
                           className={`cursor-pointer transition-colors duration-150 ${
@@ -463,10 +493,10 @@ export default function PatientGamesHistory() {
                   </div>
                 )}
                 <Link
-                  to={notesLink}
+                  to={sessionsLink}
                   className="text-(--link) text-sm hover:underline font-semibold"
                 >
-                  Ver todas as anotações
+                  Ver sessões do paciente
                 </Link>
               </Panel>
             </div>
@@ -490,7 +520,11 @@ export default function PatientGamesHistory() {
                     patient={patient}
                   />
                   <section className="grid grid-cols-2 gap-3">
-                    <SessionDetails title="DURAÇÃO" value="22 minutos" icon={time} />
+                    <SessionDetails
+                      title="DURAÇÃO"
+                      value={`${selectedSession.duration} minutos`}
+                      icon={time}
+                    />
                     <SessionDetails
                       title="DIFICULDADE"
                       value={game?.difficulty ?? "—"}
@@ -517,7 +551,11 @@ export default function PatientGamesHistory() {
             )}
           </div>
           {selectedSession && (
-            <div className="flex w-full items-stretch gap-6">
+            <div
+              ref={sessionChartRef}
+              id="session-performance"
+              className="flex w-full scroll-mt-24 items-stretch gap-6"
+            >
               <div className="flex w-full flex-col gap-6">
                 <Panel className="flex h-full flex-col gap-5 p-6">
                   <div className="flex justify-between items-center w-full">

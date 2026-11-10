@@ -84,11 +84,11 @@ export default function GameCard({
             {name}
           </h4>
           <div className="flex flex-wrap gap-2">
-            <CardItem colors={colors().green}>{category}</CardItem>
-            <CardItem colors={colors().gray}>{difficulty}</CardItem>
-            <CardItem colors={colors().red}>{skill}</CardItem>
+            <CardItem compact={compact} colors={colors().green}>{category}</CardItem>
+            <CardItem compact={compact} colors={colors().gray}>{difficulty}</CardItem>
+            <CardItem compact={compact} colors={colors().red}>{skill}</CardItem>
             {movementFocuses.map((focus, index) => (
-              <CardItem key={`${focus}-${index}`} colors={colors().yellow}>
+              <CardItem key={`${focus}-${index}`} compact={compact} colors={colors().yellow}>
                 {focus}
               </CardItem>
             ))}

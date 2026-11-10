@@ -10,9 +10,10 @@ export default function AppLayout() {
         <div className="sticky top-0 z-10 shrink-0 bg-(--background)">
           <Header />
         </div>
-        <main className="w-full h-full px-10 py-8">
+        <main className="w-full flex-1 px-10 py-8">
           <Outlet />
         </main>
+        <footer aria-hidden="true" className="shrink-0" />
       </div>
     </div>
   )

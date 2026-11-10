@@ -3,6 +3,7 @@ import Patient from "../utils/Patient";
 import PatientGame from "../utils/PatientGame";
 import TherapistNote from "../utils/TherapistNote";
 import { createInitialPatients } from "../data/initialPatients";
+import { findNoteForSession } from "../utils/sessionNotes";
 
 export const PatientContext = createContext();
 
@@ -83,14 +84,42 @@ export function PatientProvider({ children }) {
     dateTime = new Date(),
     sessionId = null,
   }) {
+    const targetPatient = patients.find(
+      (patient) => String(patient.id) === String(patientId),
+    );
+    const targetGame = targetPatient?.games?.find(
+      (game) => String(game.gameId) === String(gameId),
+    );
+    const targetSession = targetGame?.sessions?.find(
+      (session) => String(session.id) === String(sessionId),
+    );
+
+    if (!targetSession || findNoteForSession(targetGame.notes ?? [], targetSession)) {
+      return false;
+    }
+
     setPatients((currentPatients) => {
+      const currentGame = currentPatients
+        .find((patient) => String(patient.id) === String(patientId))
+        ?.games?.find((game) => String(game.gameId) === String(gameId));
+      const currentSession = currentGame?.sessions?.find(
+        (session) => String(session.id) === String(sessionId),
+      );
+
+      if (
+        !currentSession ||
+        findNoteForSession(currentGame.notes ?? [], currentSession)
+      ) {
+        return currentPatients;
+      }
+
       const allNotes = currentPatients.flatMap((patient) =>
         (patient.games ?? []).flatMap((game) => game.notes ?? []),
       );
       const nextId = Math.max(0, ...allNotes.map((note) => note.id)) + 1;
 
       return currentPatients.map((patient) => {
-        if (patient.id !== patientId) {
+        if (String(patient.id) !== String(patientId)) {
           return patient;
         }
 
@@ -99,7 +128,7 @@ export function PatientProvider({ children }) {
           patient,
           {
             games: (patient.games ?? []).map((game) =>
-              game.gameId === gameId
+              String(game.gameId) === String(gameId)
                 ? new PatientGame(
                     game.gameId,
                     game.difficulty,
@@ -127,6 +156,8 @@ export function PatientProvider({ children }) {
         );
       });
     });
+
+    return true;
   }
 
   function findNotesByPatient(patientId) {
