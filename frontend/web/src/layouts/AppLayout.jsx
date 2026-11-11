@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom"
 import Aside from "../components/layout/Aside"
 import Header from "../components/layout/AppHeader"
+import Chat from "../components/layout/Chat"
 
 export default function AppLayout() {
   return (
@@ -15,6 +16,7 @@ export default function AppLayout() {
         </main>
         <footer aria-hidden="true" className="shrink-0" />
       </div>
+      <Chat />
     </div>
   )
 }

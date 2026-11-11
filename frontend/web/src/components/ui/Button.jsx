@@ -9,11 +9,13 @@ export default function Button({ type, size, onClick, buttonType = "button", cla
         ${type === "primary"
           ? "border-(--button) bg-(--button) text-white hover:border-(--hover) hover:bg-(--hover) active:border-(--button) active:bg-(--button)"
           : type === "edit" ? "border-(--link) text-(--link) hover:border-(--hover)"
+          : type === "transparent" ? "border-0 text-(--primary)"
           : "border-(--border) text-(--secondary) hover:border-(--border-hover)"
         }
         ${
           size === "large" ? "px-6 py-3.5" :
           size === "small" ? "px-4 py-2 rounded-lg" :
+          size === "extra-small" ? "px-2 py-1.75" :
           size === "square" ? "p-2 rounded-lg" :
           "px-5 py-3"
         }
@@ -25,7 +27,7 @@ export default function Button({ type, size, onClick, buttonType = "button", cla
     >
       {icon && (
         <span className="flex h-[1em] w-[1em] shrink-0 items-center justify-center leading-none">
-          <Icon src={icon} size="100%" color={type === "primary" ? "#FFF" : type === "edit" ? "var(--link)" : "var(--secondary)"} />
+          <Icon src={icon} size="100%" color={type === "primary" ? "#FFF" : type === "edit" || type === "transparent" ? "var(--link)" : "var(--secondary)"} />
         </span>
       )}
       {children !== undefined && children !== null && children !== "" && children !== false && (

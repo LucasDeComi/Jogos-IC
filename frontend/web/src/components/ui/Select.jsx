@@ -170,12 +170,7 @@ export default function Select({
                     {label}
                 </Label>
             )}
-            <div className={`flex items-center rounded-lg border border-(--border) bg-(--input) ${icon ? "px-3" : ""} ${fieldClassName}`}>
-                {icon && (
-                    <span className="flex h-4 w-4 shrink-0 items-center justify-center">
-                        <Icon src={icon} size="100%" color={iconColor} />
-                    </span>
-                )}
+            <div className={`flex items-center rounded-lg border border-(--border) bg-(--input) ${fieldClassName}`}>
                 <button
                     ref={triggerRef}
                     id={triggerId}
@@ -192,10 +187,18 @@ export default function Select({
                     onKeyDown={handleKeyDown}
                     {...selectProps}
                     className={`${className} ${compact
-                        ? `py-1.5 ${icon ? "pl-2 pr-3" : "px-3"} rounded-lg text-[13px]`
-                        : `${icon ? "py-3 pl-2 pr-3" : "p-3"} rounded-lg text-sm`
+                        ? `py-1.5 ${icon ? "pl-3 pr-3" : "px-3"} rounded-lg text-[13px]`
+                        : `${icon ? "py-3 pl-3 pr-3" : "p-3"} rounded-lg text-sm`
                     } flex min-w-0 flex-1 items-center justify-between gap-2 border-0 bg-transparent text-left text-(--text) outline-0 disabled:cursor-not-allowed disabled:opacity-50`}
                 >
+                    {icon && (
+                        <Icon
+                            src={icon}
+                            size={16}
+                            color={iconColor}
+                            className="pointer-events-none shrink-0"
+                        />
+                    )}
                     <span className="min-w-0 flex-1 truncate text-inherit">
                         {selectedOption?.label ?? ""}
                     </span>
@@ -203,7 +206,7 @@ export default function Select({
                         src={arrowIcon}
                         size={8}
                         color="var(--secondary)"
-                        className={`shrink-0 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
+                        className={`pointer-events-none shrink-0 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
                     />
                 </button>
             </div>
