@@ -1,4 +1,5 @@
 import Icon from "./Icon";
+import Select from "./Select";
 import switchIcon from "../../assets/icons/switch.svg";
 
 const controlClassName =
@@ -12,6 +13,18 @@ export default function SessionListControls({
 }) {
   return (
     <div className="flex flex-wrap items-center justify-end gap-1.5">
+      <Select
+        aria-label="Filtrar sessões por anotação"
+        compact
+        fieldClassName="!border-0 !bg-transparent"
+        className={controlClassName}
+        value={noteFilter}
+        onChange={(event) => onNoteFilterChange(event.target.value)}
+      >
+        <option value="all">Todas</option>
+        <option value="with-note">Com anotação</option>
+        <option value="without-note">Sem anotação</option>
+      </Select>
       <button
         type="button"
         className={`inline-flex items-center gap-1.5 ${controlClassName}`}
@@ -20,25 +33,17 @@ export default function SessionListControls({
         <Icon src={switchIcon} size={13} color="var(--secondary)" />
         <span>{newestFirst ? "Mais recentes" : "Mais antigas"}</span>
       </button>
-      <select
-        aria-label="Filtrar sessões por anotação"
-        className={controlClassName}
-        value={noteFilter}
-        onChange={(event) => onNoteFilterChange(event.target.value)}
-      >
-        <option value="all">Todas</option>
-        <option value="with-note">Com anotação</option>
-        <option value="without-note">Sem anotação</option>
-      </select>
     </div>
   );
 }
 
 export function SessionPageSizeSelect({ value, onChange }) {
   return (
-    <select
+    <Select
       aria-label="Sessões por página"
-      className="h-8 rounded-lg border border-(--border) bg-(--panel) px-2 text-xs font-bold text-(--link) outline-0 transition-colors hover:border-(--border-hover)"
+      compact
+      fieldClassName="h-8 border-(--border) !bg-(--panel) hover:border-(--border-hover)"
+      className="px-2 text-xs font-bold text-(--link)"
       value={value}
       onChange={(event) => onChange(Number(event.target.value))}
     >
@@ -47,6 +52,6 @@ export function SessionPageSizeSelect({ value, onChange }) {
           {size} por página
         </option>
       ))}
-    </select>
+    </Select>
   );
 }

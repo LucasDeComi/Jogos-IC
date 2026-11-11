@@ -367,6 +367,7 @@ export default function ViewPatient() {
               ))
             )}
           </div>
+          <hr />
           <Link
             to={`/app/patients/games/${id}`}
             className="text-(--link) text-sm hover:underline font-semibold"
