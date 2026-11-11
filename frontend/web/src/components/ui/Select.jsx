@@ -63,6 +63,7 @@ export default function Select({
     const typeaheadRef = useRef("");
     const typeaheadTimeoutRef = useRef(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [optionFontSize, setOptionFontSize] = useState(null);
     const options = getOptions(children);
     const selectedIndex = options.findIndex((option) => option.value === String(value));
     const [highlightedIndex, setHighlightedIndex] = useState(selectedIndex);
@@ -81,6 +82,9 @@ export default function Select({
 
     const openMenu = (index = selectedIndex, direction = 1) => {
         setHighlightedIndex(getNextEnabledIndex(options, index < 0 ? 0 : index, direction));
+        if (triggerRef.current) {
+            setOptionFontSize(window.getComputedStyle(triggerRef.current).fontSize);
+        }
         setIsOpen(true);
     };
 
@@ -216,6 +220,7 @@ export default function Select({
                     role="listbox"
                     aria-labelledby={label ? `${triggerId}-label` : triggerId}
                     className="absolute left-0 top-full z-50 mt-1 max-h-60 min-w-full w-max max-w-[min(20rem,calc(100vw-2rem))] overflow-auto rounded-xl border border-(--border) bg-(--panel) p-1 shadow-xl"
+                    style={{ fontSize: optionFontSize ?? undefined }}
                 >
                     {options.map((option, index) => (
                         <div
@@ -226,7 +231,7 @@ export default function Select({
                             aria-disabled={option.disabled || undefined}
                             onMouseEnter={() => !option.disabled && setHighlightedIndex(index)}
                             onClick={() => chooseOption(option)}
-                            className={`cursor-pointer rounded-lg px-3 py-2 text-sm transition-colors ${
+                            className={`cursor-pointer rounded-lg px-3 py-2 transition-colors ${
                                 index === highlightedIndex
                                     ? "bg-(--transparent) text-(--text)"
                                     : "text-(--text) hover:bg-(--background)"

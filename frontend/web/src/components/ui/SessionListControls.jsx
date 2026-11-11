@@ -16,8 +16,9 @@ export default function SessionListControls({
       <Select
         aria-label="Filtrar sessões por anotação"
         compact
+        containerClassName="w-fit"
         fieldClassName="!border-0 !bg-transparent"
-        className={controlClassName}
+        className={`w-fit! flex-none! px-2.5! py-1.75! text-[11px]! text-(--secondary)! bg-(--background)! ${controlClassName}`}
         value={noteFilter}
         onChange={(event) => onNoteFilterChange(event.target.value)}
       >

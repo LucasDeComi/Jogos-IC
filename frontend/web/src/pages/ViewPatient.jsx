@@ -387,6 +387,7 @@ export default function ViewPatient() {
               value={formatter.format(patient.birthDate)}
             />
             <DataRow title="Idade" value={`${patient.getAge()} anos`} />
+            <DataRow title="Diagnóstico" value={patient.diagnosis} />
           </div>
         </Panel>
         <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
