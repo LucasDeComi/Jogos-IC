@@ -5,14 +5,19 @@ import Panel from "../components/ui/Panel";
 import Title from "../components/ui/Title";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
-import loginBackground from "../assets/backgrounds/loginBackground.png";
-import loginLogo from "../assets/icons/loginLogo.svg"
+import lightBackground from "../assets/backgrounds/loginBackgroundLight.png";
+import darkBackground from "../assets/backgrounds/loginBackgroundDark.png";
+import lightLogo from "../assets/icons/lightLogo.png";
+import darkLogo from "../assets/icons/darkLogo.png";
 import userIcon from "../assets/icons/userIcon.svg";
 import passwordIcon from "../assets/icons/passwordIcon.svg"
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.setAttribute("theme", theme);
 
     const navigate = useNavigate();
 
@@ -32,15 +37,15 @@ export default function Login() {
         <div
             className="min-h-screen w-full bg-cover bg-center bg-no-repeat overflow-hidden"
             style={{
-                backgroundImage: `url(${loginBackground})`,
+                backgroundImage: `url(${theme === "light" ? lightBackground : darkBackground})`,
             }}
         >
-            <main className="flex flex-col gap-5 min-h-screen w-full items-center p-10">
+            <main className="flex flex-col gap-15 min-h-screen w-full items-center px-10 py-25">
                 <section className="flex gap-5 items-center">
-                    <img src={loginLogo} className="w-40" />
-                    <h1 className="text-2xl text-[#20514F] font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
+                    <img src={theme === "light" ? lightLogo : darkLogo} className="w-30" />
+                    <h1 className="text-2xl text-(--primary) font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
                 </section>
-                <Panel className="flex flex-col items-center gap-5 max-w-105 p-10 rounded-4xl bg-white/80 backdrop-blur-lg shadow-xl">
+                <Panel className="flex flex-col items-center gap-7.5 w-full max-w-150 p-10 rounded-4xl bg-transparent backdrop-blur-lg shadow-xl">
                     <Title>Login</Title>
                     <Input
                         className="w-full"
@@ -60,7 +65,7 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <Button onClick={() => login()} className="w-full rounded-xl mt-3" type="primary">
+                    <Button onClick={() => login()} className="w-full rounded-xl mt-3" type="primary" size="large">
                         Entrar
                     </Button>
                     <Link className="text-[#458084] text-sm hover:underline font-medium">

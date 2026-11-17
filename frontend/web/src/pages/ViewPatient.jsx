@@ -366,6 +366,7 @@ export default function ViewPatient() {
                 />
               ))
             )}
+            <Button type="edit" size="small" onClick={() => navigate(`/app/patients/games/${id}`)}>Adicionar Jogo</Button>
           </div>
           <hr />
           <Link
