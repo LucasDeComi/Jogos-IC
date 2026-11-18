@@ -69,18 +69,18 @@ export default function GameCard({
 
   return (
     <Panel
-      className={`flex justify-between items-center transition-colors duration-200 hover:bg-(--input) ${compact ? "gap-2 p-3" : "gap-3 p-6"}`}
+      className={`flex min-w-0 items-center justify-between transition-colors duration-200 hover:bg-(--input) ${compact ? "gap-2 p-3" : "gap-2.5 p-3 sm:gap-4 sm:p-5"}`}
       onClick={onClick}
     >
-      <div className={`flex items-center ${compact ? "gap-3" : "gap-4"} w-full`}>
+      <div className={`flex min-w-0 flex-1 items-center ${compact ? "gap-3" : "gap-2.5 sm:gap-4"}`}>
         <span
-          className={`flex shrink-0 justify-center items-center ${compact ? "w-8 h-8 rounded-lg" : "min-w-12 min-h-12 rounded-xl"}`}
+          className={`flex shrink-0 items-center justify-center ${compact ? "h-8 w-8 rounded-lg" : "h-10 w-10 rounded-lg sm:h-12 sm:w-12 sm:rounded-xl"}`}
           style={{ backgroundColor: color }}
         >
-          <img src={game} className={compact ? "w-4 h-4" : ""} />
+          <img src={game} alt="" className={compact ? "h-4 w-4" : "h-5 w-5 sm:h-6 sm:w-6"} />
         </span>
-        <div className="flex flex-col justify-between">
-          <h4 className={`${compact ? "text-sm" : "text-[16px]"} text-(--text) font-bold`}>
+        <div className="flex min-w-0 flex-1 flex-col justify-between gap-1 sm:gap-1.5">
+          <h4 className={`${compact ? "text-sm" : "text-sm sm:text-[16px]"} wrap-break-word font-bold text-(--text)`}>
             {name}
           </h4>
           <div className="flex flex-wrap gap-2">
@@ -101,7 +101,7 @@ export default function GameCard({
             type="button"
             aria-label={`Desassociar ${name}`}
             className={`
-              flex justify-center items-center w-8 h-8 border border-(--border) rounded-lg
+              flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-(--border) sm:h-8 sm:w-8
               transition-colors duration-150 hover:border-(--border-hover)
             `}
             onClick={(event) => {
@@ -109,7 +109,7 @@ export default function GameCard({
               removeGame();
             }}
           >
-            <img src={deleteIcon} alt="" className="w-4 h-4" />
+            <img src={deleteIcon} alt="" className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
       )}
@@ -117,13 +117,13 @@ export default function GameCard({
         <button
           type="button"
           aria-label={`Remover ${name}`}
-          className={`flex shrink-0 justify-center items-center ${compact ? "w-7 h-7" : "w-8 h-8"} border border-(--border) rounded-lg transition-colors duration-150 hover:border-(--border-hover)`}
+          className={`flex shrink-0 items-center justify-center ${compact ? "h-9 w-9 sm:h-8 sm:w-8" : "h-10 w-10 sm:h-9 sm:w-9"} rounded-lg border border-(--border) transition-colors duration-150 hover:border-(--border-hover)`}
           onClick={(event) => {
             event.stopPropagation();
             onRemove?.();
           }}
         >
-          <img src={removeIcon} alt="" className="w-3 h-3" />
+          <img src={removeIcon} alt="" className="h-3 w-3" />
         </button>
       )}
     </Panel>

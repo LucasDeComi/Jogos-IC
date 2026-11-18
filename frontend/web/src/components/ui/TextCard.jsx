@@ -5,7 +5,7 @@ export default function TextCard({ title = "", text = "", colors = null }) {
 
   return (
     <div
-      className="flex flex-col gap-1 rounded-lg p-3 w-full"
+      className="flex min-w-0 w-full flex-col gap-1 rounded-lg p-3"
       style={{ backgroundColor: colors.background }}
     >
       <h5
@@ -15,7 +15,7 @@ export default function TextCard({ title = "", text = "", colors = null }) {
         {title}
       </h5>
       <span
-        className="text-sm font-bold"
+        className="wrap-break-word text-sm font-bold"
         style={{ color: colors.text }}
       >
         {text}

@@ -7,7 +7,7 @@ export default function Filter({
     value = "",
     onChange = () => {},
     disabled = false,
-    compact = false,
+    compact = true,
     icon = null,
     iconColor = "var(--link)",
 }) {

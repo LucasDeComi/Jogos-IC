@@ -15,16 +15,16 @@ export default function PatientHeader({
 }) {
   return (
     <>
-        <div className="flex justify-between items-center w-full">
+        <div className="flex w-full flex-wrap items-center justify-between gap-3">
             <BackLink to={backLinkPath}>{backLinkTitle}</BackLink>
             <PatientBadge patient={patient} />
         </div>
-        <div className="flex justify-between items-start w-full">
-            <div className="flex flex-col gap-2">
+        <div className="flex w-full flex-col items-start gap-3 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex min-w-0 flex-col gap-2">
                 <Title>{title}</Title>
                 <Description>{description}</Description>
             </div>
-            { button && <Button type="primary" icon={button.icon} onClick={button.onClick}>{button.text}</Button> }
+            { button && <Button className="w-full sm:w-auto" type="primary" icon={button.icon} onClick={button.onClick}>{button.text}</Button> }
         </div>
         <hr />
     </>

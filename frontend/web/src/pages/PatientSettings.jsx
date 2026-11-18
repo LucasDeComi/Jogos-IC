@@ -53,10 +53,10 @@ export default function PatientSettings() {
         backLinkPath={`/app/patients/${id}`}
         patient={patient}
       />
-      <section className="flex gap-8 w-full">
-        <Panel className="flex flex-col gap-5 px-8 py-7 w-full">
+      <section className="grid w-full grid-cols-1 gap-4 xl:grid-cols-2">
+        <Panel className="flex w-full flex-col gap-5 px-4 py-5 sm:px-8 sm:py-7">
           <PanelTitle>Exibição e Layout</PanelTitle>
-          <div className="grid gap-5 grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
             <Select
               label="Tema de tela"
               value={theme}
@@ -96,7 +96,7 @@ export default function PatientSettings() {
             />
           </div>
         </Panel>
-        <Panel className="flex flex-col gap-5 px-8 py-7 w-full">
+        <Panel className="flex w-full flex-col gap-5 px-4 py-5 sm:px-8 sm:py-7">
           <PanelTitle>Áudio e Comandos</PanelTitle>
             <SoundSetting
               title="Sons dos jogos"
@@ -114,11 +114,11 @@ export default function PatientSettings() {
             />
         </Panel>
       </section>
-      <div className="flex gap-5">
-        <Button type="primary" onClick={() => editSettings()}>
+      <div className="flex w-full flex-col-reverse gap-3 sm:w-auto sm:flex-row sm:gap-5">
+        <Button className="w-full sm:w-auto" type="primary" onClick={() => editSettings()}>
           Salvar alterações
         </Button>
-        <Button onClick={() => navigate(`/app/patients/${id}`)}>
+        <Button className="w-full sm:w-auto" onClick={() => navigate(`/app/patients/${id}`)}>
           Cancelar
         </Button>
       </div>

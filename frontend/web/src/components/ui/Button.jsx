@@ -1,11 +1,12 @@
 import Icon from "./Icon";
 
-export default function Button({ type, size, onClick, buttonType = "button", className = "", icon = null, children, disabled = false }) {
+export default function Button({ type, size, onClick, buttonType = "button", className = "", icon = null, children, disabled = false, ariaLabel }) {
   return (
     <button
       type={buttonType}
       disabled={disabled}
-      className={`inline-flex items-center justify-center gap-2 rounded-[10px] border text-sm font-semibold transition-colors duration-200 cursor-pointer
+      aria-label={ariaLabel}
+      className={`inline-flex items-center justify-center gap-1.5 rounded-[10px] border text-[13px] font-semibold transition-colors duration-200 cursor-pointer sm:gap-2 sm:text-sm
         ${type === "primary"
           ? "border-(--button) bg-(--button) text-white hover:border-(--hover) hover:bg-(--hover) active:border-(--button) active:bg-(--button)"
           : type === "edit" ? "border-(--link) text-(--link) hover:border-(--hover)"
@@ -13,11 +14,11 @@ export default function Button({ type, size, onClick, buttonType = "button", cla
           : "border-(--border) text-(--secondary) hover:border-(--border-hover)"
         }
         ${
-          size === "large" ? "px-6 py-3.5" :
-          size === "small" ? "px-4 py-2 rounded-lg" :
-          size === "extra-small" ? "px-2 py-1.75" :
-          size === "square" ? "p-2 rounded-lg" :
-          "px-5 py-3"
+          size === "large" ? "min-h-11 px-4 py-2.5 sm:px-6 sm:py-3" :
+          size === "small" ? "min-h-9 rounded-lg px-3 py-1.5 sm:px-4 sm:py-1.5" :
+          size === "extra-small" ? "min-h-8 px-2 py-1 sm:py-1.75" :
+          size === "square" ? "min-h-9 min-w-9 rounded-lg p-1.5 sm:p-2" :
+          "px-3 py-2 sm:px-5 sm:py-2.5"
         }
         ${size === "square" ? "aspect-square" : ""}
         disabled:cursor-not-allowed disabled:opacity-40

@@ -14,8 +14,8 @@ export default function PatientList() {
   const navigate = useNavigate();
 
   return (
-    <section className="flex flex-col items-start gap-7.5">
-      <div className="flex w-full items-start justify-between">
+    <section className="flex flex-col items-start gap-5 sm:gap-7.5">
+      <div className="flex w-full flex-col items-start gap-4 sm:flex-row sm:justify-between">
         <div className="flex flex-col gap-2">
           <Title>Pacientes</Title>
           <Description>Acompanhamento e evolução dos pacientes ativos no sistema</Description>
@@ -24,12 +24,13 @@ export default function PatientList() {
           type="primary"
           onClick={() => navigate("/app/patients/register")}
           icon={addIcon}
+          className="w-full sm:w-auto"
         >
           Cadastrar novo paciente
         </Button>
       </div>
       <hr />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-6 w-full">
+      <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3 sm:gap-5">
         {patients && patients.map((patient, index) => (
           <PatientCard
             color={profileColorValues[index % profileColorValues.length]}

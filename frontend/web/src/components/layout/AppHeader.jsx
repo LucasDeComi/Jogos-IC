@@ -62,8 +62,8 @@ export default function Header() {
     }
 
     return (
-        <header className="flex justify-between items-center mx-10 pt-6 pb-4 border-b border-b-(--border)">
-            <section className="flex items-center gap-3">
+        <header className="mx-4 flex items-center justify-end border-b border-b-(--border) pt-3 pb-3 sm:mx-6 sm:pt-4 md:mx-8 md:justify-between md:pt-5 md:pb-4 xl:mx-10">
+            <section className="hidden lg:flex items-center gap-2 lg:gap-3">
                 <Button
                     icon={menuIcon}
                     onClick={toggleSidebar}
@@ -71,9 +71,10 @@ export default function Header() {
                     title={therapist.isSidebarCollapsed ? "Expandir barra lateral" : "Recolher barra lateral"}
                 />
             </section>
-            <section className="flex items-center gap-3">
+            <section className="flex items-center gap-2 sm:gap-3">
                 <Select
-                    className="py-2 font-semibold rounded-[10px]"
+                    containerClassName="w-fit max-w-40 shrink-0 sm:max-w-none"
+                    className="rounded-[10px] py-2 font-semibold"
                     compact
                     value={therapist.theme}
                     onChange={(event) => setTherapistTheme(event.target.value)}
@@ -85,7 +86,9 @@ export default function Header() {
                     <option value="dark">Escuro</option>
                     <option value="auto">Automático</option>
                 </Select>
-                <Button icon={settingsIcon} onClick={() => navigate("/app/settings")} />
+                <div className="hidden sm:block">
+                    <Button icon={settingsIcon} onClick={() => navigate("/app/settings")} />
+                </div>
                 <div className="relative" ref={profileMenuRef}>
                     <Panel className="w-auto p-0 rounded-xl">
                         <button
@@ -94,16 +97,16 @@ export default function Header() {
                             aria-expanded={isProfileMenuOpen}
                             aria-controls="therapist-profile-menu"
                             onClick={() => setIsProfileMenuOpen((isOpen) => !isOpen)}
-                            className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl transition-colors duration-200 hover:bg-(--input)"
+                            className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 transition-colors duration-200 hover:bg-(--input) sm:gap-2 sm:px-2.5"
                         >
-                            <span className="inline-flex justify-center items-center rounded-full bg-(--transparent) w-8 h-8 text-[13px] text-(--primary) font-bold">
+                            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-(--transparent) text-xs font-bold text-(--primary) sm:h-8 sm:w-8 sm:text-[13px]">
                                 {therapistIdentity.getInitials()}
                             </span>
-                            <div className="flex flex-col gap-0.5 text-left">
-                                <h4 className="text-[13px] text-(--text) font-semibold">
+                            <div className="hidden max-w-40 flex-col gap-0.5 overflow-hidden text-left sm:flex">
+                                <h4 className="truncate text-[13px] font-semibold text-(--text)">
                                     {therapistIdentity.getName()}
                                 </h4>
-                                <span className="text-[11px] text-(--secondary)">
+                                <span className="hidden text-[11px] text-(--secondary) md:inline">
                                     3 notificações
                                 </span>
                             </div>
@@ -113,7 +116,7 @@ export default function Header() {
                     {isProfileMenuOpen && (
                         <Panel
                             id="therapist-profile-menu"
-                            className="absolute right-0 top-full z-20 mt-2 w-56 p-1 rounded-xl shadow-lg"
+                            className="absolute right-0 top-full z-20 mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-xl p-1 shadow-lg"
                         >
                             <div role="menu" aria-label="Menu do terapeuta" className="flex flex-col">
                                 <button

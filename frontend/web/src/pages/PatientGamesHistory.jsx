@@ -239,8 +239,8 @@ export default function PatientGamesHistory() {
   const sessionsLink = `/app/patients/${patientId}?game=${gameId}${selectedSession ? `&session=${selectedSession.id}` : ""}`;
 
   return (
-    <div className="flex flex-col items-start gap-5">
-      <section className="flex justify-between items-center w-full">
+    <div className="flex min-w-0 flex-col items-start gap-4 sm:gap-5">
+      <section className="flex w-full flex-wrap items-center justify-between gap-3">
         <BackLink to={`/app/patients/${patientId}`}>Voltar</BackLink>
         <div className="flex items-center gap-2">
           <span className="text-[13px] text-(--secondary)">Período:</span>
@@ -273,28 +273,34 @@ export default function PatientGamesHistory() {
           </p>
         </Panel>
       ) : (
-        <section className="flex flex-col gap-6 w-full">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] gap-6 w-full">
-            <GameHistoryCard
-              title="SESSÕES"
-              icon={calendar}
-              value={visibleSessions.length}
-            />
-            <GameHistoryCard
-              title="PONTUAÇÃO MÉDIA"
-              icon={chartBar}
-              value={averageScore}
-            />
-            <GameHistoryCard
-              title="MELHOR PONTUAÇÃO"
-              icon={star}
-              value={highestScore}
-            />
+        <section className="flex w-full flex-col gap-4 sm:gap-6">
+          <div className="flex w-full flex-wrap gap-2 sm:gap-3">
+            <div className="min-w-27 flex-1">
+              <GameHistoryCard
+                title="SESSÕES"
+                icon={calendar}
+                value={visibleSessions.length}
+              />
+            </div>
+            <div className="min-w-27 flex-1">
+              <GameHistoryCard
+                title="PONTUAÇÃO MÉDIA"
+                icon={chartBar}
+                value={averageScore}
+              />
+            </div>
+            <div className="min-w-27 flex-1">
+              <GameHistoryCard
+                title="MELHOR PONTUAÇÃO"
+                icon={star}
+                value={highestScore}
+              />
+            </div>
           </div>
-          <Panel className="flex h-128 flex-col gap-6 p-6">
+          <Panel className="flex min-w-0 flex-col gap-4 p-4 sm:gap-6 sm:p-6">
             <PanelTitle>Evolução da pontuação</PanelTitle>
             {chartLineData.length ? (
-              <div className="h-100 w-full">
+              <div className="h-72 w-full sm:h-100">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart
                     data={chartLineData}
@@ -393,10 +399,10 @@ export default function PatientGamesHistory() {
               </p>
             )}
           </Panel>
-          <div className="flex w-full gap-6">
-            <div className="flex w-full flex-col gap-4">
-              <Panel className="flex flex-col gap-4 h-128 min-h-0 overflow-y-auto p-6">
-                <div className="flex justify-between items-center w-full">
+          <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-6">
+            <div className="flex min-w-0 w-full flex-col gap-4 lg:flex-2">
+              <Panel className="flex h-96 min-h-0 min-w-0 flex-col gap-4 overflow-y-auto p-4 sm:h-128 sm:p-6">
+                <div className="flex w-full flex-wrap items-center justify-between gap-2">
                   <PanelTitle>Histórico de sessões</PanelTitle>
                   <span className="inline-block bg-(--transparent) rounded-sm px-2.5 py-1 text-[11px] text-(--link) font-semibold">
                     Clique em uma sessão para ver detalhes
@@ -405,13 +411,13 @@ export default function PatientGamesHistory() {
                 <table className="w-full border-separate border-spacing-y-2">
                   <thead>
                     <tr>
-                      <Th className="bg-(--background) px-4 py-2 first:rounded-l-lg last:rounded-r-lg">
+                      <Th className="bg-(--background) px-2 py-2 first:rounded-l-lg last:rounded-r-lg sm:px-4">
                         Data
                       </Th>
-                      <Th className="bg-(--background) px-4 py-2 first:rounded-l-lg last:rounded-r-lg">
+                      <Th className="bg-(--background) px-2 py-2 first:rounded-l-lg last:rounded-r-lg sm:px-4">
                         Hora
                       </Th>
-                      <Th className="bg-(--background) px-4 py-2 first:rounded-l-lg last:rounded-r-lg text-right">
+                      <Th className="bg-(--background) px-2 py-2 text-right first:rounded-l-lg last:rounded-r-lg sm:px-4">
                         Pontuação
                       </Th>
                     </tr>
@@ -435,21 +441,21 @@ export default function PatientGamesHistory() {
                             isSelected ? "bg-(--transparent)" : "hover:bg-(--transparent)"
                           }`}
                         >
-                          <td className={`text-sm px-4 py-2 first:rounded-tl-lg last:rounded-tr-lg ${
+                          <td className={`px-2 py-2 text-xs first:rounded-tl-lg last:rounded-tr-lg sm:px-4 sm:text-sm ${
                             isSelected
                               ? "text-(--primary) first:border-l-4 border-b-2 border-(--button)"
                               : "text-(--text) first:border-l-0 border-b border-(--border)"
                           }`}>
                             {formatSessionDate(session.dateTime)}
                           </td>
-                          <td className={`text-sm px-4 py-2 first:rounded-tl-lg last:rounded-tr-lg ${
+                          <td className={`px-2 py-2 text-xs first:rounded-tl-lg last:rounded-tr-lg sm:px-4 sm:text-sm ${
                             isSelected
                               ? "text-(--primary) first:border-l-4 border-b-2 border-(--button)"
                               : "text-(--secondary) first:border-l-0 border-b border-(--border)"
                           }`}>
                             {formatSessionTime(session.dateTime)}
                           </td>
-                          <td className={`text-sm text-(--link) text-right font-bold px-4 py-2 first:rounded-tl-lg last:rounded-tr-lg ${
+                          <td className={`px-2 py-2 text-right text-xs font-bold text-(--link) first:rounded-tl-lg last:rounded-tr-lg sm:px-4 sm:text-sm ${
                             isSelected ? "first:border-l-4 border-b-2 border-(--button)" : "first:border-l-0 border-b border-(--border)"
                           }`}>
                             {Number.isFinite(session.score)
@@ -472,7 +478,7 @@ export default function PatientGamesHistory() {
                   </tbody>
                 </table>
               </Panel>
-              <Panel className="flex flex-col gap-4 p-6">
+              <Panel className="flex min-w-0 flex-col gap-4 p-4 sm:p-6">
                 <PanelTitle icon={notes}>Anotações Clínicas</PanelTitle>
                 <span className="text-[13px] text-(--secondary)">
                   {selectedSession
@@ -501,9 +507,9 @@ export default function PatientGamesHistory() {
               </Panel>
             </div>
             {selectedSession && (
-              <div className="flex flex-col gap-4 lg:w-2/3 w-full">
-                <Panel className="flex flex-col gap-5 p-6">
-                  <section className="flex justify-between items-center">
+              <div className="flex min-w-0 w-full flex-col gap-4 lg:flex-1">
+                <Panel className="flex min-w-0 flex-col gap-4 p-4 sm:gap-5 sm:p-6">
+                  <section className="flex flex-wrap items-center justify-between gap-2">
                     <PanelTitle>Sessão selecionada</PanelTitle>
                     <div className="flex items-center gap-1.25 px-2 py-1 rounded-sm bg-(--background)">
                       <Icon src={lock} color="var(--secondary)" size={12} />
@@ -519,7 +525,7 @@ export default function PatientGamesHistory() {
                     date={selectedSession.dateTime}
                     patient={patient}
                   />
-                  <section className="grid grid-cols-2 gap-3">
+                  <section className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <SessionDetails
                       title="DURAÇÃO"
                       value={`${selectedSession.duration} minutos`}
@@ -554,11 +560,11 @@ export default function PatientGamesHistory() {
             <div
               ref={sessionChartRef}
               id="session-performance"
-              className="flex w-full scroll-mt-24 items-stretch gap-6"
+              className="flex w-full scroll-mt-24 flex-col items-stretch gap-4 lg:flex-row lg:gap-6"
             >
-              <div className="flex w-full flex-col gap-6">
-                <Panel className="flex h-full flex-col gap-5 p-6">
-                  <div className="flex justify-between items-center w-full">
+              <div className="flex min-w-0 w-full flex-col gap-4 lg:flex-2 lg:gap-6">
+                <Panel className="flex h-full min-w-0 flex-col gap-4 p-4 sm:gap-5 sm:p-6">
+                  <div className="flex w-full flex-wrap items-center justify-between gap-3">
                     <div className="flex flex-col gap-1">
                       <PanelTitle>Desempenho e realização</PanelTitle>
                       <span className="text-xs text-(--secondary)">
@@ -567,7 +573,7 @@ export default function PatientGamesHistory() {
                     </div>
                     <CardItem colors={cardColors().yellow}>Dados fictícios</CardItem>
                   </div>
-                  <div className="h-80 w-full pl-2 pr-2">
+                  <div className="h-64 w-full px-1 sm:h-80 sm:px-2">
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
                         data={sessionProgressData}
@@ -636,16 +642,16 @@ export default function PatientGamesHistory() {
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
-                  <div className="flex items-center gap-5">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-5">
                     <ChartItem color={profileColors.green}>Pontuação acumulada (pts)</ChartItem>
                     <ChartItem color={profileColors.purple}>Tarefas concluídas</ChartItem>
                   </div>
                 </Panel>
               </div>
 
-              <div className="flex w-full flex-col gap-6 lg:w-2/3">
-                <Panel className="flex h-full flex-col gap-5 p-6">
-                  <div className="flex justify-between items-center w-full">
+              <div className="flex min-w-0 w-full flex-col gap-4 lg:flex-1 lg:gap-6">
+                <Panel className="flex h-full min-w-0 flex-col gap-4 p-4 sm:gap-5 sm:p-6">
+                  <div className="flex w-full flex-wrap items-center justify-between gap-3">
                     <PanelTitle>Respostas clínicas</PanelTitle>
                     <CardItem colors={cardColors().yellow}>Dados fictícios</CardItem>
                   </div>

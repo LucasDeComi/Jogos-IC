@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate, Link, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import { PatientContext } from "../context/PatientContext";
@@ -80,6 +80,40 @@ export default function ViewPatient() {
   const [noteContent, setNoteContent] = useState("");
   const [nextConduct, setNextConduct] = useState("");
   const colors = blockColors();
+  const hasSelectedSession = (patient?.games ?? []).some(
+    (patientGame, gameId) =>
+      (patientGame.sessions ?? []).some(
+        (session, index) =>
+          `${gameId}:${session.id ?? index}` === selectedSessionKey,
+      ),
+  );
+
+  useEffect(() => {
+    if (!hasSelectedSession) return undefined;
+
+    const mobileLayout = window.matchMedia("(max-width: 1023px)");
+    const originalOverflow = document.body.style.overflow;
+    const updateScrollLock = () => {
+      document.body.style.overflow = mobileLayout.matches
+        ? "hidden"
+        : originalOverflow;
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape" && mobileLayout.matches && !isEditingNote) {
+        setSelectedSessionKey(null);
+      }
+    };
+
+    updateScrollLock();
+    mobileLayout.addEventListener("change", updateScrollLock);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      mobileLayout.removeEventListener("change", updateScrollLock);
+      document.removeEventListener("keydown", closeOnEscape);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [hasSelectedSession, isEditingNote]);
 
   if (!patient) {
     return null;
@@ -220,6 +254,14 @@ export default function ViewPatient() {
     return true;
   }
 
+  async function closeSelectedSession() {
+    if (isEditingNote && !(await requestCancelNoteEditing())) {
+      return;
+    }
+
+    setSelectedSessionKey(null);
+  }
+
   async function saveNote() {
     if (!hasNoteChanges()) {
       cancelNoteEditing();
@@ -327,15 +369,15 @@ export default function ViewPatient() {
   }
 
   return (
-    <section className="flex flex-col items-start gap-5">
+    <section className="flex min-w-0 flex-col items-start gap-4 sm:gap-5">
       <PatientHeader
         title="Ficha do paciente"
         description="Acompanhe sessões realizadas, anotações clínicas, dados cadastrais e jogos terapêuticos ativos"
         backLinkPath="/app/patients"
         patient={patient}
       />
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-6 w-full">
-        <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 2xl:grid-cols-3 sm:gap-5 xl:gap-6">
+        <Panel className="flex w-full min-w-0 flex-col items-start gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <PanelTitle small icon={control}>
             Jogos atribuídos
           </PanelTitle>
@@ -376,7 +418,7 @@ export default function ViewPatient() {
             Editar jogos atribuídos
           </Link>
         </Panel>
-        <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+        <Panel className="flex w-full min-w-0 flex-col items-start gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <PanelTitle small icon={patientData}>
             Dados do paciente
           </PanelTitle>
@@ -391,7 +433,7 @@ export default function ViewPatient() {
             <DataRow title="Diagnóstico" value={patient.diagnosis} />
           </div>
         </Panel>
-        <Panel className="flex flex-col items-start gap-4 px-6 py-5 w-full">
+        <Panel className="flex w-full min-w-0 flex-col items-start gap-4 px-4 py-4 sm:px-6 sm:py-5">
           <PanelTitle small icon={patientSettings}>
             Configurações do Paciente
           </PanelTitle>
@@ -442,10 +484,10 @@ export default function ViewPatient() {
       </div>
       <section className="flex flex-col gap-4 w-full">
         <Subtitle>Sessões do paciente</Subtitle>
-        <section className="flex flex-wrap justify-between items-end gap-4 w-full">
-          <div className="flex flex-wrap gap-4">
+        <section className="flex w-full flex-col items-stretch justify-between gap-4 lg:flex-row lg:items-end">
+          <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <Filter
-              className="md:min-w-40"
+              className="w-full"
               label="JOGO"
               icon={control}
               value={filters.gameId}
@@ -459,7 +501,7 @@ export default function ViewPatient() {
               ))}
             </Filter>
             <Filter
-              className="lg:min-w-40"
+              className="w-full"
               label="PERÍODO"
               icon={calendar}
               value={filters.period}
@@ -471,7 +513,7 @@ export default function ViewPatient() {
               <option value="90">Últimos 90 dias</option>
             </Filter>
             <Filter
-              className="lg:min-w-40"
+              className="w-full"
               label="RESPONSÁVEL"
               icon={person}
               value={filters.therapistName}
@@ -487,7 +529,7 @@ export default function ViewPatient() {
               ))}
             </Filter>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 lg:justify-end lg:gap-4">
             <span className="text-(--secondary) text-xs">
               {sessionCount}{" "}
               {sessionCount === 1
@@ -495,7 +537,7 @@ export default function ViewPatient() {
                 : "sessões encontradas"}
             </span>
             <button
-              className="text-(--button) text-sm font-semibold hover:underline active:no-underline px-3"
+              className="text-(--button) text-xs md:text-sm font-semibold hover:underline active:no-underline px-3"
               onClick={clearFilters}
             >
               Limpar filtros
@@ -509,9 +551,9 @@ export default function ViewPatient() {
               : "grid-cols-1"
           }`}
         >
-          <Panel className="flex h-136 min-w-0 flex-col justify-between">
+          <Panel className="flex h-96 min-w-0 flex-col justify-between sm:h-136">
             <div className="flex min-h-0 flex-1 flex-col overflow-y-scroll">
-              <div className="flex flex-wrap justify-between items-center gap-3 border-b border-(--border) px-5 py-4">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-(--border) px-3 py-3 sm:px-5 sm:py-4">
                 <PanelTitle small>Sessões jogadas</PanelTitle>
                 <SessionListControls
                   newestFirst={newestFirst}
@@ -572,7 +614,7 @@ export default function ViewPatient() {
                 })
               )}
             </div>
-            <div className="flex justify-between items-center px-4 py-2.5 bg-(--background) w-full">
+            <div className="flex w-full flex-wrap items-center justify-between gap-2 bg-(--background) px-3 py-2.5 sm:px-4">
               <div className="flex flex-wrap items-center gap-2">
                 <SessionPageSizeSelect
                   value={pageSize}
@@ -610,8 +652,20 @@ export default function ViewPatient() {
             </div>
           </Panel>
           {selectedSessionRecord && (
-            <Panel className="flex flex-col gap-4 p-5 min-w-0">
-              <section className="flex justify-between gap-2 w-full">
+            <div
+              role="region"
+              aria-label="Detalhes da sessão selecionada"
+              className="session-sheet-backdrop fixed inset-0 z-40 flex min-w-0 items-end bg-black/50 lg:static lg:col-start-2 lg:block lg:bg-transparent"
+            >
+              <button
+                type="button"
+                aria-label="Fechar detalhes da sessão"
+                className="session-sheet-dismiss absolute inset-0 z-0 cursor-default touch-none bg-transparent lg:hidden"
+                onClick={closeSelectedSession}
+                onWheel={(event) => event.preventDefault()}
+              />
+              <Panel className="session-sheet-panel relative z-10 flex max-h-[88dvh] w-full min-w-0 flex-col gap-4 touch-pan-y overflow-y-auto overscroll-contain rounded-t-2xl rounded-b-none p-4 shadow-2xl sm:p-5 lg:static lg:max-h-none lg:overflow-visible lg:rounded-2xl lg:shadow-none">
+              <section className="flex w-full justify-between gap-2">
                 <div className="flex flex-col gap-1.75">
                   <PanelTitle small>Detalhes da sessão</PanelTitle>
                   <div className="flex flex-wrap items-center gap-2">
@@ -642,22 +696,15 @@ export default function ViewPatient() {
                 <Button
                   size="square"
                   icon={remove}
+                  ariaLabel="Fechar detalhes da sessão"
                   className="self-start shrink-0"
-                  onClick={async () => {
-                    if (
-                      isEditingNote &&
-                      !(await requestCancelNoteEditing())
-                    ) {
-                      return;
-                    }
-                    setSelectedSessionKey(null);
-                  }}
+                  onClick={closeSelectedSession}
                 />
               </section>
               <hr />
               <section className="flex flex-col gap-3 w-full">
                 <PanelSubtitle small>Especificações da sessão</PanelSubtitle>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <SessionDetails
                     title="DURAÇÃO"
                     value={`${selectedSessionRecord.session.duration} minutos`}
@@ -687,7 +734,7 @@ export default function ViewPatient() {
                 </div>
               </section>
               <hr />
-              <section className="flex gap-2 w-full">
+              <section className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
                 <TextCard
                   title="RESPOSTA"
                   text={selectedSessionRecord.session.evolutionLevel ?? "—"}
@@ -717,9 +764,10 @@ export default function ViewPatient() {
                     value={nextConduct}
                     onChange={(event) => setNextConduct(event.target.value)}
                   />
-                  <div className="flex justify-end gap-2 w-full">
-                    <Button onClick={requestCancelNoteEditing}>Cancelar</Button>
+                  <div className="flex w-full flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button className="w-full sm:w-auto" onClick={requestCancelNoteEditing}>Cancelar</Button>
                     <Button
+                      className="w-full sm:w-auto"
                       type="primary"
                       icon={check}
                       onClick={saveNote}
@@ -770,7 +818,7 @@ export default function ViewPatient() {
                     </p>
                   )}
                   <section className="flex flex-wrap justify-between items-center gap-2 w-full">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <Button
                         type="edit"
                         size="small"
@@ -786,7 +834,7 @@ export default function ViewPatient() {
                       )}
                     </div>
                     
-                    <div className="flex flex-wrap items-center justify-end gap-2">
+                    <div className="flex w-full flex-wrap items-center justify-end gap-2 sm:w-auto">
                       {selectedNote ? (
                         <Button
                           type="edit"
@@ -810,7 +858,8 @@ export default function ViewPatient() {
                   </section>
                 </>
               )}
-            </Panel>
+              </Panel>
+            </div>
           )}
         </section>
       </section>

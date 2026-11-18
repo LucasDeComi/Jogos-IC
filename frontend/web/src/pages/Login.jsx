@@ -40,12 +40,12 @@ export default function Login() {
                 backgroundImage: `url(${theme === "light" ? lightBackground : darkBackground})`,
             }}
         >
-            <main className="flex flex-col gap-15 min-h-screen w-full items-center px-10 py-25">
-                <section className="flex gap-5 items-center">
-                    <img src={theme === "light" ? lightLogo : darkLogo} className="w-30" />
-                    <h1 className="text-2xl text-(--primary) font-semibold">Sistema de Jogos <br/> para Reabilitação</h1>
+            <main className="flex min-h-screen w-full flex-col items-center gap-10 px-4 py-12 sm:gap-15 sm:px-8 sm:py-20 lg:px-10 lg:py-25">
+                <section className="flex items-center gap-3 sm:gap-5">
+                    <img src={theme === "light" ? lightLogo : darkLogo} className="w-20 sm:w-30" />
+                    <h1 className="text-xl font-semibold text-(--primary) sm:text-2xl">Sistema de Jogos <br/> para Reabilitação</h1>
                 </section>
-                <Panel className="flex flex-col items-center gap-7.5 w-full max-w-150 p-10 rounded-4xl bg-transparent backdrop-blur-lg shadow-xl">
+                <Panel className="flex w-full max-w-150 flex-col items-center gap-6 rounded-3xl bg-transparent p-5 shadow-xl backdrop-blur-lg sm:gap-7.5 sm:rounded-4xl sm:p-8 lg:p-10">
                     <Title>Login</Title>
                     <Input
                         className="w-full"

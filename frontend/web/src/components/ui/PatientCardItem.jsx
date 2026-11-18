@@ -2,12 +2,12 @@ import Icon from "./Icon"
 
 export default function PatientCardItem({ icon = null, title, value }) {
   return (
-    <div className="flex flex-col justify-center items-start">
-        <div className="flex items-center gap-1">
+    <div className="flex min-w-0 flex-col items-start justify-center">
+        <div className="flex min-w-0 items-center gap-1">
             <Icon src={icon} size={12} color="var(--secondary)" />
-            <h5 className="text-[11px] text-(--secondary) font-semibold">{title.toUpperCase()}</h5>
+            <h5 className="truncate text-[10px] font-semibold text-(--secondary) sm:text-[11px]">{title.toUpperCase()}</h5>
         </div>
-        <span className="text-[13px] text-(--text) font-semibold">{value}</span>
+        <span className="wrap-break-word text-xs font-semibold text-(--text) sm:text-[13px]">{value}</span>
     </div>
   )
 }

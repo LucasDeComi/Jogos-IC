@@ -191,14 +191,14 @@ export default function Select({
                     onKeyDown={handleKeyDown}
                     {...selectProps}
                     className={`${className} ${compact
-                        ? `py-1.5 ${icon ? "pl-3 pr-3" : "px-3"} rounded-lg text-[13px]`
-                        : `${icon ? "py-3 pl-3 pr-3" : "p-3"} rounded-lg text-sm`
+                        ? `min-h-9 rounded-lg py-1 text-xs sm:py-1.5 sm:text-[13px] ${icon ? "pl-2.5 pr-2.5 sm:pl-3 sm:pr-3" : "px-2.5 sm:px-3"}`
+                        : `min-h-10 rounded-lg text-[13px] sm:min-h-11 sm:text-sm ${icon ? "py-2 pl-3 pr-3 sm:py-2.5" : "p-2 sm:p-2.5"}`
                     } flex min-w-0 flex-1 items-center justify-between gap-2 border-0 bg-transparent text-left text-(--text) outline-0 disabled:cursor-not-allowed disabled:opacity-50`}
                 >
                     {icon && (
                         <Icon
                             src={icon}
-                            size={16}
+                            size={compact ? 14 : 16}
                             color={iconColor}
                             className="pointer-events-none shrink-0"
                         />
@@ -208,7 +208,7 @@ export default function Select({
                     </span>
                     <Icon
                         src={arrowIcon}
-                        size={8}
+                        size={7}
                         color="var(--secondary)"
                         className={`pointer-events-none shrink-0 transition-transform duration-150 ${isOpen ? "rotate-180" : ""}`}
                     />

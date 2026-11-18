@@ -25,13 +25,13 @@ export default function AppLayout() {
   }, [therapist.theme]);
 
   return (
-    <div className="flex w-screen h-screen">
+    <div className="flex h-dvh min-h-dvh w-full overflow-hidden">
       <Aside />
-      <div className="flex flex-col w-full h-full bg-(--background) overflow-y-auto">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-(--background) overflow-y-auto">
         <div className="sticky top-0 z-10 shrink-0 bg-(--background)">
           <Header />
         </div>
-        <main className="w-full flex-1 px-10 py-8">
+        <main className="w-full flex-1 px-4 py-5 pb-24 sm:px-6 sm:py-6 md:px-8 md:pb-8 xl:px-10 xl:py-8">
           <Outlet />
         </main>
         <footer aria-hidden="true" className="shrink-0" />

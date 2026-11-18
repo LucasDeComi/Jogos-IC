@@ -11,7 +11,9 @@ export default function CardItem({ colors, icon = null, children, compact = fals
   return (
     <div
       className={`inline-flex items-center rounded-sm ${
-        compact ? "gap-1 px-2 py-0.5 text-[10px] font-medium" : "gap-1.5 px-2.5 py-1 text-[11px] font-semibold"
+        compact
+          ? "gap-1 px-2 py-0.5 text-[10px] font-medium"
+          : "gap-1 px-2 py-0.5 text-[10px] font-semibold sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[11px]"
       }`}
       style={{ backgroundColor: colors.background, color: colors.text }}
     >

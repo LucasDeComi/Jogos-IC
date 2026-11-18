@@ -65,7 +65,7 @@ export default function RegisterPatient() {
   }
 
   return (
-    <form autoComplete="off" className="flex flex-col items-start gap-6 pt-2">
+    <form autoComplete="off" className="flex flex-col items-start gap-5 pt-1 sm:gap-6 sm:pt-2">
       <BackLink to="/app/patients">Voltar para a lista</BackLink>
       <div className="flex flex-col gap-2">
         <Title>Cadastrar paciente</Title>
@@ -74,7 +74,7 @@ export default function RegisterPatient() {
         </Description>
       </div>
       <hr />
-      <Panel className="max-w-200 flex flex-col gap-5 px-8 py-7">
+      <Panel className="flex max-w-200 flex-col gap-4 px-4 py-5 sm:gap-5 sm:px-8 sm:py-7">
         <Input
           type="number"
           label="Prontuário"
@@ -112,11 +112,11 @@ export default function RegisterPatient() {
           Prontuário e Nome do paciente não podem ser editados após a criação do
           cadastro.
         </Tip>
-        <div className="flex gap-7.5">
-          <Button type="primary" onClick={() => register()} className="px-7">
+        <div className="flex w-full flex-col-reverse gap-3 sm:flex-row sm:gap-5">
+          <Button type="primary" onClick={() => register()} className="w-full px-7 sm:w-auto">
             Cadastrar
           </Button>
-          <Button onClick={() => navigate("/app/patients")} className="px-7">
+          <Button onClick={() => navigate("/app/patients")} className="w-full px-7 sm:w-auto">
             Cancelar
           </Button>
         </div>

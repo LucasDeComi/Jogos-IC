@@ -54,7 +54,7 @@ export default function TherapistSettings() {
   }
 
   return (
-    <form autoComplete="off" className="flex flex-col items-start gap-7.5">
+    <form autoComplete="off" className="flex flex-col items-start gap-5 sm:gap-7.5">
       <div className="flex flex-col gap-2">
         <Title>Meus dados</Title>
         <Description>
@@ -62,8 +62,8 @@ export default function TherapistSettings() {
         </Description>
       </div>
       <hr />
-      <section className="w-full flex justify-between gap-[5%]">
-        <Panel className="flex flex-col gap-3 px-8 py-7">
+      <section className="grid w-full grid-cols-1 gap-4 xl:grid-cols-2">
+        <Panel className="flex flex-col gap-3 px-4 py-5 sm:px-8 sm:py-7">
           <Subtitle className="mb-2">Dados Pessoais</Subtitle>
           <Input
             label="Nome"
@@ -84,9 +84,9 @@ export default function TherapistSettings() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Panel>
-        <Panel className="flex flex-col gap-5 px-8 py-7">
+        <Panel className="flex flex-col gap-4 px-4 py-5 sm:gap-5 sm:px-8 sm:py-7">
           <Subtitle className="mb-2">Preferências de exibição</Subtitle>
-          <div className="grid grid-cols-2 gap-5 mb-5">
+          <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
             <Select
               label="Tema de tela"
               value={theme}
@@ -122,11 +122,11 @@ export default function TherapistSettings() {
           />
         </Panel>
       </section>
-      <div className="flex gap-4 px-5">
-        <Button type="primary" onClick={() => editSettings()}>
+      <div className="flex w-full flex-col-reverse gap-3 sm:w-auto sm:flex-row sm:gap-4 sm:px-5">
+        <Button className="w-full sm:w-auto" type="primary" onClick={() => editSettings()}>
           Salvar alterações
         </Button>
-        <Button onClick={() => navigate("/app/patients")}>Cancelar</Button>
+        <Button className="w-full sm:w-auto" onClick={() => navigate("/app/patients")}>Cancelar</Button>
       </div>
     </form>
   );

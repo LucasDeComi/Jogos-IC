@@ -322,7 +322,7 @@ export default function PatientGames() {
     !patient?.games?.some((association) => association.gameId === activeGameId);
 
   return (
-    <section className="flex flex-col items-start gap-5 h-full">
+    <section className="flex min-w-0 flex-col items-start gap-4 sm:gap-5 xl:h-full">
       <PatientHeader
         title="Adicionar jogo ao paciente"
         description="Selecione um jogo terapêutico e defina as configurações de dificuldade e acessibilidade"
@@ -330,16 +330,16 @@ export default function PatientGames() {
         patient={patient}
       />
 
-      <div className="grid grid-cols-[minmax(300px,3fr)_minmax(300px,2fr)] gap-6 w-full h-full">
-        <section className="flex flex-col gap-5 w-full">
-          <Panel className="flex flex-col gap-4 p-5 w-full">
+      <div className="grid w-full grid-cols-1 items-start gap-4 xl:h-full xl:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] xl:gap-6">
+        <section className="flex min-w-0 w-full flex-col gap-4 sm:gap-5">
+          <Panel className="flex w-full flex-col gap-4 p-4 sm:p-5">
             <Input
               icon={searchIcon}
               placeholder="Pesquisar jogos disponíveis"
               value={search}
               onChange={e => setSearch(e.target.value)}
             />
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <Select
                 label="Categoria"
                 value={filters.category}
@@ -384,7 +384,7 @@ export default function PatientGames() {
               </Select>
             </div>
           </Panel>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3 w-full">
+          <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 2xl:grid-cols-3">
             {filteredGames.map(({ game, gameId }) => (
               <GameCard
                 key={gameId}
@@ -399,7 +399,7 @@ export default function PatientGames() {
             ))}
           </div>
         </section>
-        <Panel className="flex flex-col gap-6 p-6">
+        <Panel className="flex min-w-0 flex-col gap-5 p-4 sm:gap-6 sm:p-6">
           <PanelTitle>Configurações do jogo</PanelTitle>
           {activeGame && activeAssociation ? (
             <div className="flex flex-col gap-5">
@@ -428,11 +428,11 @@ export default function PatientGames() {
                   ))}
                 </div>
               </div>
-              <div className="flex gap-5">
-                <Button type="primary" size="large" onClick={saveGames}>
+              <div className="flex flex-col gap-3 sm:flex-row sm:gap-5">
+                <Button className="w-full sm:w-auto" type="primary" size="large" onClick={saveGames}>
                   {isNewActiveGame ? "Adicionar Jogo" : "Salvar alterações"}
                 </Button>
-                <Button size="large" onClick={cancelChanges}>Cancelar</Button>
+                <Button className="w-full sm:w-auto" size="large" onClick={cancelChanges}>Cancelar</Button>
               </div>
             </div>
           ) : (

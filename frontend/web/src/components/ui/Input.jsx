@@ -25,8 +25,8 @@ export default function Input({
 
       <div className="flex w-full items-center overflow-hidden rounded-lg bg-(--input) border border-(--border)">
         {icon && (
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center">
-            <Icon src={icon} size={16} color="var(--secondary)" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-11 sm:w-11">
+            <Icon src={icon} size={15} color="var(--secondary)" />
           </div>
         )}
 
@@ -36,14 +36,14 @@ export default function Input({
           autoComplete={autoComplete}
           value={value}
           onChange={onChange}
-          className="w-full border-0 bg-transparent p-2.5 text-sm text-(--text) outline-none placeholder-[#A0AEC0]"
+          className="w-full border-0 bg-transparent p-2 text-[13px] text-(--text) outline-none placeholder-[#A0AEC0] sm:p-2.5 sm:text-sm"
         />
 
         {type === "password" && (
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
-            className="flex h-11 w-11 shrink-0 items-center justify-center bg-(--input) transition-colors hover:bg-(--input-hover)"
+            className="flex h-10 w-10 shrink-0 items-center justify-center bg-(--input) transition-colors hover:bg-(--input-hover) sm:h-11 sm:w-11"
             aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
           >
             <Icon src={viewIcon} size={16} color="var(--secondary)" />
